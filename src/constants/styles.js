@@ -3,7 +3,7 @@ import {Dimensions, Platform, PixelRatio} from 'react-native';
 /*****************************************************/
 /*** Below is based on: https://stackoverflow.com/questions/33628677/react-native-responsive-font-size*/
 /*****************************************************/
-const {
+export const {
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
 } = Dimensions.get('window');
@@ -61,7 +61,7 @@ export const colors = {
         },
         secondary: {
             main: 'rgba(136,136,136,0.40)',
-            light: 'rgba(136,136,136,0.75)'
+            light: '#C1C7D0'
         }
     },
     general: {

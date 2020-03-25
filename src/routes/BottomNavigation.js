@@ -1,73 +1,51 @@
-import React from "react"
+import React, {useContext} from "react"
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
-import {Platform} from 'react-native';
-import {Chats, Announcements, Events} from "../views";
+import {Platform,View} from 'react-native';
+import {Chats, Announcements, Events, Home,Inbox,Calendar} from "../views";
 import {screens} from "./constants";
-import {colors,normalize,sizes} from "../constants/styles";
+import {colors, normalize, sizes, SCREEN_HEIGHT,SCREEN_WIDTH} from "../constants/styles";
 import {
     FontAwesome,
-    Ionicons
+    Ionicons,
+    SimpleLineIcons,
+    AntDesign
+
 } from '@expo/vector-icons';
 import StyledText from "../components/StyledText/StyledText";
-
+import {  StyleSheet } from "react-native"
+import {UserContext} from "../contex/UserContext";
 const BottomTab = createBottomTabNavigator();
 
 
-const BottomTabText = ({ focused, children})=>{
+const BottomTabText = ({focused, children}) => {
     return (
         <StyledText
-            type={focused?'black':'book'}
-            size={normalize(9)}
-            style={{color:focused ? colors.primary.main : colors.text.primary.main}}>
+            type={focused ? 'black' : 'book'}
+            size={normalize(8)}
+            style={{color: focused ? colors.primary.main : colors.text.primary.main}}>
             {children}
         </StyledText>
     )
 };
 
+
 const BottomNavigation = () => {
+  const { isLoggedIn, userId} = useContext(UserContext);
+
     return (
         <BottomTab.Navigator
-        tabBarOptions ={{
-            inactiveTintColor: colors.text.primary.light,
-            style: {backgroundColor:'rgba(0,0,0,.08)', borderTopWidth:1,borderTopColor:'rgba(0,0,0,.1)'},
-            activeTintColor:colors.primary.main,
-        }}
+            tabBarOptions={{
+                inactiveTintColor: colors.text.primary.light,
+                style: {backgroundColor: 'rgba(0,0,0,.08)', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,.1)'},
+                activeTintColor: colors.primary.main,
+            }}
         >
-            <BottomTab.Screen
-                name={screens.ANNOUNCEMENTS}
-                component={Announcements}
-                options={{
-                    tabBarLabel:({focused})=> <BottomTabText focused={focused}> ALERTS</BottomTabText>,
-                    tabBarIcon: ({focused, size}) => (
-                        <FontAwesome
-                            name="bullhorn"
-                            size={size}
-                            color={focused ? colors.primary.main : colors.text.primary.main}
-                        />
-                    )
-                }}
-            />
 
             <BottomTab.Screen
-                name={screens.CHATS}
-                component={Chats}
+                name={screens.CALENDAR}
+                component={Calendar}
                 options={{
-                    tabBarLabel: ({focused})=> <BottomTabText focused={focused}> CHATS</BottomTabText>,
-                    tabBarIcon: ({focused, size}) => (
-                        <FontAwesome
-                            name={"comments-o" }
-                            size={size}
-                            color={focused ? colors.primary.main : colors.text.primary.main}
-                        />
-                    )
-                }}
-            />
-
-            <BottomTab.Screen
-                name={screens.Events}
-                component={Events}
-                options={{
-                    tabBarLabel: ({focused})=> <BottomTabText focused={focused}> EVENTS</BottomTabText>,
+                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> CALENDAR</BottomTabText>,
                     tabBarIcon: ({focused, size}) => (
                         <Ionicons
                             name="md-calendar"
@@ -77,8 +55,64 @@ const BottomNavigation = () => {
                     )
                 }}
             />
+
+            <BottomTab.Screen
+                name={screens.HOME}
+                component={Home}
+                options={{
+                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> {isLoggedIn?userId:'HOME' }</BottomTabText>,
+                    tabBarIcon: ({focused, size}) => (
+                        <View style={[styles.fab,focused?styles.fab_active:styles.fab_inactive]}>
+                        <SimpleLineIcons name={"home"} size={size} style={focused? styles.fab_icon_active: styles.fab_icon_inactive}/>
+                        </View>
+                    )
+                }}
+            />
+
+            <BottomTab.Screen
+                name={screens.INBOX}
+                component={Inbox}
+                options={{
+                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> INBOX</BottomTabText>,
+                    tabBarIcon: ({focused, size}) => (
+                        <AntDesign
+                            name="mail"
+                            size={size}
+                            color={focused ? colors.primary.main : colors.text.primary.main}
+                        />
+                    )
+                }}
+            />
+
         </BottomTab.Navigator>
     );
 };
+
+const styles = StyleSheet.create({
+    fab: {
+        alignSelf:'center',
+        marginBottom: 35,
+        width:normalize(50),
+        height: normalize(50),
+        borderRadius: normalize(50)/2,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    fab_active:{
+        backgroundColor: colors.primary.light,
+        color: colors.background_color.white
+    },
+    fab_inactive:{
+        borderWidth:1.5,
+        borderColor: 'rgba(0,0,0,.1)',
+        backgroundColor: '#F4F5F7'
+    },
+    fab_icon_active:{
+        color: colors.background_color.white
+    },
+    fab_icon_inactive:{
+        color: colors.secondary.main
+    }
+});
 
 export default BottomNavigation;
