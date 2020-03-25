@@ -16,9 +16,9 @@ const BottomTab = createBottomTabNavigator();
 const BottomTabText = ({ focused, children})=>{
     return (
         <StyledText
-            type={'black'}
+            type={focused?'black':'book'}
             size={normalize(9)}
-            style={{color:focused ? colors.primary.main : colors.text.secondary.light}}>
+            style={{color:focused ? colors.primary.main : colors.text.primary.main}}>
             {children}
         </StyledText>
     )
@@ -29,7 +29,7 @@ const BottomNavigation = () => {
         <BottomTab.Navigator
         tabBarOptions ={{
             inactiveTintColor: colors.text.primary.light,
-            style: {backgroundColor:'rgba(0,0,0,.1)', borderTopWidth:1,borderTopColor:'rgba(0,0,0,.1)'},
+            style: {backgroundColor:'rgba(0,0,0,.08)', borderTopWidth:1,borderTopColor:'rgba(0,0,0,.1)'},
             activeTintColor:colors.primary.main,
         }}
         >
@@ -42,7 +42,7 @@ const BottomNavigation = () => {
                         <FontAwesome
                             name="bullhorn"
                             size={size}
-                            color={focused ? colors.primary.main : colors.text.secondary.light}
+                            color={focused ? colors.primary.main : colors.text.primary.main}
                         />
                     )
                 }}
@@ -57,7 +57,7 @@ const BottomNavigation = () => {
                         <FontAwesome
                             name={"comments-o" }
                             size={size}
-                            color={focused ? colors.primary.main : colors.text.secondary.light}
+                            color={focused ? colors.primary.main : colors.text.primary.main}
                         />
                     )
                 }}
@@ -72,7 +72,7 @@ const BottomNavigation = () => {
                         <Ionicons
                             name="md-calendar"
                             size={size}
-                            color={focused ? colors.primary.main : colors.text.secondary.light}
+                            color={focused ? colors.primary.main : colors.text.primary.main}
                         />
                     )
                 }}
