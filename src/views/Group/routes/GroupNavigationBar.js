@@ -3,7 +3,7 @@ import {View, StyleSheet, ScrollView,TouchableOpacity,TouchableHighlight} from "
 import {colors, sizes} from "../../../constants/styles";
 import {Chip} from 'react-native-paper';
 import {StyledText} from "../../../components/StyledText";
-import {normalize} from "../../../constants/styles";
+import {normalize,SCREEN_HEIGHT} from "../../../constants/styles";
 import { TouchableRipple } from 'react-native-paper';
 import {screens} from "../../../routes/constants";
 
@@ -33,15 +33,15 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         height: "100%",
-        backgroundColor: colors.background_color.grey_tablet,
+        backgroundColor: colors.background_color.white,
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 10
+        paddingVertical: SCREEN_HEIGHT/120
     },
     chip: {
         backgroundColor: 'rgba(0,0,0,0.1)',
-        paddingHorizontal: 5,
-        marginHorizontal: normalize(10),
+        paddingHorizontal: normalize(5),
+        marginHorizontal: normalize(6),
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 20,

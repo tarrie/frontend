@@ -22,6 +22,7 @@
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-paper": "^3.6.0",
+    "react-native-parallax-scroll-view": "^0.21.3",
     "react-native-screens": "^2.4.0",
     "react-native-web": "~0.11.7"
   },

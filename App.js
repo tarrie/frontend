@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import * as Font from "expo-font"
-import {StyleSheet} from 'react-native';
+import {StyleSheet,YellowBox} from 'react-native';
 import {SafeAreaProvider} from "react-native-safe-area-context"
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {Navigation} from "./src/routes";
 import {StyledText} from "./src/components/StyledText";
 import {colors} from "./src/constants/styles";
+
 
 const theme = {
     ...DefaultTheme,
@@ -30,6 +31,8 @@ const App = () => {
 
     useEffect(() => {
         const load = async () => {
+            YellowBox.ignoreWarnings(["Warning: Failed prop type: Invalid props.style key `0`"]);
+
             /*
               To add more of the fonts, go see what's in assets/fonts
               Add it to the object loading async below, and set the key to a kebab-cased version of the font name

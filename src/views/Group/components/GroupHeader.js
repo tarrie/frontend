@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         width: "100%",
         height: '100%',
-        backgroundColor: colors.background_color.grey_tablet,
+        backgroundColor: colors.background_color.white,
         borderWidth: 1
     },
     image_container:{
