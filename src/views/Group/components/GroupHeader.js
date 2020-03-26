@@ -3,12 +3,14 @@ import {StyledText} from "../../../components/StyledText";
 import {View, StyleSheet, ScrollView,ImageBackground} from "react-native"
 import {colors} from "../../../constants/styles";
 import { Avatar } from 'react-native-paper';
+import { ActivityIndicator } from 'react-native';
+import { Image } from 'react-native-elements';
 
 const GroupHeader = ({groupState}) => {
     return (
         <View style={styles.container}>
             <View style={styles.image_container}>
-                {groupState.isLoaded && <ImageBackground source={{ uri: groupState.group.imgPath }} style={{ ...styles.image }} resizeMode={'cover'}/>}
+                {groupState.isLoaded && <Image source={{ uri: groupState.group.imgPath }} style={{ ...styles.image }} resizeMode={'cover'}/>}
             </View>
             <StyledText> Group Header</StyledText>
         </View>
