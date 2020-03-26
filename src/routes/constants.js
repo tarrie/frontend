@@ -7,5 +7,7 @@ export const screens = {
   INBOX: "Inbox",
   GROUP_EVENTS:"Events",
   GROUP_ANNOUNCEMENTS:"Announcements",
-  GROUP_MEMBERS:"Members"
+  GROUP_MEMBERS:"Members",
+  GROUP_HOME:"GroupHome"
+
 };
