@@ -4,5 +4,8 @@ export const screens = {
   Events: "Events",
   HOME: "Home",
   CALENDAR: "Calendar",
-  INBOX: "Inbox"
+  INBOX: "Inbox",
+  GROUP_EVENTS:"Events",
+  GROUP_ANNOUNCEMENTS:"Announcements",
+  GROUP_MEMBERS:"Members"
 };

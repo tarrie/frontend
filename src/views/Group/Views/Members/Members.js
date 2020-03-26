@@ -1,13 +1,13 @@
 import React from "react"
-import {StyledText} from "../../components/StyledText";
+import {StyledText} from "../../../../components/StyledText";
 import { View, StyleSheet } from "react-native"
-import {colors} from "../../constants/styles";
+import {colors} from "../../../../constants/styles";
 
-const Events = () =>{
+const Members = ({ route }) =>{
 
     return (
         <View style={styles.container}>
-            <StyledText> Events Page</StyledText>
+            <StyledText> Members Page</StyledText>
         </View>
     )
 };
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Events;
+export default Members;

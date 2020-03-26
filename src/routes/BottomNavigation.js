@@ -1,7 +1,7 @@
 import React, {useContext} from "react"
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
 import {Platform,View} from 'react-native';
-import {Chats, Announcements, Events, Home,Inbox,Calendar} from "../views";
+import {Inbox,Calendar,Group} from "../views";
 import {screens} from "./constants";
 import {colors, normalize, sizes, SCREEN_HEIGHT,SCREEN_WIDTH} from "../constants/styles";
 import {
@@ -49,7 +49,7 @@ const BottomNavigation = () => {
                     tabBarIcon: ({focused, size}) => (
                         <Ionicons
                             name="md-calendar"
-                            size={size}
+                            size={size*1.2}
                             color={focused ? colors.primary.main : colors.text.primary.main}
                         />
                     )
@@ -58,7 +58,7 @@ const BottomNavigation = () => {
 
             <BottomTab.Screen
                 name={screens.HOME}
-                component={Home}
+                component={Group}
                 options={{
                     tabBarLabel: ({focused}) => <BottomTabText focused={focused}> {isLoggedIn?userId:'HOME' }</BottomTabText>,
                     tabBarIcon: ({focused, size}) => (

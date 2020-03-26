@@ -15,7 +15,7 @@ const theme = {
         primary: colors.primary.main,
         accent: colors.secondary.main,
         background: colors.background_color.grey_tablet,
-        surface: colors.background_color.grey_tablet
+        surface: colors.background_color.grey_tablet,
     },
     fonts: {
         regular: "source-sans-pro-regular",

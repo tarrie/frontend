@@ -1,13 +1,13 @@
 import React from "react"
-import {StyledText} from "../../components/StyledText";
+import {StyledText} from "../../../../components/StyledText";
 import { View, StyleSheet } from "react-native"
-import {colors} from "../../constants/styles";
+import {colors} from "../../../../constants/styles";
 
-const Announcements = () =>{
+const Events = ({ route }) =>{
 
     return (
         <View style={styles.container}>
-            <StyledText> Announcement Page</StyledText>
+            <StyledText> Events Page</StyledText>
         </View>
     )
 };
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Announcements;
+export default Events;
