@@ -19,6 +19,7 @@ const ChatHeaderActive = ({groupState, activeCallback,isFocused,isSearchUp,setIs
             search_ref.current.focus();
         }
 
+
     },[isFocused,isSearchUp]);
 
     const onCancel = ()=>{
@@ -79,7 +80,6 @@ const ChatHeader = ({groupState, activeCallback,isFocused,isSearchUp,setIsSearch
 
     },[isFocused,isSearchUp]);
 
-    console.log(isSearchUp)
     return (
         <View style={styles.container}>
            {!isSearchUp && <View style={styles.newchat_container}>

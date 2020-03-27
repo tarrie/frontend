@@ -1,59 +1,45 @@
-import React, {useRef, useEffect,useState} from "react"
+import React, {useRef, useEffect, useState} from "react"
 import {StyledText} from "../../../../components/StyledText";
-import {View, StyleSheet, ScrollView, TouchableOpacity} from "react-native"
-import {colors, normalize, sizes,SCREEN_HEIGHT} from "../../../../constants/styles";
+import {View, StyleSheet, ScrollView, TouchableOpacity, TouchableWithoutFeedback} from "react-native"
+import {colors, normalize, sizes, SCREEN_HEIGHT} from "../../../../constants/styles";
 import {useGroup} from "../../../../contex";
-import {Chip} from 'react-native-paper';
 import {GroupNavigationBar} from "../../routes";
-import {SafeAreaView} from "react-native-safe-area-context";
 import {GroupHeader} from "../../components";
-import {
-    FontAwesome
-} from '@expo/vector-icons';
-import {ChatHeader,ChatHeaderActive} from "../../components/Chat";
+import {ChatHeader, ChatHeaderActive} from "../../components/Chat";
 import {useNavigation} from "@react-navigation/native"
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import {FadeOut} from "../../components/Animations";
 
-
-const Test = ({text}) => {
-    return (
-        <View style={{backgroundColor: 'purple', width: '100%', height:'100%'}}>
-            <StyledText>
-                {text}
-            </StyledText>
-        </View>
-    )
-};
 
 const GroupHomeForeground = ({groupState, navigation, searchActiveCallback}) => {
     return (
-        <View style={{width: '100%', height: '100%', borderWidth:1,flexDirection: "column"}}>
+        <View style={{width: '100%', height: '100%', borderWidth: 1, flexDirection: "column"}}>
             <View style={styles.container_groupHeader}>
                 <GroupHeader groupState={groupState}/>
             </View>
 
-            <View style={{...styles.container_groupNavBar,borderWidth:1}}>
+            <View style={{...styles.container_groupNavBar, borderWidth: 1}}>
                 <GroupNavigationBar groupState={groupState} navigation={navigation}/>
             </View>
             <View style={styles.container_groupChatHeader}>
-                    <ChatHeader  groupState={groupState} activeCallback={searchActiveCallback}/>
+                <ChatHeader groupState={groupState} activeCallback={searchActiveCallback}/>
             </View>
         </View>
     )
 };
 
 
-const StickyHeader = ({groupState, searchActiveCallback, isSearchActive,isSearchUp,setIsSearchUp}) =>{
-    return(
-            <View style={{width:'100%',height:'100%', borderWidth:1}}>
-                    <ChatHeaderActive
-                        isFocused={isSearchActive}
-                        groupState={groupState}
-                        activeCallback={searchActiveCallback}
-                        isSearchUp={isSearchUp}
-                        setIsSearchUp={setIsSearchUp}
-                    />
-            </View>
+const StickyHeader = ({groupState, searchActiveCallback, isSearchActive, isSearchUp, cancelCallback}) => {
+    return (
+        <View style={{width: '100%', height: '100%', borderWidth: 1}}>
+            <ChatHeaderActive
+                isFocused={isSearchActive}
+                groupState={groupState}
+                activeCallback={searchActiveCallback}
+                isSearchUp={isSearchUp}
+                setIsSearchUp={cancelCallback}
+            />
+        </View>
     )
 };
 const GroupHome = () => {
@@ -62,40 +48,86 @@ const GroupHome = () => {
     const navigation = useNavigation();
     const [isSearchActive, setIsSearchActive] = useState(false);
     const [isSearchUp, setIsSearchUp] = useState(false);
-    const [scollPosn_y, setScrollPosn_y]  = useState(0);
+    const [scrollPosnOutOfBounds, setScrollPosnOutOfBounds] = useState(false);
+    const [fingerTouching, setFingerTouching] = useState(false);
+    let isScrolling = false;
 
-    useEffect(()=>{
-        if (isSearchActive){
-            ref.current.scrollTo({x:0,y:SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15,animated: true});
+    useEffect(() => {
+        if (isSearchActive) {
+            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2.2 - SCREEN_HEIGHT / 15, animated: true});
             setIsSearchUp(true);
         }
 
-        if (!isSearchUp){
-            ref.current.scrollTo({x:0,y:0,animated: true});
+        if (!isSearchUp) {
+            ref.current.scrollTo({x: 0, y: 0, animated: true});
             setIsSearchActive(false);
         }
-    },[isSearchActive,isSearchUp]);
+    }, [isSearchActive, isSearchUp]);
+
+
+    useEffect(()=>{
+        if (scrollPosnOutOfBounds && !isScrolling && isSearchUp && !fingerTouching){
+            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2.2 - SCREEN_HEIGHT / 15, animated: true});
+            isScrolling=true;
+        }
+    },[scrollPosnOutOfBounds,fingerTouching]);
+
+    const processScroll = ({nativeEvent}) => {
+        //console.log(isScrolling,nativeEvent.contentOffset.y,SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15,(Math.abs(nativeEvent.contentOffset.y -(SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15))))
+        if ((isSearchUp && nativeEvent.contentOffset.y < SCREEN_HEIGHT / 2.2 - SCREEN_HEIGHT / 15)) {
+            setScrollPosnOutOfBounds(true);
+        }else{
+            setScrollPosnOutOfBounds(false);
+            isScrolling = false;
+        }
+    };
+
+    const cancelCallback = (_bool) => {
+        setIsSearchUp(_bool)
+    };
 
 
     return (
         <View style={styles.container}>
+
             <ParallaxScrollView
+
+                onScroll={processScroll}
+                scrollEventThrottle={300}
                 ref={ref}
                 backgroundColor={colors.background_color.grey_tablet}
                 contentBackgroundColor="pink"
-                parallaxHeaderHeight={SCREEN_HEIGHT/2.2}
-                stickyHeaderHeight={SCREEN_HEIGHT/15}
-                renderStickyHeader={() => <StickyHeader isSearchActive={isSearchActive}  searchActiveCallback={setIsSearchActive} groupState={groupState} isSearchUp={isSearchUp} setIsSearchUp={setIsSearchUp}/>}
+                parallaxHeaderHeight={SCREEN_HEIGHT / 2.2}
+                stickyHeaderHeight={SCREEN_HEIGHT / 15}
+                renderStickyHeader={() => <StickyHeader isSearchActive={isSearchActive}
+                                                        searchActiveCallback={setIsSearchActive}
+                                                        groupState={groupState}
+                                                        isSearchUp={isSearchUp}
+                                                        cancelCallback={cancelCallback}/>
+                }
                 renderForeground={() => (
-                    <GroupHomeForeground searchActiveCallback={setIsSearchActive} groupState={groupState} navigation={navigation}  onPress={()=>ref.current.scrollTo({x:0,y:SCREEN_HEIGHT/2.5-.225*SCREEN_HEIGHT/2.5})}/>
+                    !isSearchUp?<GroupHomeForeground searchActiveCallback={setIsSearchActive} groupState={groupState}
+                                         navigation={navigation} />:
+                        <FadeOut><GroupHomeForeground searchActiveCallback={setIsSearchActive} groupState={groupState}
+                                         navigation={navigation} /></FadeOut>
                 )}>
-                <View style={{height: SCREEN_HEIGHT}}>
+                <View
+                    style={{height: SCREEN_HEIGHT}}
+                    onTouchStart={() => {
+                        setIsSearchActive(false);
+                        setFingerTouching(true)
+                    }}
+                    onTouchEnd={() => {
+                        setFingerTouching(false)
+                    }}
+                >
                     <StyledText>CHATS</StyledText>
                 </View>
             </ParallaxScrollView>
 
-
         </View>
+
+
     )
 };
 
@@ -119,7 +151,7 @@ const styles = StyleSheet.create({
     container_groupChatHeader: {
         width: "100%",
         // 20% of the viewbox
-        height: .20*SCREEN_HEIGHT/2.2
+        height: .20 * SCREEN_HEIGHT / 2.2
     }
 });
 
