@@ -1,1 +1,2 @@
-export { default as ChatHeader } from "./ChatHeader"
+import {ChatHeader,ChatHeaderActive} from "./ChatHeader";
+export {ChatHeaderActive,ChatHeader};

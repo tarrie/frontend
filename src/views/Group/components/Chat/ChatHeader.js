@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState,useRef,useEffect} from "react"
 import {StyledText} from "../../../../components/StyledText";
 import {View, StyleSheet, ScrollView, TouchableOpacity} from "react-native"
 import {colors, normalize, sizes, SCREEN_HEIGHT} from "../../../../constants/styles";
@@ -9,22 +9,33 @@ import {Searchbar} from 'react-native-paper';
 
 import {SearchBar} from 'react-native-elements';
 
-const ChatHeader = ({groupState, activeCallback}) => {
+
+const ChatHeaderActive = ({groupState, activeCallback,isFocused,isSearchUp,setIsSearchUp}) => {
     const [firstQuery, setFirstQuery] = useState('');
+    const search_ref = useRef(null);
+
+    useEffect(()=>{
+        if (isFocused && search_ref.current){
+            search_ref.current.focus();
+        }
+
+    },[isFocused,isSearchUp]);
+
+    const onCancel = ()=>{
+        search_ref.current.blur();
+        setIsSearchUp(false);
+        activeCallback(false);
+    };
+
     return (
         <View style={styles.container}>
-            <View style={styles.newchat_container}>
-                <StyledText type={'bold'} size={SCREEN_HEIGHT/28} style={{letterSpacing: .5, marginHorizontal: 5}}>
-                    Chats
-                </StyledText>
 
-
-            </View>
-
-            <View style={styles.edit_container}>
+            <View style={{...styles.edit_container }}>
                 <Searchbar
-                    onFocus={()=>console.log('focused')}
+                    ref={search_ref}
                     lightTheme={true}
+                    onFocus={()=>activeCallback(true)}
+                    onBlur={()=>activeCallback(false)}
                     placeholder="Search"
                     showCancel ={true}
                     onChangeText={query => setFirstQuery(query)}
@@ -33,15 +44,81 @@ const ChatHeader = ({groupState, activeCallback}) => {
                         borderWidth: .5,
                         borderRadius: 5,
                         borderColor:'rgba(0,0,0,.05)',
-                        width: '75%',
+                        width: !isSearchUp?'75%':'80%',
                         padding: 0,
                         height: '100%',
                         backgroundColor:'rgba(0,0,0,.08)'
                     }}
                 />
-                <TouchableOpacity style={{height:'100%', flexDirection:'column', justifyContent:'flex-end'}}>
+                <TouchableOpacity
+                    style={{height:'100%', flexDirection:'column', justifyContent:'center'}}
+                    onPress={onCancel}
+                >
+                        <StyledText size={SCREEN_HEIGHT/45} type={'book'} style={{color:colors.primary.light,marginRight:normalize(1)}}>
+                            Cancel
+                        </StyledText>
+                </TouchableOpacity>
+            </View>
+        </View>
+    )
+};
+
+
+const ChatHeader = ({groupState, activeCallback,isFocused,isSearchUp,setIsSearchUp}) => {
+    const [firstQuery, setFirstQuery] = useState('');
+    const search_ref = useRef(null);
+
+    useEffect(()=>{
+        if (isFocused && search_ref.current){
+            search_ref.current.focus();
+        }
+
+        if (!isSearchUp){
+            activeCallback(false);
+        }
+
+    },[isFocused,isSearchUp]);
+
+    console.log(isSearchUp)
+    return (
+        <View style={styles.container}>
+           {!isSearchUp && <View style={styles.newchat_container}>
+                 <StyledText type={'bold'} size={SCREEN_HEIGHT/28} style={{letterSpacing: .5, marginHorizontal: 5}}>
+                    Chats
+                </StyledText>
+            </View>}
+
+            <View style={{...styles.edit_container, marginBottom:!isSearchUp&&SCREEN_HEIGHT/120 }}>
+                <Searchbar
+                    ref={search_ref}
+                    lightTheme={true}
+                    onFocus={()=>activeCallback(true)}
+                    onBlur={()=>activeCallback(false)}
+                    placeholder="Search"
+                    showCancel ={true}
+                    onChangeText={query => setFirstQuery(query)}
+                    value={firstQuery}
+                    style={{
+                        borderWidth: .5,
+                        borderRadius: 5,
+                        borderColor:'rgba(0,0,0,.05)',
+                        width: !isSearchUp?'75%':'80%',
+                        padding: 0,
+                        height: '100%',
+                        backgroundColor:'rgba(0,0,0,.08)'
+                    }}
+                />
+                <TouchableOpacity
+                    style={{height:'100%', flexDirection:'column', justifyContent:'center'}}
+                    onPress={()=>{return isSearchUp&&setIsSearchUp(false)}}
+                >
+                    {isSearchUp?
+                        <StyledText size={SCREEN_HEIGHT/45} type={'book'} style={{color:colors.primary.light,marginRight:normalize(1)}}>
+                            Cancel
+                        </StyledText>
+                        :
                     <FontAwesome name={"pencil-square-o"} size={SCREEN_HEIGHT/26}
-                                 style={{color: colors.primary.main, padding:0}}/>
+                                 style={{color: colors.primary.main, padding:0}}/>}
                 </TouchableOpacity>
             </View>
         </View>
@@ -54,7 +131,8 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         flexDirection: "column",
-        backgroundColor:   'rgba(0,0,0,.02)'
+        backgroundColor:   'rgba(0,0,0,.02)',
+        justifyContent:'center'
 
     },
     newchat_container: {
@@ -64,7 +142,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: 'transparent',
         flex:1,
-        marginBottom: SCREEN_HEIGHT/250
     },
     edit_container: {
         backgroundColor: 'transparent',
@@ -72,14 +149,12 @@ const styles = StyleSheet.create({
         flex:.8,
         flexDirection: "row",
         alignItems: 'flex-end',
-        paddingHorizontal: 5,
         borderColor: colors.text.secondary.main,
-        marginBottom: SCREEN_HEIGHT/120,
+        paddingHorizontal: 5,
         justifyContent: 'space-between',
-        borderWidth:1
 
     }
 });
 
 
-export default ChatHeader;
+export {ChatHeader,ChatHeaderActive}
