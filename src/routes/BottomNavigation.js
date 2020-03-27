@@ -23,7 +23,7 @@ const BottomTabText = ({focused, children}) => {
         <StyledText
             type={focused ? 'black' : 'book'}
             size={normalize(8)}
-            style={{color: focused ? colors.primary.main : colors.text.primary.main}}>
+            style={{color: focused ?  colors.secondary.light : colors.text.primary.main}}>
             {children}
         </StyledText>
     )
@@ -38,7 +38,7 @@ const BottomNavigation = () => {
             tabBarOptions={{
                 inactiveTintColor: colors.text.primary.light,
                 style: {backgroundColor: 'rgba(0,0,0,.08)', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,.1)'},
-                activeTintColor: colors.primary.main,
+                activeTintColor: colors.secondary.light,
             }}
         >
 
@@ -51,7 +51,7 @@ const BottomNavigation = () => {
                         <Entypo
                             name="calendar"
                             size={size*1.2}
-                            color={focused ? colors.primary.main : colors.text.primary.main}
+                            color={focused ?  colors.secondary.light : colors.text.primary.main}
                         />
                     )
                 }}
@@ -79,7 +79,7 @@ const BottomNavigation = () => {
                         <AntDesign
                             name="mail"
                             size={size}
-                            color={focused ? colors.primary.main : colors.text.primary.main}
+                            color={focused ?  colors.secondary.light : colors.text.primary.main}
                         />
                     )
                 }}

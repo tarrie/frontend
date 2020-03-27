@@ -94,7 +94,7 @@ const EventsHeader = ({groupState, activeCallback,isFocused,isSearchUp,setIsSear
                 >
 
                     <View style={styles.calendar_container}>
-                        <StyledText  style={{alignSelf:'center',color:colors.text.primary.main}} size={SCREEN_HEIGHT/32} type={'semibold'}>January</StyledText>
+                        <StyledText  style={{alignSelf:'center',color:'#1f1f1f'}} size={SCREEN_HEIGHT/32} type={'semibold'}>January</StyledText>
                         <CalendarUp size={SCREEN_HEIGHT/16} style={{ alignSelf:'flex-end', paddingLeft:normalize(60)}}/>
                     </View>
                 </TouchableOpacity>
@@ -119,10 +119,6 @@ const EventsHeader = ({groupState, activeCallback,isFocused,isSearchUp,setIsSear
                     }}
                 />
 
-
-
-
-
             </View>
         </View>
     )
@@ -134,7 +130,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         flexDirection: "column",
-        backgroundColor:   'rgba(0,0,0,.02)',
+        backgroundColor:   '#F0F0F0',
         justifyContent:'center',
         alignItems:'flex-end'
 
