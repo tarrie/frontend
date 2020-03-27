@@ -1,28 +1,54 @@
 import React, {useRef, useEffect, useState} from "react"
 import {StyledText} from "../../../../components/StyledText";
-import {View, StyleSheet, ScrollView, TouchableOpacity, TouchableWithoutFeedback} from "react-native"
+import {View, StyleSheet, ScrollView, TouchableOpacity, TouchableWithoutFeedback,FlatList} from "react-native"
 import {colors, normalize, sizes, SCREEN_HEIGHT} from "../../../../constants/styles";
 import {useGroup} from "../../../../contex";
 import {GroupNavigationBar} from "../../routes";
 import {GroupHeader} from "../../components";
-import {ChatHeader, ChatHeaderActive} from "../../components/Chat";
+import {EventsHeader, EventsHeaderActive} from "../../components/Events";
 import {useNavigation} from "@react-navigation/native"
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {FadeOut} from "../../components/Animations";
+import {EventCard} from "../../../../components/EventCard";
+
+const DATA = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'First Item',
+  },
+  {
+    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    title: 'Second Item',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    title: 'Third Item',
+  },
+];
 
 
+// https://ethercreative.github.io/react-native-shadow-generator/
 const GroupHomeForeground = ({groupState, navigation, searchActiveCallback}) => {
     return (
-        <View style={{width: '100%', height: '100%', borderWidth: 1, flexDirection: "column"}}>
+        <View style={
+            {
+                width: '100%',
+                height: '100%',
+                borderBottomWidth: 1,
+                borderColor:'rgba(0,0,0,.2)',
+                flexDirection: "column",
+
+            }
+        }>
             <View style={styles.container_groupHeader}>
                 <GroupHeader groupState={groupState}/>
             </View>
 
-            <View style={{...styles.container_groupNavBar, borderWidth: 1}}>
+            <View style={{...styles.container_groupNavBar, borderBottomWidth: 1, borderColor:'rgba(0,0,0,.2)'}}>
                 <GroupNavigationBar groupState={groupState} navigation={navigation}/>
             </View>
             <View style={styles.container_groupChatHeader}>
-                <ChatHeader groupState={groupState} activeCallback={searchActiveCallback}/>
+                <EventsHeader groupState={groupState} activeCallback={searchActiveCallback}/>
             </View>
         </View>
     )
@@ -32,7 +58,7 @@ const GroupHomeForeground = ({groupState, navigation, searchActiveCallback}) => 
 const StickyHeader = ({groupState, searchActiveCallback, isSearchActive, isSearchUp, cancelCallback}) => {
     return (
         <View style={{width: '100%', height: '100%', borderWidth: 1}}>
-            <ChatHeaderActive
+            <EventsHeaderActive
                 isFocused={isSearchActive}
                 groupState={groupState}
                 activeCallback={searchActiveCallback}
@@ -54,7 +80,7 @@ const GroupHome = () => {
 
     useEffect(() => {
         if (isSearchActive) {
-            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2.2 - SCREEN_HEIGHT / 15, animated: true});
+            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 15, animated: true});
             setIsSearchUp(true);
         }
 
@@ -67,14 +93,14 @@ const GroupHome = () => {
 
     useEffect(()=>{
         if (scrollPosnOutOfBounds && !isScrolling && isSearchUp && !fingerTouching){
-            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2.2 - SCREEN_HEIGHT / 15, animated: true});
+            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 15, animated: true});
             isScrolling=true;
         }
     },[scrollPosnOutOfBounds,fingerTouching]);
 
     const processScroll = ({nativeEvent}) => {
         //console.log(isScrolling,nativeEvent.contentOffset.y,SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15,(Math.abs(nativeEvent.contentOffset.y -(SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15))))
-        if ((isSearchUp && nativeEvent.contentOffset.y < SCREEN_HEIGHT / 2.2 - SCREEN_HEIGHT / 15)) {
+        if ((isSearchUp && nativeEvent.contentOffset.y < SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 15)) {
             setScrollPosnOutOfBounds(true);
         }else{
             setScrollPosnOutOfBounds(false);
@@ -96,8 +122,8 @@ const GroupHome = () => {
                 scrollEventThrottle={300}
                 ref={ref}
                 backgroundColor={colors.background_color.grey_tablet}
-                contentBackgroundColor="pink"
-                parallaxHeaderHeight={SCREEN_HEIGHT / 2.2}
+                contentBackgroundColor={colors.background_color.black}
+                parallaxHeaderHeight={SCREEN_HEIGHT / 2}
                 stickyHeaderHeight={SCREEN_HEIGHT / 15}
                 renderStickyHeader={() => <StickyHeader isSearchActive={isSearchActive}
                                                         searchActiveCallback={setIsSearchActive}
@@ -111,18 +137,11 @@ const GroupHome = () => {
                         <FadeOut><GroupHomeForeground searchActiveCallback={setIsSearchActive} groupState={groupState}
                                          navigation={navigation} /></FadeOut>
                 )}>
-                <View
-                    style={{height: SCREEN_HEIGHT}}
-                    onTouchStart={() => {
-                        setIsSearchActive(false);
-                        setFingerTouching(true)
-                    }}
-                    onTouchEnd={() => {
-                        setFingerTouching(false)
-                    }}
-                >
-                    <StyledText>CHATS</StyledText>
-                </View>
+
+                  <FlatList
+                    data={DATA}
+                    renderItem={({ item }) => <EventCard key={item.id} />}
+                  />
             </ParallaxScrollView>
 
         </View>
@@ -133,25 +152,23 @@ const GroupHome = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: "column",
-        width: "100%",
-        height: '100%',
+        flex:1,
         backgroundColor: colors.background_color.grey_tablet
     },
     container_groupHeader: {
         width: "100%",
-        height: "65%",
+        height: "70%",
         alignSelf: 'flex-start',
     },
     container_groupNavBar: {
         width: "100%",
-        height: "15%",
+        height: "12%",
         margin: 0
     },
     container_groupChatHeader: {
         width: "100%",
         // 20% of the viewbox
-        height: .20 * SCREEN_HEIGHT / 2.2
+        height: .18 * SCREEN_HEIGHT / 2
     }
 });
 

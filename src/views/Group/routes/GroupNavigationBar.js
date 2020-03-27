@@ -6,7 +6,6 @@ import {StyledText} from "../../../components/StyledText";
 import {normalize,SCREEN_HEIGHT} from "../../../constants/styles";
 import { TouchableRipple } from 'react-native-paper';
 import {screens} from "../../../routes/constants";
-
 const NavChip = ({title, onPressCallback}) => {
     return (
             <TouchableOpacity style={styles.chip} >

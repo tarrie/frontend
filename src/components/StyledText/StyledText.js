@@ -6,7 +6,8 @@ const types = {
   semibold: "source-sans-pro-semibold",
   regular: "source-sans-pro-regular",
   black: "airbnb-black",
-  book:"airbnb-book"
+  book:"airbnb-book",
+  thin:"raleway-thin"
 };
 
 const StyledText = ({ children, style, type, size, ...rest }) => {

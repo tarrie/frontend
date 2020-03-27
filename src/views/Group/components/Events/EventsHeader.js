@@ -3,14 +3,13 @@ import {StyledText} from "../../../../components/StyledText";
 import {View, StyleSheet, ScrollView, TouchableOpacity} from "react-native"
 import {colors, normalize, sizes, SCREEN_HEIGHT} from "../../../../constants/styles";
 import {
-    FontAwesome
+    Ionicons
 } from '@expo/vector-icons';
 import {Searchbar} from 'react-native-paper';
-
 import {SearchBar} from 'react-native-elements';
-
-
-const ChatHeaderActive = ({groupState, activeCallback,isFocused,isSearchUp,setIsSearchUp}) => {
+import CalendarDown from "../../../../assets/icons/CalendarDown";
+import CalendarUp from "../../../../assets/icons/CalendarUp";
+const EventsHeaderActive = ({groupState, activeCallback,isFocused,isSearchUp,setIsSearchUp}) => {
     const [firstQuery, setFirstQuery] = useState('');
     const search_ref = useRef(null);
 
@@ -65,7 +64,7 @@ const ChatHeaderActive = ({groupState, activeCallback,isFocused,isSearchUp,setIs
 };
 
 
-const ChatHeader = ({groupState, activeCallback,isFocused,isSearchUp,setIsSearchUp}) => {
+const EventsHeader = ({groupState, activeCallback,isFocused,isSearchUp,setIsSearchUp}) => {
     const [firstQuery, setFirstQuery] = useState('');
     const search_ref = useRef(null);
 
@@ -83,12 +82,23 @@ const ChatHeader = ({groupState, activeCallback,isFocused,isSearchUp,setIsSearch
     return (
         <View style={styles.container}>
            {!isSearchUp && <View style={styles.newchat_container}>
-                 <StyledText type={'bold'} size={SCREEN_HEIGHT/28} style={{letterSpacing: .5, marginHorizontal: 5}}>
-                    Chats
+                 <StyledText  type={'bold'} size={SCREEN_HEIGHT/27} style={{letterSpacing: .5, marginHorizontal: 5, color:'rgba(0,0,0,.65)'}}>
+                    Events
                 </StyledText>
             </View>}
 
             <View style={{...styles.edit_container, marginBottom:!isSearchUp&&SCREEN_HEIGHT/120 }}>
+                <TouchableOpacity
+                    style={{width:'50%'}}
+                    onPress={()=>{return isSearchUp&&setIsSearchUp(false)}}
+                >
+
+                    <View style={styles.calendar_container}>
+                        <StyledText  style={{alignSelf:'center',color:colors.text.primary.main}} size={SCREEN_HEIGHT/32} type={'semibold'}>January</StyledText>
+                        <CalendarUp size={SCREEN_HEIGHT/16} style={{ alignSelf:'flex-end', paddingLeft:normalize(60)}}/>
+                    </View>
+                </TouchableOpacity>
+
                 <Searchbar
                     ref={search_ref}
                     lightTheme={true}
@@ -102,24 +112,17 @@ const ChatHeader = ({groupState, activeCallback,isFocused,isSearchUp,setIsSearch
                         borderWidth: .5,
                         borderRadius: 5,
                         borderColor:'rgba(0,0,0,.05)',
-                        width: !isSearchUp?'75%':'80%',
+                        width: !isSearchUp?'50%':'80%',
                         padding: 0,
                         height: '100%',
                         backgroundColor:'rgba(0,0,0,.08)'
                     }}
                 />
-                <TouchableOpacity
-                    style={{height:'100%', flexDirection:'column', justifyContent:'center'}}
-                    onPress={()=>{return isSearchUp&&setIsSearchUp(false)}}
-                >
-                    {isSearchUp?
-                        <StyledText size={SCREEN_HEIGHT/45} type={'book'} style={{color:colors.primary.light,marginRight:normalize(1)}}>
-                            Cancel
-                        </StyledText>
-                        :
-                    <FontAwesome name={"pencil-square-o"} size={SCREEN_HEIGHT/26}
-                                 style={{color: colors.primary.main, padding:0}}/>}
-                </TouchableOpacity>
+
+
+
+
+
             </View>
         </View>
     )
@@ -132,14 +135,19 @@ const styles = StyleSheet.create({
         height: "100%",
         flexDirection: "column",
         backgroundColor:   'rgba(0,0,0,.02)',
-        justifyContent:'center'
+        justifyContent:'center',
+        alignItems:'flex-end'
 
+    },
+    calendar_container:{
+        width: '100%',
+        flexDirection:'row',
+        height: '100%',
     },
     newchat_container: {
         width: "100%",
         flexDirection: "row",
-        alignItems: 'flex-end',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         backgroundColor: 'transparent',
         flex:1,
     },
@@ -157,4 +165,4 @@ const styles = StyleSheet.create({
 });
 
 
-export {ChatHeader,ChatHeaderActive}
+export {EventsHeader,EventsHeaderActive}

@@ -8,7 +8,8 @@ import {
     FontAwesome,
     Ionicons,
     SimpleLineIcons,
-    AntDesign
+    AntDesign,
+    Entypo
 
 } from '@expo/vector-icons';
 import StyledText from "../components/StyledText/StyledText";
@@ -45,10 +46,10 @@ const BottomNavigation = () => {
                 name={screens.CALENDAR}
                 component={Calendar}
                 options={{
-                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> CALENDAR</BottomTabText>,
+                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> YOUR CALENDAR</BottomTabText>,
                     tabBarIcon: ({focused, size}) => (
-                        <Ionicons
-                            name="md-calendar"
+                        <Entypo
+                            name="calendar"
                             size={size*1.2}
                             color={focused ? colors.primary.main : colors.text.primary.main}
                         />

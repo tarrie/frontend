@@ -8,6 +8,9 @@ import {StyledText} from "./src/components/StyledText";
 import {colors} from "./src/constants/styles";
 
 
+
+
+
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -31,8 +34,9 @@ const App = () => {
 
     useEffect(() => {
         const load = async () => {
-            YellowBox.ignoreWarnings(["Warning: Failed prop type: Invalid props.style key `0`"]);
+            YellowBox.ignoreWarnings(["Failed prop type: Invalid props.style key `0`"]);
 
+            YellowBox.ignoreWarnings(['VirtualizedLists should never be nested']);
             /*
               To add more of the fonts, go see what's in assets/fonts
               Add it to the object loading async below, and set the key to a kebab-cased version of the font name
@@ -44,7 +48,7 @@ const App = () => {
                 "airbnb-light": require("./src/assets/fonts/AirbnbCereal-Light.ttf"),
                 "airbnb-black": require("./src/assets/fonts/AirbnbCereal-Black.ttf"),
                 "airbnb-book": require("./src/assets/fonts/AirbnbCereal-Book.ttf"),
-                "raleway-thin": require("./src/assets/fonts/Raleway-Thin.ttf")
+                "raleway-thin": require("./src/assets/fonts/Raleway-Light.ttf")
 
             });
             setIsFontLoaded(true)
