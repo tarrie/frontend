@@ -20,7 +20,13 @@ import {FadeOut} from "../../components/Animations";
 import {EventCard} from "../../../../components/EventCard";
 import {StickyDate} from "../../../../components/StickyDate";
 import {Calendar} from "../../../../components/Calendar";
-
+import {
+    CALENDAR_HEIGHT,
+    CARD_HEIGHT,
+    GROUP_STICKY_HEADER_HEIGHT,
+    GROUP_PARALLAX_HEADER_HEIGHT
+} from "../../../../constants/parameters";
+import {Expandable, DisappearDelay} from "../../../../components/Animations";
 
 const DATA = [
     {
@@ -35,19 +41,19 @@ const DATA = [
         id: '58694a0f-3da1-471f-bd96-145571e29d721',
         title: 'Third Item',
     },
-        {
+    {
         id: '58694a0f-3da1-471f-bd96-145571e29d722',
         title: 'Third Item',
     },
-        {
+    {
         id: '58694a0f-3da1-471f-bd96-145571e29d723',
         title: 'Third Item',
     },
-        {
+    {
         id: '58694a0f-3da1-471f-bd96-145571e29d724',
         title: 'Third Item',
     },
-        {
+    {
         id: '58694a0f-3da1-471f-bd96-145571e29d725',
         title: 'Third Item',
     },
@@ -78,7 +84,7 @@ class CustomScrollView extends React.Component {
 const AnimatedCustomScrollView = Animated.createAnimatedComponent(FlatList);
 
 // https://ethercreative.github.io/react-native-shadow-generator/
-const GroupHomeForeground = ({groupState, navigation, searchActiveCallback,isCalendarDown,setIsCalendarDown}) => {
+const GroupHomeForeground = ({groupState, navigation, searchActiveCallback, isCalendarDown, setIsCalendarDown}) => {
     return (
         <View style={
             {
@@ -96,14 +102,15 @@ const GroupHomeForeground = ({groupState, navigation, searchActiveCallback,isCal
                 <GroupNavigationBar groupState={groupState} navigation={navigation}/>
             </View>
             <View style={styles.container_groupChatHeader}>
-                <EventsHeader groupState={groupState} activeCallback={searchActiveCallback} isCalendarDown={isCalendarDown} setIsCalendarDown={setIsCalendarDown}/>
+                <EventsHeader groupState={groupState} activeCallback={searchActiveCallback}
+                              isCalendarDown={isCalendarDown} setIsCalendarDown={setIsCalendarDown}/>
             </View>
         </View>
     )
 };
 
 
-const StickyHeader = ({groupState, searchActiveCallback, isSearchActive, isSearchUp, cancelCallback,isCalendarDown, setIsCalendarDown}) => {
+const StickyHeader = ({groupState, searchActiveCallback, isSearchActive, isSearchUp, cancelCallback, isCalendarDown, setIsCalendarDown}) => {
     return (
         <View style={{width: '100%', height: '100%'}}>
             <EventsHeaderActive
@@ -128,12 +135,15 @@ const GroupHome = () => {
     const [scrollPosnOutOfBounds, setScrollPosnOutOfBounds] = useState(false);
     const [fingerTouching, setFingerTouching] = useState(false);
     const [isCalendarDown, setIsCalendarDown] = useState(true);
-    const [isAtBasePosition, setIsAtBasePosition]= useState(true);
+    const [isAtBasePosition, setIsAtBasePosition] = useState(true);
+    const hasScrollCalAdjusted = useRef(false);
+    const currentYPosn = useRef(0);
+
     let isScrolling = false;
 
     useEffect(() => {
         if (isSearchActive) {
-            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 9, animated: true});
+            ref.current.scrollTo({x: 0, y: GROUP_PARALLAX_HEADER_HEIGHT - GROUP_STICKY_HEADER_HEIGHT, animated: true});
             setIsSearchUp(true);
         }
 
@@ -146,16 +156,32 @@ const GroupHome = () => {
 
     useEffect(() => {
         if (scrollPosnOutOfBounds && !isScrolling && isSearchUp && !fingerTouching) {
-            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 9, animated: true});
+            ref.current.scrollTo({x: 0, y: GROUP_PARALLAX_HEADER_HEIGHT - GROUP_STICKY_HEADER_HEIGHT, animated: true});
             isScrolling = true;
         }
     }, [scrollPosnOutOfBounds, fingerTouching]);
 
+    // adjust the scrollview when calendar is clicked.
+    useEffect(() => {
+
+
+        if (isCalendarDown) {
+            ref.current.scrollTo({x: 0, y: currentYPosn.current+CALENDAR_HEIGHT, animated: true});
+            hasScrollCalAdjusted.current = false;
+        }
+
+        if ((!isCalendarDown) && !hasScrollCalAdjusted.current) {
+            hasScrollCalAdjusted.current = true;
+            ref.current.scrollTo({x: 0, y: currentYPosn.current - CALENDAR_HEIGHT, animated: true});
+        }
+    }, [isCalendarDown]);
+
     const processScroll = ({nativeEvent}) => {
 
-
+       // console.log(nativeEvent.contentOffset.y, GROUP_STICKY_HEADER_HEIGHT, GROUP_PARALLAX_HEADER_HEIGHT)
+        currentYPosn.current = nativeEvent.contentOffset.y;
         //console.log(isScrolling,nativeEvent.contentOffset.y,SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15,(Math.abs(nativeEvent.contentOffset.y -(SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15))))
-        if ((isSearchUp && nativeEvent.contentOffset.y < SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 9)) {
+        if ((isSearchUp && nativeEvent.contentOffset.y < GROUP_PARALLAX_HEADER_HEIGHT - GROUP_STICKY_HEADER_HEIGHT)) {
             setScrollPosnOutOfBounds(true);
         } else {
             setScrollPosnOutOfBounds(false);
@@ -171,12 +197,36 @@ const GroupHome = () => {
     return (
         <View style={styles.container}>
 
-            <View style={{height:'100%',backgroundColor:'#dedede'}}>
+            {/*Show this iff calendar is down*/}
+            <View style={{height: '100%', backgroundColor: '#dedede'}}>
 
-            {!isCalendarDown&&<Calendar style={{position:'absolute',zIndex:1, top:SCREEN_HEIGHT / 9, width:'100%'}}/>}
+
+                <DisappearDelay isShowing={!isCalendarDown} style={{
+                    height: GROUP_STICKY_HEADER_HEIGHT,
+                    width: '100%',
+                    position: 'absolute',
+                    top: 0,
+                    zIndex: 2
+                }}>
+                    <EventsHeaderActive
+                        isFocused={isSearchActive}
+                        groupState={groupState}
+                        activeCallback={setIsSearchActive}
+                        isSearchUp={isSearchUp}
+                        setIsSearchUp={cancelCallback}
+                        isCalendarDown={isCalendarDown}
+                        setIsCalendarDown={setIsCalendarDown}
+                    />
+                </DisappearDelay>
+
+                <Expandable goDown={!isCalendarDown} style={{zIndex: 1, width: '100%'}}
+                            startPosn={-GROUP_STICKY_HEADER_HEIGHT - CALENDAR_HEIGHT}
+                            endPosn={GROUP_STICKY_HEADER_HEIGHT}>
+                    <Calendar/>
+                </Expandable>
 
 
-                <View style={{flex:1, zIndex:0}}>
+                <View style={{flex: 1, zIndex: 0}}>
                     <ParallaxScrollView
                         onTouchStart={() => {
                             setIsSearchActive(false);
@@ -190,44 +240,50 @@ const GroupHome = () => {
                         onScroll={processScroll}
                         scrollEventThrottle={16}
                         ref={ref}
-                         stickyHeaderIndices={[1,4]}
+                        stickyHeaderIndices={[1, 4]}
                         backgroundColor={'transparent'}
                         contentBackgroundColor={'transparent'}
-                        parallaxHeaderHeight={SCREEN_HEIGHT / 2}
-                        stickyHeaderHeight={SCREEN_HEIGHT / 9}
+                        parallaxHeaderHeight={GROUP_PARALLAX_HEADER_HEIGHT}
+                        stickyHeaderHeight={GROUP_STICKY_HEADER_HEIGHT}
                         renderStickyHeader={() => <StickyHeader isSearchActive={isSearchActive}
                                                                 searchActiveCallback={setIsSearchActive}
                                                                 groupState={groupState}
                                                                 isSearchUp={isSearchUp}
                                                                 isCalendarDown={isCalendarDown}
                                                                 setIsCalendarDown={setIsCalendarDown}
-                                                                cancelCallback={cancelCallback}/>
+                                                                cancelCallback={cancelCallback}
+                        />
                         }
                         renderForeground={() => (
-                            !isSearchUp ? <GroupHomeForeground searchActiveCallback={setIsSearchActive} groupState={groupState}
-                                                               navigation={navigation} setIsCalendarDown={setIsCalendarDown} isCalendarDown={isCalendarDown}/> :
-                                <FadeOut><GroupHomeForeground searchActiveCallback={setIsSearchActive} groupState={groupState}
-                                                              navigation={navigation} setIsCalendarDown={setIsCalendarDown} isCalendarDown={isCalendarDown}/></FadeOut>
+                            !isSearchUp ?
+                                <GroupHomeForeground searchActiveCallback={setIsSearchActive} groupState={groupState}
+                                                     navigation={navigation} setIsCalendarDown={setIsCalendarDown}
+                                                     isCalendarDown={isCalendarDown}/> :
+                                <FadeOut><GroupHomeForeground searchActiveCallback={setIsSearchActive}
+                                                              groupState={groupState}
+                                                              navigation={navigation}
+                                                              setIsCalendarDown={setIsCalendarDown}
+                                                              isCalendarDown={isCalendarDown}/></FadeOut>
                         )}>
 
-                        <StickyDate isActiveDate={true} key={336} marginTop={SCREEN_HEIGHT / 9}  isFirst={true} isAtBasePosition={isAtBasePosition}/>
+                        <StickyDate isActiveDate={true} key={336} marginTop={GROUP_STICKY_HEADER_HEIGHT} isFirst={true}
+                                    isAtBasePosition={isAtBasePosition}/>
                         <EventCard key={1}/>
 
                         <EventCard key={2}/>
-                        <StickyDate key={33} marginTop={SCREEN_HEIGHT / 9} />
+                        <StickyDate key={33} marginTop={GROUP_STICKY_HEADER_HEIGHT}/>
 
                         <EventCard key={3}/>
-                        <EventCard key={4} />
+                        <EventCard key={4}/>
                         <EventCard key={5}/>
 
                         <EventCard key={6}/>
-                        <EventCard key={7} />
+                        <EventCard key={7}/>
                         <EventCard key={8}/>
                     </ParallaxScrollView>
 
 
                 </View>
-
 
 
             </View>
@@ -255,7 +311,7 @@ const styles = StyleSheet.create({
     container_groupChatHeader: {
         width: "100%",
         // 20% of the viewbox
-        height: .18 * SCREEN_HEIGHT / 2
+        height: .18 * GROUP_PARALLAX_HEADER_HEIGHT
     }
 });
 

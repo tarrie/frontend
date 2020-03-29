@@ -2,6 +2,7 @@ import React from "react";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {StyleSheet} from "react-native";
 import {colors} from "../../constants/styles";
+import {CALENDAR_HEIGHT} from "../../constants/parameters";
 
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
@@ -32,6 +33,7 @@ const theme = { backgroundColor: '#ffffff',
   }
 const EventCalendar = ({style}) =>{
     return (
+
         <Calendar
           style={[styles.calendar,style]}
          // onDayLongPress={this.onDayLongPress}
@@ -62,7 +64,8 @@ const EventCalendar = ({style}) =>{
 
 const styles = StyleSheet.create({
   calendar: {
-    marginBottom: 10
+    marginBottom: 10,
+      height:CALENDAR_HEIGHT
   },
   text: {
     textAlign: 'center',

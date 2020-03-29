@@ -3,9 +3,11 @@ import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import {SCREEN_HEIGHT,normalize} from "../../constants/styles";
 import {View} from "react-native-web";
 import {StyledText} from "../StyledText";
+import {CARD_HEIGHT} from "../../constants/parameters";
 
 const MyComponent = () => (
   <Card style={{
+      height: CARD_HEIGHT,
       width:'82%',
       alignSelf:'flex-end',
       marginRight:normalize(12),
