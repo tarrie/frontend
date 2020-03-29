@@ -8,7 +8,7 @@ const ReadMoreText = ({text}) => {
 
     const _renderTruncatedFooter = (handlePress) => {
         return (
-            <StyledText style={{color: '#989898', marginTop: 5}} onPress={handlePress}>
+            <StyledText style={{color: '#989898'}} onPress={handlePress}>
                 Read more
             </StyledText>
         );
@@ -16,8 +16,8 @@ const ReadMoreText = ({text}) => {
 
     const _renderRevealedFooter = (handlePress) => {
         return (
-            <StyledText style={{color: '#989898', marginTop: 5}} onPress={handlePress}>
-                Show less
+            <StyledText style={{color: '#989898'}} onPress={handlePress}>
+                Read less
             </StyledText>
         );
     };
@@ -47,10 +47,7 @@ const ReadMoreText = ({text}) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.05)',
         alignItems: 'center',
-        justifyContent: 'center',
     },
     card: {
         borderRadius: 3,
