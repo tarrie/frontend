@@ -26,14 +26,14 @@ const StickyDate = ({marginTop, isActiveDate, isFirst, isAtBasePosition}) => (
                         color:isActiveDate?colors.general.hot_purple:colors.text.primary.main}}>Tue</StyledText>
                 <View style={{
                     backgroundColor:isActiveDate?colors.secondary.light:'transparent',
-                    height: 38,
-                    width: 38,
-                    borderRadius: 38 / 2,
+                    height: 35,
+                    width: 35,
+                    borderRadius: 35 / 2,
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginTop: isActiveDate?0: -SCREEN_HEIGHT/100
                 }}>
-                    <StyledText type={isActiveDate?'book':'bold'}  size = {isActiveDate?null:SCREEN_HEIGHT/35} style={{color:isActiveDate?colors.background_color.white:colors.text.primary.main}}>23</StyledText>
+                    <StyledText type={isActiveDate?'book':'bold'}  size = {isActiveDate?18:25} style={{color:isActiveDate?colors.background_color.white:colors.text.primary.main}}>23</StyledText>
                 </View>
             </View>
 

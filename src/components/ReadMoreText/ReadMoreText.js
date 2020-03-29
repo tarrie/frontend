@@ -31,7 +31,7 @@ const ReadMoreText = ({text}) => {
         <View style={styles.container}>
             <View style={styles.card}>
                 <ReadMore
-                    numberOfLines={3}
+                    numberOfLines={1}
                     renderTruncatedFooter={_renderTruncatedFooter}
                     renderRevealedFooter={_renderRevealedFooter}
                     onReady={_handleTextReady}>
@@ -53,8 +53,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     card: {
-        marginHorizontal: 10,
-        padding: 10,
         borderRadius: 3,
         borderColor: 'rgba(0,0,0,0.1)',
         borderWidth: 1,
