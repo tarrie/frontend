@@ -101,13 +101,13 @@ const EventsHeaderActive = ({groupState, activeCallback, isFocused, isSearchUp, 
                         borderWidth: 1.5,
                         flexDirection: 'row',
                         borderRadius: 5,
-                        borderColor: colors.primary.main
+                        borderColor: colors.secondary.main
                     }}>
                         <View style={{
                             width: '50%',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: colors.primary.main,
+                            backgroundColor: colors.secondary.main,
                             borderBottomLeftRadius: 3,
                             borderTopLeftRadius: 3
                         }}>
@@ -123,7 +123,7 @@ const EventsHeaderActive = ({groupState, activeCallback, isFocused, isSearchUp, 
                             borderTopRightRadius: 5
                         }}>
                             <StyledText adjustsFontSizeToFit size={sizes.mini.fontSize}
-                                        style={{color: colors.primary.main}}> Events
+                                        style={{color: colors.secondary.main}}> Events
                                 Coordinating</StyledText>
                         </View>
                     </View>

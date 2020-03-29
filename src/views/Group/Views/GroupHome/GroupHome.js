@@ -127,7 +127,7 @@ const GroupHome = () => {
     const [isSearchUp, setIsSearchUp] = useState(false);
     const [scrollPosnOutOfBounds, setScrollPosnOutOfBounds] = useState(false);
     const [fingerTouching, setFingerTouching] = useState(false);
-    const [isCalendarDown, setIsCalendarDown] = useState(false);
+    const [isCalendarDown, setIsCalendarDown] = useState(true);
     const [isAtBasePosition, setIsAtBasePosition]= useState(true);
     let isScrolling = false;
 
@@ -173,7 +173,7 @@ const GroupHome = () => {
 
             <View style={{height:'100%',backgroundColor:'#dedede'}}>
 
-            {isCalendarDown&&<Calendar style={{position:'absolute',zIndex:1, top:SCREEN_HEIGHT / 9, width:'100%'}}/>}
+            {!isCalendarDown&&<Calendar style={{position:'absolute',zIndex:1, top:SCREEN_HEIGHT / 9, width:'100%'}}/>}
 
 
                 <View style={{flex:1, zIndex:0}}>
