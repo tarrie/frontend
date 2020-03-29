@@ -5,35 +5,9 @@ import {View} from "react-native-web";
 import {StyledText} from "../StyledText";
 import {CARD_HEIGHT} from "../../constants/parameters";
 import ReadMoreText from "../ReadMoreText/ReadMoreText";
-  const ViewMore =()=>{
-    const renderViewMore=(onPress)=>{
-      return(
-        <StyledText style={{color:colors.text.secondary.main}}   onPress={onPress}>See more</StyledText>
-      )
-    };
-
-    const renderViewLess=(onPress)=>{
-      return(
-        <StyledText onPress={onPress}>View less</StyledText>
-      )
-    };
-
-      return(
-        <ReadMoreText
-            text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"+
-              "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut"+
-              "enim ad minim veniam, quis nostrud exercitation ullamco laboris"+
-              "nisi ut aliquip ex ea commodo consequat.  Duis aute irure dolor"+
-              "in reprehenderit in voluptate velit esse cillum dolore eu fugiat"+
-              "nulla pariatur. Excepteur sint occaecat cupidatat non proident,"+
-              "sunt in culpa qui officia deserunt mollit anim id est laborum"}
-        />
-
-      )
-    };
 
 
-const EventCard = () => {
+const EventCard = ({bio}) => {
     return <Card style={{
         width: '82%',
         alignSelf: 'flex-end',
@@ -59,11 +33,21 @@ const EventCard = () => {
         </Card.Content>
         <Card.Actions>
 
-            <ViewMore/>
+            <ReadMoreText text={bio} />
         </Card.Actions>
     </Card>
 };
 
+
+EventCard.defaultProps = {
+    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"+
+              "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut"+
+              "enim ad minim veniam, quis nostrud exercitation ullamco laboris"+
+              "nisi ut aliquip ex ea commodo consequat.  Duis aute irure dolor"+
+              "in reprehenderit in voluptate velit esse cillum dolore eu fugiat"+
+              "nulla pariatur. Excepteur sint occaecat cupidatat non proident,"+
+              "sunt in culpa qui officia deserunt mollit anim id est laborum"
+};
 
 
 export default EventCard;
