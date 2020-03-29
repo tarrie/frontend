@@ -1,8 +1,8 @@
 import React from "react"
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 const Stack = createStackNavigator();
-import {screens} from "../../../routes/constants";
-import {Events,Announcements,Members,GroupHome} from "../Views";
+import {screens} from "./constants";
+import {Events,Announcements,Members,GroupHome,Chats} from "../Views";
 
 const GroupTopNavigation = () =>{
 return (
@@ -14,6 +14,7 @@ return (
                     gestureEnabled: true,
                 }
             }>
+            <Stack.Screen name={screens.GROUP_CHAT} component={Chats} />
             <Stack.Screen name={screens.GROUP_EVENTS} component={Events} />
             <Stack.Screen name={screens.GROUP_ANNOUNCEMENTS} component={Announcements} />
             <Stack.Screen name={screens.GROUP_MEMBERS} component={Members} />

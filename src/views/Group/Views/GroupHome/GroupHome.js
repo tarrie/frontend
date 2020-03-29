@@ -19,6 +19,8 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {FadeOut} from "../../components/Animations";
 import {EventCard} from "../../../../components/EventCard";
 import {StickyDate} from "../../../../components/StickyDate";
+import {Calendar} from "../../../../components/Calendar";
+
 
 const DATA = [
     {
@@ -76,16 +78,14 @@ class CustomScrollView extends React.Component {
 const AnimatedCustomScrollView = Animated.createAnimatedComponent(FlatList);
 
 // https://ethercreative.github.io/react-native-shadow-generator/
-const GroupHomeForeground = ({groupState, navigation, searchActiveCallback}) => {
+const GroupHomeForeground = ({groupState, navigation, searchActiveCallback,isCalendarDown,setIsCalendarDown}) => {
     return (
         <View style={
             {
                 width: '100%',
                 height: '100%',
-                borderBottomWidth: 1,
                 borderColor: 'rgba(0,0,0,.2)',
                 flexDirection: "column",
-
             }
         }>
             <View style={styles.container_groupHeader}>
@@ -96,26 +96,29 @@ const GroupHomeForeground = ({groupState, navigation, searchActiveCallback}) => 
                 <GroupNavigationBar groupState={groupState} navigation={navigation}/>
             </View>
             <View style={styles.container_groupChatHeader}>
-                <EventsHeader groupState={groupState} activeCallback={searchActiveCallback}/>
+                <EventsHeader groupState={groupState} activeCallback={searchActiveCallback} isCalendarDown={isCalendarDown} setIsCalendarDown={setIsCalendarDown}/>
             </View>
         </View>
     )
 };
 
 
-const StickyHeader = ({groupState, searchActiveCallback, isSearchActive, isSearchUp, cancelCallback}) => {
+const StickyHeader = ({groupState, searchActiveCallback, isSearchActive, isSearchUp, cancelCallback,isCalendarDown, setIsCalendarDown}) => {
     return (
-        <View style={{width: '100%', height: '100%', borderWidth: 1}}>
+        <View style={{width: '100%', height: '100%'}}>
             <EventsHeaderActive
                 isFocused={isSearchActive}
                 groupState={groupState}
                 activeCallback={searchActiveCallback}
                 isSearchUp={isSearchUp}
                 setIsSearchUp={cancelCallback}
+                isCalendarDown={isCalendarDown}
+                setIsCalendarDown={setIsCalendarDown}
             />
         </View>
     )
 };
+
 const GroupHome = () => {
     const ref = useRef(null);
     const groupState = useGroup({groupId: 'groupId'});
@@ -124,11 +127,13 @@ const GroupHome = () => {
     const [isSearchUp, setIsSearchUp] = useState(false);
     const [scrollPosnOutOfBounds, setScrollPosnOutOfBounds] = useState(false);
     const [fingerTouching, setFingerTouching] = useState(false);
+    const [isCalendarDown, setIsCalendarDown] = useState(false);
+    const [isAtBasePosition, setIsAtBasePosition]= useState(true);
     let isScrolling = false;
 
     useEffect(() => {
         if (isSearchActive) {
-            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 15, animated: true});
+            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 9, animated: true});
             setIsSearchUp(true);
         }
 
@@ -141,14 +146,16 @@ const GroupHome = () => {
 
     useEffect(() => {
         if (scrollPosnOutOfBounds && !isScrolling && isSearchUp && !fingerTouching) {
-            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 15, animated: true});
+            ref.current.scrollTo({x: 0, y: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 9, animated: true});
             isScrolling = true;
         }
     }, [scrollPosnOutOfBounds, fingerTouching]);
 
     const processScroll = ({nativeEvent}) => {
+
+
         //console.log(isScrolling,nativeEvent.contentOffset.y,SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15,(Math.abs(nativeEvent.contentOffset.y -(SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15))))
-        if ((isSearchUp && nativeEvent.contentOffset.y < SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 15)) {
+        if ((isSearchUp && nativeEvent.contentOffset.y < SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 9)) {
             setScrollPosnOutOfBounds(true);
         } else {
             setScrollPosnOutOfBounds(false);
@@ -166,37 +173,56 @@ const GroupHome = () => {
 
             <View style={{height:'100%',backgroundColor:'#dedede'}}>
 
-                <View style={{flex:1}}>
+            {isCalendarDown&&<Calendar style={{position:'absolute',zIndex:1, top:SCREEN_HEIGHT / 9, width:'100%'}}/>}
+
+
+                <View style={{flex:1, zIndex:0}}>
                     <ParallaxScrollView
+                        onTouchStart={() => {
+                            setIsSearchActive(false);
+                            setFingerTouching(true)
+                        }}
+                        onTouchEnd={() => {
+                            setFingerTouching(false)
+                        }}
+
                         style={{flex: 1}}
                         onScroll={processScroll}
-                        scrollEventThrottle={300}
+                        scrollEventThrottle={16}
                         ref={ref}
-                         stickyHeaderIndices={[0,3]}
+                         stickyHeaderIndices={[1,4]}
                         backgroundColor={'transparent'}
                         contentBackgroundColor={'transparent'}
                         parallaxHeaderHeight={SCREEN_HEIGHT / 2}
-                        stickyHeaderHeight={SCREEN_HEIGHT / 15}
+                        stickyHeaderHeight={SCREEN_HEIGHT / 9}
                         renderStickyHeader={() => <StickyHeader isSearchActive={isSearchActive}
                                                                 searchActiveCallback={setIsSearchActive}
                                                                 groupState={groupState}
                                                                 isSearchUp={isSearchUp}
+                                                                isCalendarDown={isCalendarDown}
+                                                                setIsCalendarDown={setIsCalendarDown}
                                                                 cancelCallback={cancelCallback}/>
                         }
                         renderForeground={() => (
                             !isSearchUp ? <GroupHomeForeground searchActiveCallback={setIsSearchActive} groupState={groupState}
-                                                               navigation={navigation}/> :
+                                                               navigation={navigation} setIsCalendarDown={setIsCalendarDown} isCalendarDown={isCalendarDown}/> :
                                 <FadeOut><GroupHomeForeground searchActiveCallback={setIsSearchActive} groupState={groupState}
-                                                              navigation={navigation}/></FadeOut>
+                                                              navigation={navigation} setIsCalendarDown={setIsCalendarDown} isCalendarDown={isCalendarDown}/></FadeOut>
                         )}>
-                        <StickyDate isActiveDate={true} key={336} marginTop={SCREEN_HEIGHT / 15} />
+
+                        <StickyDate isActiveDate={true} key={336} marginTop={SCREEN_HEIGHT / 9}  isFirst={true} isAtBasePosition={isAtBasePosition}/>
                         <EventCard key={1}/>
-                        <StickyDate key={33} marginTop={SCREEN_HEIGHT / 15} />
 
                         <EventCard key={2}/>
+                        <StickyDate key={33} marginTop={SCREEN_HEIGHT / 9} />
+
                         <EventCard key={3}/>
                         <EventCard key={4} />
                         <EventCard key={5}/>
+
+                        <EventCard key={6}/>
+                        <EventCard key={7} />
+                        <EventCard key={8}/>
                     </ParallaxScrollView>
 
 

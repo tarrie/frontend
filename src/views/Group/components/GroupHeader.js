@@ -1,9 +1,8 @@
 import React from "react"
 import {StyledText} from "../../../components/StyledText";
-import {View, StyleSheet, ScrollView,ImageBackground,Text} from "react-native"
+import {View, StyleSheet, ScrollView,ImageBackground,Text,ActivityIndicator} from "react-native"
 import {colors, normalize, sizes,SCREEN_HEIGHT} from "../../../constants/styles";
 import { Avatar } from 'react-native-paper';
-import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native-elements';
 
 const GroupHeader = ({groupState}) => {
@@ -12,7 +11,7 @@ const GroupHeader = ({groupState}) => {
     return (
         <View style={styles.container}>
             <View style={styles.image_container}>
-                {groupState.isLoaded && <Image source={{ uri: 'https://picsum.photos/700' }} style={{ ...styles.image }} resizeMode={'cover'}/>}
+                {groupState.isLoaded && <Image source={{ uri: 'https://picsum.photos/700' }} style={{ ...styles.image }} resizeMode={'cover'} PlaceholderContent={<ActivityIndicator />}/>}
             </View>
 
             <View style={styles.groupInfo_container}>

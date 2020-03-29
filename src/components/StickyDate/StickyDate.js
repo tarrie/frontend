@@ -5,13 +5,12 @@ import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import {SCREEN_HEIGHT, normalize, colors} from "../../constants/styles";
 
 
-const StickyDate = ({marginTop, isActiveDate}) => (
+const StickyDate = ({marginTop, isActiveDate, isFirst, isAtBasePosition}) => (
     <View style={
         {
-            borderWidth:1,
             position: 'relative',
-            top:marginTop,
             width: '100%',
+            top: marginTop,
             alignSelf: 'flex-end',
         }
     }>
@@ -47,7 +46,8 @@ const StickyDate = ({marginTop, isActiveDate}) => (
 );
 
 StickyDate.defaultProps = {
-    isActiveDate: false
+    isActiveDate: false,
+    isFirst: false
 };
 
 

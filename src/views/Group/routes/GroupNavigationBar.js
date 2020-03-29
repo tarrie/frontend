@@ -5,7 +5,8 @@ import {Chip} from 'react-native-paper';
 import {StyledText} from "../../../components/StyledText";
 import {normalize,SCREEN_HEIGHT} from "../../../constants/styles";
 import { TouchableRipple } from 'react-native-paper';
-import {screens} from "../../../routes/constants";
+import {screens} from "./constants";
+
 const NavChip = ({title, onPressCallback}) => {
     return (
             <TouchableOpacity style={styles.chip} >
@@ -20,7 +21,7 @@ const GroupNavigationBar = ({groupState, navigation}) => {
     return (
         <View style={styles.container}>
             <ScrollView horizontal={true} style={{width: '100%'}}>
-                <NavChip title={"Events"} onPressCallback={()=>navigation.navigate(screens.GROUP_EVENTS, { groupState })} />
+                <NavChip title={"Chats"} onPressCallback={()=>navigation.navigate(screens.GROUP_CHAT, { groupState })} />
                 <NavChip title={"Announcements"} onPressCallback={()=>navigation.navigate(screens.GROUP_ANNOUNCEMENTS, { groupState })}/>
                 <NavChip title={"Members"} onPressCallback={()=>navigation.navigate(screens.GROUP_MEMBERS, { groupState })}/>
             </ScrollView>
