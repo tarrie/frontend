@@ -13,7 +13,28 @@ import Discussion from "../../assets/icons/Discussion";
 import MapView from "../../assets/icons/MapView";
 import FileView from "../../assets/icons/FileView";
 import {StyledText} from "../StyledText";
-import {normalize} from "../../constants/styles";
+import {normalize,SCREEN_HEIGHT} from "../../constants/styles";
+
+const _colors = {
+    blue: '#2196F3',
+    green:'#71B419',
+    orange:'#E9812C',
+    teal:'#288982',
+    light_orange:'#FCAA2C',
+    light_teal:'#00B2AF',
+    pink: '#C14CE8',
+    light_blue: '#6096F8',
+    light_light_teal: '#33C5DE',
+    dark_green: '#109E56',
+    fancy_pink: '#F3548A',
+    dark_purple: '#803EE8',
+    bright_green:'#00CA54',
+    other_blue:'#1C73F4',
+    another_blue:'#7085D8',
+    oneMore_blue:'#405EBE',
+    shabby_chic: '#008DA6'
+};
+
 
 
 const EventActionStrip = () => {
@@ -23,38 +44,38 @@ const EventActionStrip = () => {
 
             <TouchableOpacity>
                 <View style={styles.icon_container}>
-                    <View style={styles.icon}>
-                        <Discussion size={20}/>
+                    <View style={{...styles.icon, backgroundColor:'#6f4685'}}>
+                        <Discussion size={SCREEN_HEIGHT/40} color={'white'}/>
                     </View>
-                    <StyledText size={13}> Discussion</StyledText>
+                    <StyledText size={SCREEN_HEIGHT/70}> Discussion</StyledText>
                 </View>
             </TouchableOpacity>
 
             <TouchableOpacity>
                 <View style={styles.icon_container}>
-                    <View style={styles.icon}>
-                        <MaterialIcons name={'people'} size={20}/>
+                    <View style={{...styles.icon,backgroundColor:_colors.teal}}>
+                        <MaterialIcons name={'people'} size={SCREEN_HEIGHT/40} color={'white'}/>
                     </View>
-                    <StyledText size={13}> People Going</StyledText>
+                    <StyledText size={SCREEN_HEIGHT/70}> People Going</StyledText>
                 </View>
             </TouchableOpacity>
 
             <TouchableOpacity>
                 <View style={styles.icon_container}>
-                    <View style={styles.icon}>
-                        <MapView name={'people'} size={20}/>
+                    <View style={{...styles.icon,backgroundColor:_colors.oneMore_blue}}>
+                        <MapView name={'people'} size={SCREEN_HEIGHT/40} color={'white'}/>
                     </View>
-                    <StyledText size={13}> Map View</StyledText>
+                    <StyledText size={SCREEN_HEIGHT/70}> Map View</StyledText>
                 </View>
             </TouchableOpacity>
 
 
             <TouchableOpacity>
                 <View style={styles.icon_container}>
-                    <View style={styles.icon}>
-                        <FileView name={'people'} size={20}/>
+                    <View style={{...styles.icon,backgroundColor:_colors.shabby_chic}}>
+                        <FileView name={'people'} size={SCREEN_HEIGHT/40} color={'white'}/>
                     </View>
-                    <StyledText size={13}> Files</StyledText>
+                    <StyledText size={SCREEN_HEIGHT/70}> Files</StyledText>
                 </View>
             </TouchableOpacity>
 
@@ -68,22 +89,21 @@ const styles = StyleSheet.create({
         width: '100%',
         borderBottomWidth: 1,
         borderTopWidth: 1,
-        backgroundColor: 'rgb(248,248,248)',
-        paddingVertical: 5
+        backgroundColor: 'transparent',
+        paddingVertical: SCREEN_HEIGHT/500
     },
     icon_container: {
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: normalize(10),
-        width:80,
+        width: normalize(59)
     },
     icon: {
-        height: 35,
-        width: 35,
+        height:  SCREEN_HEIGHT/25,
+        width: SCREEN_HEIGHT/25,
         borderWidth: 1,
-        borderRadius: 35 / 2,
+        borderRadius: SCREEN_HEIGHT/25 / 2,
         alignItems: 'center',
         borderColor: '#D8D8D8',
         justifyContent: 'center',

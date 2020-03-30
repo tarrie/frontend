@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet} from "react-native";
+import {View, StyleSheet,TouchableOpacity} from "react-native";
 import {StyledText} from "../StyledText";
-import moment from "moment-timezone";
-import {textSecondaryColor} from "react-native-calendars/src/style";
-import jstz from "jstz";
-import {colors, normalize} from "../../constants/styles";
+import {colors, normalize, SCREEN_HEIGHT} from "../../constants/styles";
 import {
     MaterialIcons,
     FontAwesome,
@@ -21,22 +18,22 @@ const ShareSaveRSVP = () => {
     return <View style={styles.container}>
 
         <View style={{flex:.3, flexDirection:'row'}}>
-            <View style={{flexDirection: 'column',alignItems:'center',justifyContent:'center',marginRight:normalize(5)}}>
-                <Feather name={'bookmark'} size={25}/>
-                <StyledText size={10}>Save</StyledText>
-            </View>
+            <TouchableOpacity style={{flexDirection: 'column',alignItems:'center',justifyContent:'center',marginRight:normalize(5)}}>
+                <Feather name={'bookmark'} size={SCREEN_HEIGHT/30}/>
+                <StyledText size={SCREEN_HEIGHT/90}>Save</StyledText>
+            </TouchableOpacity>
 
-            <View style={{flexDirection: 'column',alignItems:'center',justifyContent:'center',marginRight:normalize(5)}}>
-                <Ionicons name={'ios-checkmark-circle-outline'} size={25}/>
-                <StyledText size={9}>RSVP</StyledText>
-            </View>
+            <TouchableOpacity style={{flexDirection: 'column',alignItems:'center',justifyContent:'center',marginRight:normalize(5)}}>
+                <Ionicons name={'ios-checkmark-circle-outline'} size={SCREEN_HEIGHT/30}/>
+                <StyledText size={SCREEN_HEIGHT/90}>RSVP</StyledText>
+            </TouchableOpacity>
         </View>
 
         <View style={{ flex:1,flexDirection:'row', justifyContent:'flex-end'}}>
-            <View style={{alignSelf:'flex-end', flexDirection: 'column',alignItems:'center',justifyContent:'center', marginRight:normalize(5)}}>
-                <Feather name={'share'} size={25}/>
-                <StyledText size={10}>Share</StyledText>
-            </View>
+            <TouchableOpacity style={{alignSelf:'flex-end', flexDirection: 'column',alignItems:'center',justifyContent:'center', marginRight:normalize(5)}}>
+                <Feather name={'share'} size={SCREEN_HEIGHT/30}/>
+                <StyledText size={SCREEN_HEIGHT/90}>Share</StyledText>
+            </TouchableOpacity>
         </View>
     </View>
 };

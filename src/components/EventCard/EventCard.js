@@ -19,6 +19,11 @@ import {
 
 } from '@expo/vector-icons';
 import {ImageBackground, View, TouchableOpacity} from "react-native";
+import EventLocation from "./EventLocation";
+import EventName from "./EventName";
+import { Image } from 'react-native-elements';
+import { ActivityIndicator } from 'react-native';
+
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
@@ -42,51 +47,26 @@ const EventCard = ({bio}) => {
     }}>
 
 
-        <ImageBackground source={{uri: 'https://picsum.photos/700'}} style={{width: '100%', height: 180,backgroundColor:'#C8C8C8'}}>
-
-            <View style={{backgroundColor:'#C8C8C8'}}/>
-
-            <TouchableOpacity style={{
-                alignSelf: 'flex-end',
-                width: 30,
-                height: 50,
-                alignItems: 'center',
-                justifyContent: 'center',
-
-            }}>
-                <Entypo name={'dots-three-vertical'} size={35} style={{
-                    color: 'white', shadowOpacity: .5,
-                    shadowRadius: 2,
-                    shadowColor: '#000000',
-                    textShadowOffset: {width: 5, height: 2},
-                    textShadowRadius: 10,
-                    shadowOffset: {
-                        width: 1,            // Same rules apply from above
-                        height: 0,           // Can't both be 0
-                    }
-                }}/>
-            </TouchableOpacity>
-        </ImageBackground>
+        <Image
+            PlaceholderContent={<ActivityIndicator />}
+            containerStyle={{borderRadius:40}}
+            source={{uri: 'https://picsum.photos/700'}}
+            style={{width: '100%', height: SCREEN_HEIGHT/5,borderRadius:20}}/>
 
 
-        <Card.Title title="Boogo Party Get Fucked" subtitle='Coordinators: Lala & Tom'
-                    left={(props) => <Avatar.Image {...props} source={{uri: 'https://picsum.photos/700'}}/>}/>
+
+        <EventName/>
 
 
-        <Card.Actions style={{color: 'rgb(248,248,248)', width: '100%', flexDirection: 'column'}}>
+        <View style={{color: 'rgb(248,248,248)', width: '100%', flexDirection: 'column'}}>
             <ShareSaveRSVP/>
             <EventActionStrip/>
-        </Card.Actions>
-        <Card.Content>
-            <StyledText size={20} type={'black'}>WHEN</StyledText>
+        </View>
+
             <EventTime startTime={moment().toISOString()}
                        endTime={moment().add({'seconds': getRndInteger(3600 / 4, 86399)}).toISOString()}/>
-        </Card.Content>
-        <Card.Content style={{marginTop: 15}}>
-            <StyledText size={20} type={'black'}>WHERE</StyledText>
-            <Title>Card title</Title>
-            <Paragraph>Card content</Paragraph>
-        </Card.Content>
+
+            <EventLocation/>
 
 
         <Card.Actions>
