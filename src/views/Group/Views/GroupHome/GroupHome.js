@@ -155,8 +155,8 @@ const GroupHome = () => {
 
 
     useEffect(() => {
-        if (scrollPosnOutOfBounds && !isScrolling && isSearchUp && !fingerTouching) {
-            ref.current.scrollTo({x: 0, y: GROUP_PARALLAX_HEADER_HEIGHT - GROUP_STICKY_HEADER_HEIGHT, animated: true});
+        if (scrollPosnOutOfBounds && !isScrolling && !fingerTouching) {
+            ref.current.scrollTo({x: 0, y: 0, animated: true});
             isScrolling = true;
         }
     }, [scrollPosnOutOfBounds, fingerTouching]);
@@ -178,10 +178,9 @@ const GroupHome = () => {
 
     const processScroll = ({nativeEvent}) => {
 
-       // console.log(nativeEvent.contentOffset.y, GROUP_STICKY_HEADER_HEIGHT, GROUP_PARALLAX_HEADER_HEIGHT)
         currentYPosn.current = nativeEvent.contentOffset.y;
         //console.log(isScrolling,nativeEvent.contentOffset.y,SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15,(Math.abs(nativeEvent.contentOffset.y -(SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15))))
-        if ((isSearchUp && nativeEvent.contentOffset.y < GROUP_PARALLAX_HEADER_HEIGHT - GROUP_STICKY_HEADER_HEIGHT)) {
+        if ((nativeEvent.contentOffset.y < 0)) {
             setScrollPosnOutOfBounds(true);
         } else {
             setScrollPosnOutOfBounds(false);
@@ -236,7 +235,7 @@ const GroupHome = () => {
                             setFingerTouching(false)
                         }}
 
-                        contentInset={{top:SCREEN_HEIGHT/13, left:0,bottom:0,right:0}}
+                        contentInset={{top:SCREEN_HEIGHT/11, left:0,bottom:0,right:0}}
                         style={{flex: 1}}
                         onScroll={processScroll}
                         scrollEventThrottle={16}

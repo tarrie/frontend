@@ -8,10 +8,9 @@ import {SCREEN_HEIGHT, normalize, colors} from "../../constants/styles";
 const StickyDate = ({marginTop, isActiveDate, isFirst, isAtBasePosition}) => (
     <View style={
         {
-            borderWidth:1,
             position: 'relative',
             width: '100%',
-            top: SCREEN_HEIGHT/35,
+            top: SCREEN_HEIGHT/60,
             alignSelf: 'flex-end',
         }
     }>
