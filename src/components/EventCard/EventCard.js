@@ -25,13 +25,23 @@ import { Image } from 'react-native-elements';
 import { ActivityIndicator } from 'react-native';
 
 
+// Buttons
+const swipeoutBtns = [
+  {
+    text: 'Button'
+  }
+];
+
+
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
 
 const EventCard = ({bio}) => {
-    return <Card style={{
+    return (
+
+    <Card style={{
         width: '85%',
         alignSelf: 'flex-end',
         marginRight: normalize(12),
@@ -48,8 +58,10 @@ const EventCard = ({bio}) => {
 
 
         <Image
+            borderTopLeftRadius={20}
+            borderTopRightRadius={20}
             PlaceholderContent={<ActivityIndicator />}
-            containerStyle={{borderRadius:40}}
+            containerStyle={{borderRadius:20}}
             source={{uri: 'https://picsum.photos/700'}}
             style={{width: '100%', height: SCREEN_HEIGHT/5,borderRadius:20}}/>
 
@@ -73,7 +85,7 @@ const EventCard = ({bio}) => {
 
             <ReadMoreText text={bio}/>
         </Card.Actions>
-    </Card>
+    </Card>)
 };
 
 
