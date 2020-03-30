@@ -61,9 +61,9 @@ const EventCard = ({bio}) => {
             borderTopLeftRadius={20}
             borderTopRightRadius={20}
             PlaceholderContent={<ActivityIndicator />}
-            containerStyle={{borderRadius:20}}
+            containerStyle={{borderTopLeftRadius:20,borderTopRightRadius:20}}
             source={{uri: 'https://picsum.photos/700'}}
-            style={{width: '100%', height: SCREEN_HEIGHT/5,borderRadius:20}}/>
+            style={{width: '100%', height: SCREEN_HEIGHT/5,borderTopLeftRadius:20,borderTopRightRadius:20}}/>
 
 
 
