@@ -32,7 +32,8 @@ const _colors = {
     other_blue:'#1C73F4',
     another_blue:'#7085D8',
     oneMore_blue:'#405EBE',
-    shabby_chic: '#008DA6'
+    shabby_chic: '#008DA6',
+    grey: '#585858'
 };
 
 
@@ -44,7 +45,7 @@ const EventActionStrip = () => {
 
             <TouchableOpacity>
                 <View style={styles.icon_container}>
-                    <View style={{...styles.icon, backgroundColor:'#6f4685'}}>
+                    <View style={{...styles.icon, backgroundColor:_colors.grey}}>
                         <Discussion size={SCREEN_HEIGHT/40} color={'white'}/>
                     </View>
                     <StyledText size={SCREEN_HEIGHT/70}> Discussion</StyledText>
@@ -53,7 +54,7 @@ const EventActionStrip = () => {
 
             <TouchableOpacity>
                 <View style={styles.icon_container}>
-                    <View style={{...styles.icon,backgroundColor:_colors.teal}}>
+                    <View style={{...styles.icon,backgroundColor:_colors.grey}}>
                         <MaterialIcons name={'people'} size={SCREEN_HEIGHT/40} color={'white'}/>
                     </View>
                     <StyledText size={SCREEN_HEIGHT/70}> People Going</StyledText>
@@ -62,7 +63,7 @@ const EventActionStrip = () => {
 
             <TouchableOpacity>
                 <View style={styles.icon_container}>
-                    <View style={{...styles.icon,backgroundColor:_colors.oneMore_blue}}>
+                    <View style={{...styles.icon,backgroundColor:_colors.grey}}>
                         <MapView name={'people'} size={SCREEN_HEIGHT/40} color={'white'}/>
                     </View>
                     <StyledText size={SCREEN_HEIGHT/70}> Map View</StyledText>
@@ -72,7 +73,7 @@ const EventActionStrip = () => {
 
             <TouchableOpacity>
                 <View style={styles.icon_container}>
-                    <View style={{...styles.icon,backgroundColor:_colors.shabby_chic}}>
+                    <View style={{...styles.icon,backgroundColor:_colors.grey}}>
                         <FileView name={'people'} size={SCREEN_HEIGHT/40} color={'white'}/>
                     </View>
                     <StyledText size={SCREEN_HEIGHT/70}> Files</StyledText>
