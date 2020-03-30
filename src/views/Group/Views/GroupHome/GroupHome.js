@@ -236,6 +236,7 @@ const GroupHome = () => {
                             setFingerTouching(false)
                         }}
 
+                        contentInset={{top:SCREEN_HEIGHT/13, left:0,bottom:0,right:0}}
                         style={{flex: 1}}
                         onScroll={processScroll}
                         scrollEventThrottle={16}

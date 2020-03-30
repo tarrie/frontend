@@ -36,20 +36,25 @@ const EventCard = ({bio}) => {
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
         marginVertical: SCREEN_HEIGHT / 100,
-        borderColor: 'rgba(0,0,0,.1)'
+        borderColor: 'rgba(0,0,0,.1)',
+        position:'relative',
+        top:-SCREEN_HEIGHT/20
     }}>
 
 
-        <ImageBackground source={{uri: 'https://picsum.photos/700'}} style={{width: '100%', height: 180}}>
+        <ImageBackground source={{uri: 'https://picsum.photos/700'}} style={{width: '100%', height: 180,backgroundColor:'#C8C8C8'}}>
+
+            <View style={{backgroundColor:'#C8C8C8'}}/>
+
             <TouchableOpacity style={{
                 alignSelf: 'flex-end',
-                marginTop: 5,
                 width: 30,
-                height: 30,
+                height: 50,
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+
             }}>
-                <Entypo name={'dots-three-vertical'} size={20} style={{
+                <Entypo name={'dots-three-vertical'} size={35} style={{
                     color: 'white', shadowOpacity: .5,
                     shadowRadius: 2,
                     shadowColor: '#000000',
