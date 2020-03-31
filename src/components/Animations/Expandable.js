@@ -15,12 +15,12 @@ const Expandable =({goDown, startPosn, endPosn, style, children} )=> {
       if (goDown){
           Animated.timing(expandingAnim, {
           toValue: endPosn,
-          duration: 300,
+          duration: 250,
         }).start();
       }else{
           Animated.timing(expandingAnim, {
           toValue: startPosn,
-          duration: 300,
+          duration: 320,
         }).start();
       }
 

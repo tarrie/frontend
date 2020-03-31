@@ -155,7 +155,7 @@ const GroupHome = () => {
 
 
     useEffect(() => {
-        if (scrollPosnOutOfBounds && !isScrolling && !fingerTouching) {
+        if (scrollPosnOutOfBounds && !isScrolling && !fingerTouching && isCalendarDown) {
             ref.current.scrollTo({x: 0, y: 0, animated: true});
             isScrolling = true;
         }
