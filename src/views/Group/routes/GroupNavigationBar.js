@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useContext} from "react"
 import {View, StyleSheet, ScrollView,TouchableOpacity,TouchableHighlight} from "react-native"
 import {colors, sizes} from "../../../constants/styles";
 import {Chip} from 'react-native-paper';
@@ -6,6 +6,7 @@ import {StyledText} from "../../../components/StyledText";
 import {normalize,SCREEN_HEIGHT} from "../../../constants/styles";
 import { TouchableRipple } from 'react-native-paper';
 import {screens} from "./constants";
+import {GroupContext} from "../../../contex/GroupContext";
 
 const NavChip = ({title, onPressCallback}) => {
     return (
@@ -16,7 +17,8 @@ const NavChip = ({title, onPressCallback}) => {
 };
 
 
-const GroupNavigationBar = ({groupState, navigation}) => {
+const GroupNavigationBar = ({ navigation}) => {
+    const groupState = useContext(GroupContext);
 
     return (
         <View style={styles.container}>

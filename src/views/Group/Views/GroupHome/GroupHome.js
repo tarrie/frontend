@@ -59,32 +59,9 @@ const DATA = [
     },
 ];
 
-/*
-class CustomScrollView extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {loadLoader: false}
-    }
-
-    render() {
-        return (
-            (
-                  <FlatList
-                      style={{height:null}}
-                     stickyHeaderIndices={[1]}
-                    data={DATA}
-                    renderItem={({ item }) => <EventCard key={item.id} />}
-                  />
-            )
-        );
-    }
-}
-*/
-const AnimatedCustomScrollView = Animated.createAnimatedComponent(FlatList);
 
 // https://ethercreative.github.io/react-native-shadow-generator/
-const GroupHomeForeground = ({groupState, navigation, searchActiveCallback, isCalendarDown, setIsCalendarDown}) => {
+const GroupHomeForeground = ({ navigation, searchActiveCallback, isCalendarDown, setIsCalendarDown}) => {
     return (
         <View style={
             {
@@ -95,14 +72,14 @@ const GroupHomeForeground = ({groupState, navigation, searchActiveCallback, isCa
             }
         }>
             <View style={styles.container_groupHeader}>
-                <GroupHeader groupState={groupState}/>
+                <GroupHeader />
             </View>
 
             <View style={{...styles.container_groupNavBar, borderBottomWidth: 1, borderColor: 'rgba(0,0,0,.2)'}}>
-                <GroupNavigationBar groupState={groupState} navigation={navigation}/>
+                <GroupNavigationBar  navigation={navigation}/>
             </View>
             <View style={styles.container_groupChatHeader}>
-                <EventsHeader groupState={groupState} activeCallback={searchActiveCallback}
+                <EventsHeader  activeCallback={searchActiveCallback}
                               isCalendarDown={isCalendarDown} setIsCalendarDown={setIsCalendarDown}/>
             </View>
         </View>
@@ -110,12 +87,11 @@ const GroupHomeForeground = ({groupState, navigation, searchActiveCallback, isCa
 };
 
 
-const StickyHeader = ({groupState, searchActiveCallback, isSearchActive, isSearchUp, cancelCallback, isCalendarDown, setIsCalendarDown}) => {
+const StickyHeader = ({ searchActiveCallback, isSearchActive, isSearchUp, cancelCallback, isCalendarDown, setIsCalendarDown}) => {
     return (
         <View style={{width: '100%', height: '100%'}}>
             <EventsHeaderActive
                 isFocused={isSearchActive}
-                groupState={groupState}
                 activeCallback={searchActiveCallback}
                 isSearchUp={isSearchUp}
                 setIsSearchUp={cancelCallback}
@@ -128,7 +104,7 @@ const StickyHeader = ({groupState, searchActiveCallback, isSearchActive, isSearc
 
 const GroupHome = () => {
     const ref = useRef(null);
-    const groupState = useGroup({groupId: 'groupId'});
+   // const groupState = useGroup({groupId: 'groupId'});
     const navigation = useNavigation();
     const [isSearchActive, setIsSearchActive] = useState(false);
     const [isSearchUp, setIsSearchUp] = useState(false);
@@ -209,7 +185,6 @@ const GroupHome = () => {
                 }}>
                     <EventsHeaderActive
                         isFocused={isSearchActive}
-                        groupState={groupState}
                         activeCallback={setIsSearchActive}
                         isSearchUp={isSearchUp}
                         setIsSearchUp={cancelCallback}
@@ -247,7 +222,6 @@ const GroupHome = () => {
                         stickyHeaderHeight={GROUP_STICKY_HEADER_HEIGHT}
                         renderStickyHeader={() => <StickyHeader isSearchActive={isSearchActive}
                                                                 searchActiveCallback={setIsSearchActive}
-                                                                groupState={groupState}
                                                                 isSearchUp={isSearchUp}
                                                                 isCalendarDown={isCalendarDown}
                                                                 setIsCalendarDown={setIsCalendarDown}
@@ -256,11 +230,10 @@ const GroupHome = () => {
                         }
                         renderForeground={() => (
                             !isSearchUp ?
-                                <GroupHomeForeground searchActiveCallback={setIsSearchActive} groupState={groupState}
+                                <GroupHomeForeground searchActiveCallback={setIsSearchActive}
                                                      navigation={navigation} setIsCalendarDown={setIsCalendarDown}
                                                      isCalendarDown={isCalendarDown}/> :
                                 <FadeOut><GroupHomeForeground searchActiveCallback={setIsSearchActive}
-                                                              groupState={groupState}
                                                               navigation={navigation}
                                                               setIsCalendarDown={setIsCalendarDown}
                                                               isCalendarDown={isCalendarDown}/></FadeOut>

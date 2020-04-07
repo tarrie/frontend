@@ -1,1 +1,1 @@
-export { default as Group } from "./routes/GroupTopNavigation"
+export { default as Group } from "./Group"

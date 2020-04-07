@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from "react"
+import React, {useState, useRef, useEffect,useContext} from "react"
 import {StyledText} from "../../../../components/StyledText";
 import {View, StyleSheet, ScrollView, TouchableOpacity, TouchableWithoutFeedback} from "react-native"
 import {colors, normalize, sizes, SCREEN_HEIGHT} from "../../../../constants/styles";
@@ -11,10 +11,12 @@ import {SearchBar} from 'react-native-elements';
 import CalendarDown from "../../../../assets/icons/CalendarDown";
 import CalendarUp from "../../../../assets/icons/CalendarUp";
 import {Calendar} from "../../../../components/Calendar";
+import {GroupContext} from "../../../../contex/GroupContext";
 
-const EventsHeaderActive = ({groupState, activeCallback, isFocused, isSearchUp, setIsSearchUp, isCalendarDown, setIsCalendarDown}) => {
+const EventsHeaderActive = ({ activeCallback, isFocused, isSearchUp, setIsSearchUp, isCalendarDown, setIsCalendarDown}) => {
     const [firstQuery, setFirstQuery] = useState('');
     const search_ref = useRef(null);
+    const groupState = useContext(GroupContext);
 
     useEffect(() => {
         if (isFocused && search_ref.current) {
@@ -135,9 +137,10 @@ const EventsHeaderActive = ({groupState, activeCallback, isFocused, isSearchUp, 
 };
 
 
-const EventsHeader = ({groupState, activeCallback, isFocused, isSearchUp, setIsSearchUp, isCalendarDown, setIsCalendarDown}) => {
+const EventsHeader = ({activeCallback, isFocused, isSearchUp, setIsSearchUp, isCalendarDown, setIsCalendarDown}) => {
     const [firstQuery, setFirstQuery] = useState('');
     const search_ref = useRef(null);
+    const groupState = useContext(GroupContext);
 
     useEffect(() => {
         if (isFocused && search_ref.current) {

@@ -21,28 +21,31 @@ const TEST_GROUP = {
     }
 };
 
-const useGroup = ({groupId}) => {
+const useGroup = () => {
     const [group, setGroup] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
+    /**
+     * Get's the group by issuing API call
+     * @param groupId
+     * @return {Promise<void>}
+     */
+    const getGroup = async ({groupId}) =>{
+        setGroup(TEST_GROUP);
+    };
 
     /**
      * Load group into main memory
      * @param groupId
      */
     const loadGroup = ({groupId}) => {
-        setGroup(TEST_GROUP);
-        setIsLoaded(true);
+        getGroup({groupId}).then(()=>setIsLoaded(true));
     };
-
-
-    useEffect(() => {
-        loadGroup({groupId})
-    }, []);
 
     return {
         group,
-        isLoaded
+        isLoaded,
+        loadGroup
     }
 };
 

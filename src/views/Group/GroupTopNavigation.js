@@ -1,10 +1,20 @@
-import React from "react"
+import React, {useEffect,useContext} from "react"
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-const Stack = createStackNavigator();
-import {screens} from "./constants";
-import {Events,Announcements,Members,GroupHome,Chats} from "../Views";
+import {screens} from "./routes/constants";
+import {Events,Announcements,Members,GroupHome,Chats} from "./Views";
+import {GroupContext} from "../../contex/GroupContext";
 
-const GroupTopNavigation = () =>{
+const Stack = createStackNavigator();
+
+const GroupTopNavigation = ({ groupId }) =>{
+
+    const {loadGroup} = useContext(GroupContext);
+
+    useEffect(()=>{
+          loadGroup({groupId});
+      },[groupId]);
+
+
 return (
         <Stack.Navigator
             initialRouteName={screens.GROUP_HOME}

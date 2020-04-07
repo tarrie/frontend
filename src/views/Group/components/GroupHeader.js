@@ -1,13 +1,14 @@
-import React from "react"
+import React,{useContext} from "react"
 import {StyledText} from "../../../components/StyledText";
 import {View, StyleSheet, ScrollView,ImageBackground,Text,ActivityIndicator} from "react-native"
 import {colors, normalize, sizes,SCREEN_HEIGHT} from "../../../constants/styles";
 import { Avatar } from 'react-native-paper';
 import { Image } from 'react-native-elements';
+import {GroupContext} from "../../../contex/GroupContext";
 
-const GroupHeader = ({groupState}) => {
-    // groupState.group.imgPath
-
+const GroupHeader = () => {
+    const groupState = useContext(GroupContext);
+    
     return (
         <View style={styles.container}>
             <View style={styles.image_container}>

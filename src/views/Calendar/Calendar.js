@@ -4,7 +4,6 @@ import { View, StyleSheet } from "react-native"
 import {colors} from "../../constants/styles";
 
 const Calendar = () =>{
-
     return (
         <View style={styles.container}>
             <StyledText> Calendar Page</StyledText>
@@ -21,5 +20,9 @@ const styles = StyleSheet.create({
       backgroundColor:colors.background_color.grey_tablet
   }
 });
+
+
+
+
 
 export default Calendar;
