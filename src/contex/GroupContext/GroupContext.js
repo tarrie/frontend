@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect } from "react"
 import useGroup from "./useGroup";
-
+import useGroupHome from "./useGroupHome";
 const GroupContext = createContext();
 
 const GroupContextProvider = ({ children }) => {
-    const groupState = useGroup();
-    return <GroupContext.Provider value={groupState}>{children}</GroupContext.Provider>
+const state = {groupState:useGroup(),groupHomeState:useGroupHome()}
+    return <GroupContext.Provider value={state}>{children}</GroupContext.Provider>
 };
 
 export {

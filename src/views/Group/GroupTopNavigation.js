@@ -8,10 +8,10 @@ const Stack = createStackNavigator();
 
 const GroupTopNavigation = ({ groupId }) =>{
 
-    const {loadGroup} = useContext(GroupContext);
+    const {groupState} = useContext(GroupContext);
 
     useEffect(()=>{
-          loadGroup({groupId});
+          groupState.loadGroup({groupId});
       },[groupId]);
 
 

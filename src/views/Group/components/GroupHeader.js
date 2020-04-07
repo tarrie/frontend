@@ -7,8 +7,9 @@ import { Image } from 'react-native-elements';
 import {GroupContext} from "../../../contex/GroupContext";
 
 const GroupHeader = () => {
-    const groupState = useContext(GroupContext);
-    
+    const {groupState} = useContext(GroupContext);
+
+
     return (
         <View style={styles.container}>
             <View style={styles.image_container}>

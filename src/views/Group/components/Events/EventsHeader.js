@@ -13,23 +13,33 @@ import CalendarUp from "../../../../assets/icons/CalendarUp";
 import {Calendar} from "../../../../components/Calendar";
 import {GroupContext} from "../../../../contex/GroupContext";
 
-const EventsHeaderActive = ({ activeCallback, isFocused, isSearchUp, setIsSearchUp, isCalendarDown, setIsCalendarDown}) => {
+const EventsHeaderActive = () => {
     const [firstQuery, setFirstQuery] = useState('');
     const search_ref = useRef(null);
-    const groupState = useContext(GroupContext);
+
+    const {groupHomeState} = useContext(GroupContext);
+    const {
+        isSearchActive,
+        setIsSearchActive,
+        isSearchUp,
+        setIsSearchUp,
+        isCalendarDown,
+        setIsCalendarDown
+    } = groupHomeState;
+
+
 
     useEffect(() => {
-        if (isFocused && search_ref.current) {
+        if (isSearchActive && search_ref.current) {
             search_ref.current.focus();
         }
+    }, [isSearchActive, isSearchUp]);
 
-
-    }, [isFocused, isSearchUp]);
 
     const onCancel = () => {
         search_ref.current.blur();
         setIsSearchUp(false);
-        activeCallback(false);
+        setIsSearchActive(false);
     };
 
     return (
@@ -137,21 +147,26 @@ const EventsHeaderActive = ({ activeCallback, isFocused, isSearchUp, setIsSearch
 };
 
 
-const EventsHeader = ({activeCallback, isFocused, isSearchUp, setIsSearchUp, isCalendarDown, setIsCalendarDown}) => {
+const EventsHeader = () => {
     const [firstQuery, setFirstQuery] = useState('');
     const search_ref = useRef(null);
-    const groupState = useContext(GroupContext);
+    const {groupHomeState} = useContext(GroupContext);
+    const {
+        isSearchUp,
+        setIsSearchUp
+    } = groupHomeState;
+
 
     useEffect(() => {
-        if (isFocused && search_ref.current) {
+        if (isSearchUp && search_ref.current) {
             search_ref.current.focus();
         }
 
         if (!isSearchUp) {
-            activeCallback(false);
+            setIsSearchUp(false);
         }
 
-    }, [isFocused, isSearchUp]);
+    }, [isSearchUp]);
 
     return (
         <View style={styles.container}>

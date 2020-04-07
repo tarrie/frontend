@@ -8,7 +8,6 @@ import GroupTopNavigation from "./GroupTopNavigation";
 const Group = ({ route_ }) =>{
     const [groupId, setGroupId] = useState(route_.params.groupId);
 
-    console.log(route_);
     useEffect(()=>{
         setGroupId(route_.params.groupId)
     },[route_]);

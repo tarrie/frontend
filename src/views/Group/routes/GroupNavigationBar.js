@@ -18,14 +18,13 @@ const NavChip = ({title, onPressCallback}) => {
 
 
 const GroupNavigationBar = ({ navigation}) => {
-    const groupState = useContext(GroupContext);
 
     return (
         <View style={styles.container}>
             <ScrollView horizontal={true} style={{width: '100%'}}>
-                <NavChip title={"Chats"} onPressCallback={()=>navigation.navigate(screens.GROUP_CHAT, { groupState })} />
-                <NavChip title={"Announcements"} onPressCallback={()=>navigation.navigate(screens.GROUP_ANNOUNCEMENTS, { groupState })}/>
-                <NavChip title={"Members"} onPressCallback={()=>navigation.navigate(screens.GROUP_MEMBERS, { groupState })}/>
+                <NavChip title={"Chats"} onPressCallback={()=>navigation.navigate(screens.GROUP_CHAT, {})} />
+                <NavChip title={"Announcements"} onPressCallback={()=>navigation.navigate(screens.GROUP_ANNOUNCEMENTS, {})}/>
+                <NavChip title={"Members"} onPressCallback={()=>navigation.navigate(screens.GROUP_MEMBERS, {})}/>
             </ScrollView>
         </View>
     )
