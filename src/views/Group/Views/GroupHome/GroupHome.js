@@ -29,37 +29,6 @@ import {
 import {Expandable, DisappearDelay} from "../../../../components/Animations";
 import {GroupContext} from "../../../../contex/GroupContext";
 
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Item',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Item',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d721',
-        title: 'Third Item',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d722',
-        title: 'Third Item',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d723',
-        title: 'Third Item',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d724',
-        title: 'Third Item',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d725',
-        title: 'Third Item',
-    },
-];
-
 
 // https://ethercreative.github.io/react-native-shadow-generator/
 const GroupHomeForeground = ({ navigation}) => {
@@ -107,7 +76,6 @@ const GroupHome = () => {
         isSearchUp,
         setIsSearchUp,
         isCalendarDown,
-        setIsCalendarDown
     } = groupHomeState;
 
 
@@ -142,7 +110,6 @@ const GroupHome = () => {
     // adjust the scrollview when calendar is clicked.
     useEffect(() => {
 
-
         if (isCalendarDown) {
             ref.current.scrollTo({x: 0, y: currentYPosn.current+CALENDAR_HEIGHT, animated: true});
             hasScrollCalAdjusted.current = false;
@@ -164,10 +131,6 @@ const GroupHome = () => {
             setScrollPosnOutOfBounds(false);
             isScrolling = false;
         }
-    };
-
-    const cancelCallback = (_bool) => {
-        setIsSearchUp(_bool)
     };
 
 

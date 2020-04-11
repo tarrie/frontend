@@ -6,13 +6,15 @@ import {GroupContext} from "../../contex/GroupContext";
 
 const Stack = createStackNavigator();
 
-const GroupTopNavigation = ({ groupId }) =>{
+const GroupTopNavigation = ({ groupId, userId }) =>{
 
     const {groupState} = useContext(GroupContext);
 
     useEffect(()=>{
-          groupState.loadGroup({groupId});
-      },[groupId]);
+        if (userId && groupId){
+            groupState.loadGroup({groupId,userId});
+        }
+      },[groupId,userId]);
 
 
 return (

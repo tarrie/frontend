@@ -1,15 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import * as Font from "expo-font"
-import {StyleSheet,YellowBox} from 'react-native';
+import {StyleSheet, YellowBox} from 'react-native';
 import {SafeAreaProvider} from "react-native-safe-area-context"
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {Navigation} from "./src/routes";
 import {StyledText} from "./src/components/StyledText";
 import {colors} from "./src/constants/styles";
+import appSyncConfig from "./aws-exports";
+import {Rehydrated} from "aws-appsync-react";
+import AWSAppSyncClient from "aws-appsync";
+import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks'
 
 
-
-
+const client = new AWSAppSyncClient({
+    url: appSyncConfig.aws_appsync_graphqlEndpoint,
+    region: appSyncConfig.aws_appsync_region,
+    auth: {
+        type: appSyncConfig.aws_appsync_authenticationType,
+        apiKey: appSyncConfig.aws_appsync_apiKey,
+    }
+});
 
 const theme = {
     ...DefaultTheme,
@@ -55,6 +65,7 @@ const App = () => {
         };
         load();
     }, []);
+    console.log(isFontLoaded)
 
     return (
         isFontLoaded &&
@@ -64,9 +75,13 @@ const App = () => {
                     <Navigation/>
                 </PaperProvider>
             </SafeAreaProvider>
+
         )
     );
 };
+
+
+
 
 const styles = StyleSheet.create({
     container: {

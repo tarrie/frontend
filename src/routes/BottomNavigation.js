@@ -61,7 +61,7 @@ const BottomNavigation = () => {
                 name={screens.HOME}
                 component={Group}
                 options={{
-                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> {isLoggedIn?userId:'HOME' }</BottomTabText>,
+                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> {isLoggedIn?userId.substring(4):'HOME' }</BottomTabText>,
                     tabBarIcon: ({focused, size}) => (
                         <View style={[styles.fab,focused?styles.fab_active:styles.fab_inactive]}>
                         <SimpleLineIcons name={"home"} size={size} style={focused? styles.fab_icon_active: styles.fab_icon_inactive}/>
