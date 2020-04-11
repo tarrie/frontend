@@ -14,7 +14,7 @@ const UserContextProvider = ({ children }) => {
             setState({
                 ...state,
                 isLoggedIn: true,
-                userId: 'jdanene39'
+                userId: 'USR#beckb_triDelt'
             })
         }, []);
 

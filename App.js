@@ -1,15 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import * as Font from "expo-font"
-import {StyleSheet,YellowBox} from 'react-native';
+import {StyleSheet, YellowBox} from 'react-native';
 import {SafeAreaProvider} from "react-native-safe-area-context"
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {Navigation} from "./src/routes";
 import {StyledText} from "./src/components/StyledText";
 import {colors} from "./src/constants/styles";
-
-
-
-
 
 const theme = {
     ...DefaultTheme,
@@ -55,6 +51,7 @@ const App = () => {
         };
         load();
     }, []);
+    console.log(isFontLoaded)
 
     return (
         isFontLoaded &&
@@ -64,9 +61,13 @@ const App = () => {
                     <Navigation/>
                 </PaperProvider>
             </SafeAreaProvider>
+
         )
     );
 };
+
+
+
 
 const styles = StyleSheet.create({
     container: {
