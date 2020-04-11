@@ -1,5 +1,5 @@
 import React, {createContext, useState, useEffect,useRef} from "react"
-import {RestApi, useGetEventsHostedByEntity} from "../../utils";
+import {GraphQLApi, RestApi} from "../../utils";
 import * as path from 'path';
 import {API_HOSTNAME} from "../../constants/parameters";
 
@@ -28,8 +28,10 @@ const useGroup = () => {
     const [group, setGroup] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [eventsHosted, setEventsHosted] = useState(null);
+
     const rest_api = useRef(new RestApi());
-    //let eventsHosted = useGetEventsHostedByEntity({main_pk:"GRP#boogoParty33333"});
+    const graphql_api = useRef(new GraphQLApi());
 
     /*
     useEffect(()=>{
@@ -48,14 +50,22 @@ const useGroup = () => {
      * @return {Promise<void>}
      */
     const getGroup = async ({groupId,userId}) =>{
-       // eventsHosted = useGetEventsHostedByEntity({main_pk:"GRP#boogoParty33333"});
+        // eventsHosted = useGetEventsHostedByEntity({main_pk:"GRP#boogoParty33333"});
+        //let endPoint = path.join(API_HOSTNAME,'groups',encodeURIComponent(groupId),'events');
+        //let response = await rest_api.current.get({endPoint,payload:{userId}});
+        //console.log(response);
+        setGroup(TEST_GROUP)
+    };
 
-        let endPoint = path.join(API_HOSTNAME,'groups',encodeURIComponent(groupId),'events');
-        let response = await rest_api.current.get({endPoint,payload:{userId}});
-        console.log(response);
-
-        setGroup(TEST_GROUP);
-
+    /**
+     * Gets events hosted by querying graphQL API
+     * @param groupId
+     * @param userId
+     * @return {Promise<void>}
+     */
+    const getEventsHosted = async ({groupId,userId}) =>{
+        let hostedEvents = await graphql_api.current.getEventsHostedByEntity({main_pk:groupId});
+        console.log(hostedEvents)
     };
 
     /**
@@ -64,8 +74,10 @@ const useGroup = () => {
      * @param userId
      */
     const loadGroup = ({groupId,userId}) => {
+        console.log("hefwdgr")
         setUserId(userId);
         getGroup({groupId,userId}).then(()=>setIsLoaded(true));
+        getEventsHosted({groupId,userId});
     };
 
     return {

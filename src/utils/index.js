@@ -1,2 +1,2 @@
 export { default as RestApi } from "./RestApi"
-export {useGetEventsHostedByEntity} from "./GraphQLApi";
+export {default as GraphQLApi} from "./GraphQLApi";

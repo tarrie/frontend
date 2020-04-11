@@ -1,21 +1,23 @@
+import config from '../../aws-exports'
+import API, {graphqlOperation} from '@aws-amplify/api'
+import PubSub from '@aws-amplify/pubsub';
 import ListEventHostedByEntity from "./GraphQLQueries/ListEventHostedByEntity";
-import {useQuery} from '@apollo/react-hooks';
 
+API.configure(config);         // Configure Amplify
+PubSub.configure(config);
 
-    const useGetEventsHostedByEntity = ({main_pk}) => {
-        const selector = {
+class RestApi {
+    getEventsHostedByEntity = ({main_pk}) => {
+        const params = {
+            selector: {
                 "main_pk": main_pk,
-                "main_sk": "EVT#"
-            };
-
-        const {loading, error, data} = useQuery(ListEventHostedByEntity, {
-            variables: {selector},
-        });
-
-        return {loading, error, data}
-
+                "main_sk": "HOST#EVT#"
+            }
+        };
+        return API.graphql(graphqlOperation(ListEventHostedByEntity, params));
     };
 
+}
 
 
-export {useGetEventsHostedByEntity};
+export default RestApi;
