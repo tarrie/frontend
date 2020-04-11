@@ -7,3 +7,5 @@
 
 fixes font load error
 rm -rf ./node_modules/expo/node_modules/expo-font/
+
+from http://eydai.cn/github_/expo/expo/issues/5507
