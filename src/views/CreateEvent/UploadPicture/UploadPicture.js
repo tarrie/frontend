@@ -6,6 +6,7 @@ import PostPhoto from "./PostPhoto";
 import {UserContext} from "../../../contex/UserContext";
 import EventTopNavBar from "../EventTopNavBar/EventTopNavBar";
 import { Input } from 'react-native-elements';
+import {StyledText} from "../../../components/StyledText";
 
 
 // ToDo: purple is the new green
@@ -63,7 +64,9 @@ const UploadPicture = ({route, navigation}) => {
                     caretHidden={true}
                     selectionColor={colors.primary.dark}
                 />
-
+            </View>
+            <View style={{borderWidth:1, width:'100%'}}>
+               <StyledText>More stuff to come...</StyledText>
             </View>
         </SafeAreaView>
     )
@@ -79,7 +82,8 @@ const styles = StyleSheet.create({
     },
     photo_title_container: {
         flexDirection:'row',
-        marginTop: 20
+        marginVertical: 20,
+
     },
     title:{
         width: SCREEN_WIDTH/2.15,
