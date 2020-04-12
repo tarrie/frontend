@@ -1,35 +1,49 @@
 import React from "react"
-import { TouchableOpacity, StyleSheet } from "react-native"
-import { colors} from "../../../constants/styles"
-import { StyledText } from "../../../components/StyledText";
+import {TouchableOpacity, StyleSheet, View} from "react-native"
+import {colors} from "../../../constants/styles"
+import {StyledText} from "../../../components/StyledText";
 import {normalize} from "../../../constants/styles";
+import {
+    MaterialIcons
+} from '@expo/vector-icons';
 
-const TakePictureButton = ({ onPress, content }) => {
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={styles.button}
-      activeOpacity={0.5}
-    >
-      <StyledText type="regular" size={72} style={{ color: "white" }}>
-        {content}
-      </StyledText>
-    </TouchableOpacity>
-  )
+const TakePictureButton = ({onPress, content}) => {
+    return (
+        <TouchableOpacity
+            onPress={onPress}
+            activeOpacity={0.5}
+        >
+            <View style={styles.button}>
+                <MaterialIcons name={'add-a-photo'} size={55} color={'#42526E'}/>
+            </View>
+        </TouchableOpacity>
+    )
 };
 
 TakePictureButton.defaultProps = {
-  content: "A"
+    content: "A"
 };
 
 const styles = StyleSheet.create({
-  button: {
-    margin: normalize(8),
-    backgroundColor: colors.primary.main,
-    paddingVertical: normalize(4),
-    paddingHorizontal: normalize(30),
-    borderRadius: 10
-  }
+    button: {
+        backgroundColor: '#EBECF0',
+        height: 100,
+        width: 100,
+        borderRadius: 100 / 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,.7)',
+        shadowOpacity: .5,
+        shadowRadius: 2,
+        shadowColor: '#000000',
+        textShadowOffset: {width: 5, height: 2},
+        textShadowRadius: 10,
+        shadowOffset: {
+            width: 1,            // Same rules apply from above
+            height: 0,           // Can't both be 0
+        }
+    }
 });
 
 export default TakePictureButton

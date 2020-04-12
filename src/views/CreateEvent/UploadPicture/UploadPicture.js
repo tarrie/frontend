@@ -1,13 +1,15 @@
-import React, {useEffect, useState,useContext} from "react"
-import {View, StyleSheet, TouchableWithoutFeedback, Keyboard} from "react-native"
+import React, {useEffect, useState, useContext} from "react"
+import {View, StyleSheet, TouchableWithoutFeedback, Keyboard,TextInput,Text} from "react-native"
 import {SafeAreaView} from "react-native-safe-area-context"
-import {colors, normalize} from "../../../constants/styles";
+import {colors, fontTypes, normalize, SCREEN_WIDTH} from "../../../constants/styles";
 import PostPhoto from "./PostPhoto";
 import {UserContext} from "../../../contex/UserContext";
 import EventTopNavBar from "../EventTopNavBar/EventTopNavBar";
+import { Input } from 'react-native-elements';
 
 
-// The actual post page
+// ToDo: purple is the new green
+// The actual post page--
 const UploadPicture = ({route, navigation}) => {
     const [eventImg, setEventImg] = useState({uri: undefined, base64: undefined});
 
@@ -21,7 +23,7 @@ const UploadPicture = ({route, navigation}) => {
         // get data for the options
         // use the `uri' to display data
         // use the `base64' to send data
-        if( (route.params !== undefined) && ('uri' in route.params)) {
+        if ((route.params !== undefined) && ('uri' in route.params)) {
             setEventImg({uri: route.params.uri, base64: route.params.base64});
         }
 
@@ -32,7 +34,7 @@ const UploadPicture = ({route, navigation}) => {
      */
     const onPictureCloseCallback = () => {
         setEventImg({uri: undefined, base64: undefined})
-        };
+    };
 
 
     /**
@@ -43,13 +45,27 @@ const UploadPicture = ({route, navigation}) => {
     };
 
     return (
-            <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container}>
 
-                <EventTopNavBar navigation={navigation}/>
-                <View style={styles.photos_container}>
-                    <PostPhoto img={eventImg} onCloseCallback={onPictureCloseCallback} />
+            <EventTopNavBar navigation={navigation}/>
+            <View style={styles.photo_title_container}>
+                <View style={styles.photos}>
+                    <PostPhoto img={eventImg} onCloseCallback={onPictureCloseCallback}/>
                 </View>
-            </SafeAreaView>
+                <TextInput
+                    style={styles.title}
+                    multiline
+                    maxLength={100}
+                    numberOfLines={4}
+                    placeholder='Event Title'
+                    textAlignVertical={'top'}
+                    textBreakStrategy={'highQuality'}
+                    caretHidden={true}
+                    selectionColor={colors.primary.dark}
+                />
+
+            </View>
+        </SafeAreaView>
     )
 };
 
@@ -59,15 +75,26 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor:  colors.background_color.grey_tablet
+        backgroundColor: colors.background_color.grey_tablet
     },
+    photo_title_container: {
+        flexDirection:'row',
+        marginTop: 20
+    },
+    title:{
+        width: SCREEN_WIDTH/2.15,
+        paddingLeft:normalize(15),
+        paddingVertical:normalize(5),
+        fontFamily: fontTypes['bold'],
+        fontSize:20
 
-    photos_container: {
-        flexDirection: 'row',
-        width: '100%',
-        height: '30%',
-        justifyContent: 'space-around',
-        marginBottom: normalize(100)
+    },
+    text_inputContainer:{
+        borderWidth:undefined
+    },
+    photos: {
+        width: SCREEN_WIDTH/2.15,
+        height: SCREEN_WIDTH/2.15,
     },
 
     title_container: {

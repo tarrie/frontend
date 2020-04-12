@@ -1,19 +1,12 @@
 import React from "react"
 import { StyleSheet, Text } from "react-native"
+import {fontTypes} from "../../constants/styles";
 
-const types = {
-  bold: "source-sans-pro-bold",
-  semibold: "source-sans-pro-semibold",
-  regular: "source-sans-pro-regular",
-  black: "airbnb-black",
-  book:"airbnb-book",
-  thin:"raleway-thin"
-};
 
 const StyledText = ({ children, style, type, size, ...rest }) => {
   const styles = StyleSheet.create({
     text: {
-      fontFamily: types[type],
+      fontFamily: fontTypes[type],
       fontSize: size,
     }
   });

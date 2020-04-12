@@ -81,3 +81,13 @@ export const colors = {
 
     }
 };
+
+
+export const fontTypes = {
+  bold: "source-sans-pro-bold",
+  semibold: "source-sans-pro-semibold",
+  regular: "source-sans-pro-regular",
+  black: "airbnb-black",
+  book:"airbnb-book",
+  thin:"raleway-thin"
+};
