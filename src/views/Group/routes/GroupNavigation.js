@@ -1,12 +1,13 @@
 import React, {useEffect,useContext} from "react"
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-import {screens} from "./routes/constants";
-import {Events,Announcements,Members,GroupHome,Chats} from "./Views";
-import {GroupContext} from "../../contex/GroupContext";
+import {screens} from "./constants";
+import {Events,Announcements,Members,GroupHome,Chats} from "../Views";
+import {GroupContext} from "../../../contex/GroupContext";
+import {CreateEvent} from "../../CreateEvent";
 
 const Stack = createStackNavigator();
 
-const GroupTopNavigation = ({ groupId, userId }) =>{
+const GroupNavigation = ({ groupId, userId }) =>{
 
     const {groupState} = useContext(GroupContext);
 
@@ -31,8 +32,9 @@ return (
             <Stack.Screen name={screens.GROUP_ANNOUNCEMENTS} component={Announcements} />
             <Stack.Screen name={screens.GROUP_MEMBERS} component={Members} />
             <Stack.Screen name={screens.GROUP_HOME} component={GroupHome} options={{ title: 'My home' }} />
+            <Stack.Screen name={screens.EVENT_CREATE} component={CreateEvent} options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 };
 
-export default GroupTopNavigation;
+export default GroupNavigation;

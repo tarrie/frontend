@@ -1,7 +1,8 @@
 import React, {createContext, useState, useEffect,useRef} from "react"
-import {GraphQLApi, RestApi} from "../../utils";
+import {GraphQLApi, RestApi} from "../../api";
 import * as path from 'path';
 import {API_HOSTNAME} from "../../constants/parameters";
+import {getImgPath} from "../../utils";
 
 const TEST_GROUP = {
     "bio": "Dude's who like to party",
@@ -54,7 +55,9 @@ const useGroup = () => {
         //let endPoint = path.join(API_HOSTNAME,'groups',encodeURIComponent(groupId),'events');
         //let response = await rest_api.current.get({endPoint,payload:{userId}});
         //console.log(response);
-        setGroup(TEST_GROUP)
+        setGroup(TEST_GROUP);
+        console.log(getImgPath(groupId));
+
     };
 
     /**

@@ -11,9 +11,9 @@ import {
 } from "react-native"
 import {colors, normalize, sizes, SCREEN_HEIGHT} from "../../../../constants/styles";
 import {useGroup} from "../../../../contex";
-import {GroupNavigationBar} from "../../routes";
-import {GroupHeader} from "../../components";
+import {GroupHeader} from "../../components/GroupHeader";
 import {EventsHeader, EventsHeaderActive} from "../../components/Events";
+import {GroupNavigationBar} from "../../components/GroupNavigationBar";
 import {useNavigation} from "@react-navigation/native"
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {FadeOut} from "../../components/Animations";
@@ -49,7 +49,7 @@ const GroupHomeForeground = ({ navigation}) => {
                 <GroupNavigationBar  navigation={navigation}/>
             </View>
             <View style={styles.container_groupChatHeader}>
-                <EventsHeader />
+                <EventsHeader navigation={navigation} />
             </View>
         </View>
     )

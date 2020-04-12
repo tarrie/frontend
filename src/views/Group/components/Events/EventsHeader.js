@@ -12,6 +12,7 @@ import CalendarDown from "../../../../assets/icons/CalendarDown";
 import CalendarUp from "../../../../assets/icons/CalendarUp";
 import {Calendar} from "../../../../components/Calendar";
 import {GroupContext} from "../../../../contex/GroupContext";
+import {screens} from "../../routes/constants";
 
 const EventsHeaderActive = () => {
     const [firstQuery, setFirstQuery] = useState('');
@@ -147,7 +148,7 @@ const EventsHeaderActive = () => {
 };
 
 
-const EventsHeader = () => {
+const EventsHeader = ({navigation}) => {
     const [firstQuery, setFirstQuery] = useState('');
     const search_ref = useRef(null);
     const {groupHomeState} = useContext(GroupContext);
@@ -168,6 +169,10 @@ const EventsHeader = () => {
 
     }, [isSearchUp]);
 
+    const createEventTrigger = () =>{
+        navigation.navigate(screens.EVENT_CREATE, {group:true})
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.newchat_container}>
@@ -177,9 +182,10 @@ const EventsHeader = () => {
                 </StyledText>
             </View>
 
-            <TouchableOpacity style={{...styles.newchat_container, paddingBottom: SCREEN_HEIGHT / 300}}>
-                <FontAwesome name={'edit'} size={28} color={colors.primary.dark}/>
+            <TouchableOpacity onPress={createEventTrigger} style={{...styles.newchat_container, paddingBottom: SCREEN_HEIGHT / 300}}>
+                <FontAwesome name={'edit'} size={28} color={'#5E6C84'}/>
             </TouchableOpacity>
+
         </View>
     )
 };

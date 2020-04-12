@@ -1,2 +1,1 @@
-export { default as RestApi } from "./RestApi"
-export {default as GraphQLApi} from "./GraphQLApi";
+export { default as getImgPath } from "./getImgPath";

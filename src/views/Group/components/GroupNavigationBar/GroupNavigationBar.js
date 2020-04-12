@@ -1,12 +1,12 @@
 import React, {useContext} from "react"
 import {View, StyleSheet, ScrollView,TouchableOpacity,TouchableHighlight} from "react-native"
-import {colors, sizes} from "../../../constants/styles";
+import {colors, sizes} from "../../../../constants/styles";
 import {Chip} from 'react-native-paper';
-import {StyledText} from "../../../components/StyledText";
-import {normalize,SCREEN_HEIGHT} from "../../../constants/styles";
+import {StyledText} from "../../../../components/StyledText";
+import {normalize,SCREEN_HEIGHT} from "../../../../constants/styles";
 import { TouchableRipple } from 'react-native-paper';
-import {screens} from "./constants";
-import {GroupContext} from "../../../contex/GroupContext";
+import {screens} from "../../routes/constants";
+import {GroupContext} from "../../../../contex/GroupContext";
 
 const NavChip = ({title, onPressCallback}) => {
     return (

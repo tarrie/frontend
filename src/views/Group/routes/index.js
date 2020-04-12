@@ -1,1 +1,1 @@
-export { default as GroupNavigationBar } from "./GroupNavigationBar"
+export { default as GroupNavigation } from "./GroupNavigation"
