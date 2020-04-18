@@ -40,19 +40,13 @@ const GetDate = () => {
         setHide({timePicker:true, datePicker:true});
     };
 
-    const showDatepicker = () => {
-        setHide({timePicker:true, datePicker:false});
-    };
-
-    const showTimePicker = () => {
-        setHide({timePicker:false, datePicker:true});
-    };
 
     const handleTimePicker = ()=>{
         if (!(hide.timePicker)){
             hidePicker()
         }else{
-            showTimePicker()
+            // showTimePicker
+            setHide({timePicker:false, datePicker:true});
         }
     };
 
@@ -60,7 +54,8 @@ const GetDate = () => {
         if (!(hide.datePicker)){
             hidePicker()
         }else{
-            showDatepicker()
+            // showDatePicker
+            setHide({timePicker:true, datePicker:false});
         }
     };
 
