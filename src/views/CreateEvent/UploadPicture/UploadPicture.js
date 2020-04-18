@@ -7,7 +7,8 @@ import {UserContext} from "../../../contex/UserContext";
 import EventTopNavBar from "../EventTopNavBar/EventTopNavBar";
 import { Input } from 'react-native-elements';
 import {StyledText} from "../../../components/StyledText";
-
+import {Location} from "../../../components/Location";
+import {GetDate} from "../../../components/GetDate";
 
 // ToDo: purple is the new green
 // The actual post page--
@@ -65,9 +66,13 @@ const UploadPicture = ({route, navigation}) => {
                     selectionColor={colors.primary.dark}
                 />
             </View>
-            <View style={{borderWidth:1, width:'100%'}}>
-               <StyledText>More stuff to come...</StyledText>
+
+            <View style={{borderWidth:1, width:'100%', flexDirection: 'column'}}>
+                <Location/>
+                <GetDate/>
             </View>
+
+
         </SafeAreaView>
     )
 };

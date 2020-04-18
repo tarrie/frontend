@@ -13,6 +13,7 @@ web-report/
 # macOS
 .DS_Store
 
+.env
 
 # Created by https://www.gitignore.io/api/react,macos,webstorm,reactnative
 # Edit at https://www.gitignore.io/?templates=react,macos,webstorm,reactnative

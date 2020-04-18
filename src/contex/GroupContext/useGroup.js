@@ -80,7 +80,7 @@ const useGroup = () => {
         console.log("hefwdgr")
         setUserId(userId);
         getGroup({groupId,userId}).then(()=>setIsLoaded(true));
-        getEventsHosted({groupId,userId});
+        //getEventsHosted({groupId,userId});
     };
 
     return {
