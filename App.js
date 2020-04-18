@@ -7,6 +7,7 @@ import {Navigation} from "./src/routes";
 import {StyledText} from "./src/components/StyledText";
 import {colors} from "./src/constants/styles";
 
+
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -26,6 +27,8 @@ const theme = {
 };
 
 const App = () => {
+
+
     const [isFontLoaded, setIsFontLoaded] = useState(false);
 
     useEffect(() => {

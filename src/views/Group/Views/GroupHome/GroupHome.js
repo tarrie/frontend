@@ -28,6 +28,7 @@ import {
 } from "../../../../constants/parameters";
 import {Expandable, DisappearDelay} from "../../../../components/Animations";
 import {GroupContext} from "../../../../contex/GroupContext";
+import {SwipeLeft} from "../../../../assets/icons";
 
 
 // https://ethercreative.github.io/react-native-shadow-generator/
