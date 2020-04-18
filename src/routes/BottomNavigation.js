@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     fab_active:{
-        backgroundColor: colors.primary.light,
+        backgroundColor: colors.primary.extra_dark,
         color: colors.background_color.white
     },
     fab_inactive:{

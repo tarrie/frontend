@@ -1,8 +1,7 @@
 import React from "react"
 import {TouchableOpacity, StyleSheet, View} from "react-native"
-import {colors} from "../../../constants/styles"
 import {StyledText} from "../../../components/StyledText";
-import {normalize} from "../../../constants/styles";
+import {normalize,colors} from "../../../constants/styles";
 import {
     MaterialIcons
 } from '@expo/vector-icons';
@@ -14,7 +13,7 @@ const TakePictureButton = ({onPress, content}) => {
             activeOpacity={0.5}
         >
             <View style={styles.button}>
-                <MaterialIcons name={'add-a-photo'} size={55} color={'#42526E'}/>
+                <MaterialIcons name={'add-a-photo'} size={55} color={colors.primary.extra_dark}/>
             </View>
         </TouchableOpacity>
     )

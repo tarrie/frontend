@@ -23,16 +23,16 @@ const theme = {
     backgroundColor: colors.background_color.grey_tablet,
     calendarBackground: colors.background_color.grey_tablet,
     textSectionTitleColor: '#b6c1cd',
-    selectedDayBackgroundColor: colors.general.hot_purple,
+    selectedDayBackgroundColor: colors.secondary.main,
     selectedDayTextColor: '#ffffff',
     todayFontWight: 'bold',
-    todayTextColor: colors.general.hot_purple,
+    todayTextColor: colors.secondary.main,
     dayTextColor: '#2d4150',
     textDisabledColor: '#d9e1e8',
     dotColor: '#00adf5',
     selectedDotColor: '#ffffff',
-    disabledArrowColor: '#d9e1e8',
-    indicatorColor: colors.general.hot_purple,
+    disabledArrowColor: 'pink',
+    indicatorColor: colors.secondary.main,
     textDayFontFamily: 'source-sans-pro-regular',
     textMonthFontFamily: 'source-sans-pro-regular',
     textDayHeaderFontFamily: 'source-sans-pro-regular',
@@ -54,9 +54,8 @@ const theme = {
             margin: 0,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            height: 40,
+            height: 5,
             alignItems: 'center',
-
         },
         monthText: {
             opacity: 0,
@@ -71,19 +70,24 @@ const theme = {
     }
 };
 
-const generateToday = () => {
-    const today = moment();
+/**
+ *  Converts a date to proper format
+ * @param momentDate a moment date
+ * @return {{month: *, year: *, dateString: *, day: *}}
+ */
+const generateDay = (momentDate) => {
     return {
-        dateString: today.format("YYYY-MM-DD"),
-        month: today.month(),
-        year: today.year(),
-        day: today.day()
+        dateString: momentDate.format("YYYY-MM-DD"),
+        month: momentDate.month()+1,
+        year: momentDate.year(),
+        day: momentDate.date(),
+        timestamp: momentDate.unix()
     }
 };
 
 
 // https://github.com/wix/react-native-calendars/issues/732
-const EventCalendar = ({selectedDay, newDayCallBack}) => {
+const EventCalendar = ({selectedDay, newDayCallBack, canGoIntoPast}) => {
 
     /**
      * Converts a date returned from the calendar as a marked date
@@ -94,6 +98,40 @@ const EventCalendar = ({selectedDay, newDayCallBack}) => {
         return {[calendarDate.dateString]: {selected: true}}
     };
 
+
+    const incrementMonth = (incr)=>{
+      // console.log(nextMonth);
+
+       let nextMonth = moment(selectedDay.dateString).startOf('month').add(1, 'M');
+
+       newDayCallBack(generateDay(nextMonth))
+        incr();
+
+    };
+
+    const decrementMonth = (decr)=>{
+        let prevMonth = moment(selectedDay.dateString).startOf('month').subtract(1, 'M');
+        //console.log(prevMonth);
+        decr();
+       // newDayCallBack(generateDay(prevMonth))
+    };
+
+    const getNextMonth = (month) =>{
+
+
+        if (month.length===1){
+            const today = moment();
+            if ((today.year() === month[0].year) && (today.month()+1 === month[0].month)){
+                newDayCallBack(generateDay(today))
+            }else{
+                let nextMonth = moment(month[0].dateString).startOf('month');
+                newDayCallBack(generateDay(nextMonth))
+            }
+        }
+
+    };
+
+
     return (
 
         <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', height: CALENDAR_HEIGHT}}>
@@ -102,28 +140,25 @@ const EventCalendar = ({selectedDay, newDayCallBack}) => {
                 // onDayLongPress={this.onDayLongPress}
                 theme={theme}
                 horizontal={true}
-
                 markingType={'multi-dot'}
                 markedDates={convertToMarkedDate(selectedDay)}
                 pagingEnabled
                 onDayPress={(day) => {
                     newDayCallBack(day)
                 }}
-                
+                current={selectedDay.dateString}
+
                 scrollEnabled={true}
-                pastScrollRange={0}
+                pastScrollRange={canGoIntoPast?undefined:0}
                 removeClippedSubviews={false}
-                calendarHeight={50}
                 calendarWidth={SCREEN_WIDTH}
-                hideArrows={false}
-                onVisibleMonthsChange={(month) => {console.log('month changed', month)}}
-                onPressArrowLeft={(x) => x()}
-                // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-                onPressArrowRight={(x) => x()}
+                onVisibleMonthsChange={getNextMonth}
+
+                hideArrows={true}
                 // Replace default arrows with custom ones (direction can be 'left' or 'right')
-                renderArrow={(direction) => direction === 'left' ?
-                    <SwipeLeft color={colors.secondary.main} size={70} style={{marginLeft: -23}}/> :
-                    <SwipeRight color={colors.secondary.main} size={70} style={{marginRight: -23}}/>}
+                //renderArrow={(direction) => direction === 'left' ?
+                  //  <SwipeLeft color={colors.secondary.main} size={70} style={{marginLeft: -23}}/> :
+                  //  <SwipeRight color={colors.secondary.main} size={70} style={{marginRight: -23}}/>}
             />
         </View>
     )
@@ -144,8 +179,9 @@ const styles = StyleSheet.create({
 });
 
 EventCalendar.defaultProps = {
-    selectedDay: generateToday(),
-    newDayCallBack: ()=>{}
+    selectedDay: generateDay(moment()),
+    newDayCallBack: ()=>{},
+    canGoIntoPast: false
 };
 
 

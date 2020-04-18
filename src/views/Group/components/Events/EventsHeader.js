@@ -65,10 +65,14 @@ const EventsHeaderActive = () => {
                                 <StyledText style={{alignSelf: 'center', color: '#1f1f1f'}} size={SCREEN_HEIGHT / 32}
                                             type={'semibold'}>Jan 2019</StyledText>
                                 {isCalendarDown ?
-                                    <CalendarUp size={SCREEN_HEIGHT / 19}
+                                    <CalendarUp
+                                        color={colors.primary.main}
+                                        size={SCREEN_HEIGHT / 19}
                                                 style={{alignSelf: 'center', paddingLeft: normalize(60)}}/>
                                     :
-                                    <CalendarDown size={SCREEN_HEIGHT / 19}
+                                    <CalendarDown
+                                        color={colors.primary.main}
+                                        size={SCREEN_HEIGHT / 19}
                                                   style={{alignSelf: 'center', paddingLeft: normalize(60)}}/>
                                 }
 
@@ -114,13 +118,13 @@ const EventsHeaderActive = () => {
                         borderWidth: 1.5,
                         flexDirection: 'row',
                         borderRadius: 5,
-                        borderColor: colors.primary.light
+                        borderColor:  colors.primary.extra_dark
                     }}>
                         <View style={{
                             width: '50%',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: colors.primary.light,
+                            backgroundColor:  colors.primary.extra_dark,
                             borderBottomLeftRadius: 3,
                             borderTopLeftRadius: 3
                         }}>
@@ -136,7 +140,7 @@ const EventsHeaderActive = () => {
                             borderTopRightRadius: 5
                         }}>
                             <StyledText adjustsFontSizeToFit size={sizes.mini.fontSize}
-                                        style={{color: colors.primary.light}}> Events
+                                        style={{color:  colors.primary.extra_dark}}> Events
                                 Coordinating</StyledText>
                         </View>
                     </View>

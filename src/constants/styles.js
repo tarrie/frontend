@@ -48,11 +48,12 @@ export const colors = {
         main: 'rgba(0, 100, 0,1)',
         medium_light: 'rgba(49, 139, 89,.8)',
         light: 'rgba(46, 139, 87,1)',
-        dark:'rgba(47,79,79,0.50)'
+        dark:'rgba(47,79,79,0.7)',
+        extra_dark: 'rgba(47,79,79,1)'
     },
     secondary: {
         main: 'rgba(131,52,113,.95)',
-        light: 'rgba(205,92,92,1)'
+        light: '#a33131'
     },
     text: {
         primary: {
