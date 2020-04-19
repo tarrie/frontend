@@ -5,6 +5,7 @@ import {colors, SCREEN_WIDTH} from "../../constants/styles";
 import {CALENDAR_HEIGHT} from "../../constants/parameters";
 import {SwipeLeft, SwipeRight} from "../../assets/icons";
 import moment from "moment";
+import {generateToday,generateDay} from "./utils";
 
 LocaleConfig.locales['fr'] = {
     monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -67,32 +68,6 @@ const theme = {
             textAlign: 'center',
             color: 'rgba(47,79,79,0.50)',
         }
-    }
-};
-
-/**
- *  Converts a date to proper format
- * @param momentDate a moment date
- * @return {{month: *, year: *, dateString: *, day: *}}
- */
-const generateDay = (momentDate) => {
-    return {
-        dateString: momentDate.format("YYYY-MM-DD"),
-        month: momentDate.month()+1,
-        year: momentDate.year(),
-        day: momentDate.date(),
-        timestamp: momentDate.unix()
-    }
-};
-
-const generateToday = () => {
-    const today = moment();
-    return {
-        dateString: today.format("YYYY-MM-DD"),
-        month: today.month() + 1,
-        year: today.year(),
-        day: today.date(),
-        timestamp: today.unix()
     }
 };
 
@@ -195,5 +170,4 @@ EventCalendar.defaultProps = {
     canGoIntoPast: false
 };
 
-
-export {EventCalendar,generateDay,generateToday};
+export default EventCalendar;
