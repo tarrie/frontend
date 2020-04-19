@@ -1,1 +1,3 @@
-export { default as Calendar } from "./Calendar"
+import {EventCalendar,generateDay,generateToday} from "./Calendar";
+export {EventCalendar as Calendar};
+export {generateDay,generateToday}

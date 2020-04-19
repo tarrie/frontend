@@ -85,6 +85,17 @@ const generateDay = (momentDate) => {
     }
 };
 
+const generateToday = () => {
+    const today = moment();
+    return {
+        dateString: today.format("YYYY-MM-DD"),
+        month: today.month() + 1,
+        year: today.year(),
+        day: today.date(),
+        timestamp: today.unix()
+    }
+};
+
 
 // https://github.com/wix/react-native-calendars/issues/732
 const EventCalendar = ({selectedDay, newDayCallBack, canGoIntoPast}) => {
@@ -185,4 +196,4 @@ EventCalendar.defaultProps = {
 };
 
 
-export default EventCalendar;
+export {EventCalendar,generateDay,generateToday};

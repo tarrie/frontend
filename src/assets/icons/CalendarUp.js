@@ -9,7 +9,7 @@ function CalendarUp({size,style,color}) {
         fill="#575353"
       />
       <Circle cx={14.469} cy={9.875} r={1} fill={color? color: "#006300"} />
-      <Path d="M29 8l4.33 4.5h-8.66L29 8z" fill={color? color: "#006300"} />
+      <Path d="M29 8l4.33 4.5h-8.66L29 8z" fill={'#575353'} />
     </Svg>
   );
 }

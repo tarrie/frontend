@@ -10,7 +10,7 @@ const CalendarDown = ({size, style, color}) => {
         fill="#575353"
       />
       <Circle cx={14.469} cy={9.875} r={1} fill={color? color: "#006300"} />
-      <Path d="M29 14l-4.33-4.5h8.66L29 14z" fill={color? color: "#006300"} />
+      <Path d="M29 14l-4.33-4.5h8.66L29 14z" fill={'#575353'} />
     </Svg>
   );
 }

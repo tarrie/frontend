@@ -19,7 +19,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {FadeOut} from "../../components/Animations";
 import {EventCard} from "../../../../components/EventCard";
 import {StickyDate} from "../../../../components/StickyDate";
-import {Calendar} from "../../../../components/Calendar";
+import {Calendar, generateDay, generateToday} from "../../../../components/Calendar";
 import {
     CALENDAR_HEIGHT,
     CARD_HEIGHT,
@@ -57,10 +57,10 @@ const GroupHomeForeground = ({ navigation}) => {
 };
 
 
-const StickyHeader = () => {
+const StickyHeader = ({selectedDay}) => {
     return (
         <View style={{width: '100%', height: '100%'}}>
-            <EventsHeaderActive
+            <EventsHeaderActive selectedDay={selectedDay}
             />
         </View>
     )
@@ -80,6 +80,7 @@ const GroupHome = () => {
     } = groupHomeState;
 
 
+    const [selectedDay, setSelectedDay] = useState(generateToday());
     const [scrollPosnOutOfBounds, setScrollPosnOutOfBounds] = useState(false);
     const [fingerTouching, setFingerTouching] = useState(false);
     const [isAtBasePosition, setIsAtBasePosition] = useState(true);
@@ -134,6 +135,9 @@ const GroupHome = () => {
         }
     };
 
+    const newDayCallBack = (day) => {
+        setSelectedDay(day);
+    };
 
     return (
         <View style={styles.container}>
@@ -149,13 +153,13 @@ const GroupHome = () => {
                     top: 0,
                     zIndex: 2
                 }}>
-                    <EventsHeaderActive/>
+                    <EventsHeaderActive selectedDay={selectedDay}/>
                 </DisappearDelay>
 
                 <Expandable goDown={!isCalendarDown} style={{zIndex: 1, width: '100%'}}
                             startPosn={-GROUP_STICKY_HEADER_HEIGHT - CALENDAR_HEIGHT}
                             endPosn={GROUP_STICKY_HEADER_HEIGHT}>
-                    <Calendar/>
+                    <Calendar canGoIntoPast={true} newDayCallBack={newDayCallBack} selectedDay={selectedDay}/>
                 </Expandable>
 
 
@@ -179,7 +183,7 @@ const GroupHome = () => {
                         contentBackgroundColor={'transparent'}
                         parallaxHeaderHeight={GROUP_PARALLAX_HEADER_HEIGHT}
                         stickyHeaderHeight={GROUP_STICKY_HEADER_HEIGHT}
-                        renderStickyHeader={() => <StickyHeader/>
+                        renderStickyHeader={() => <StickyHeader selectedDay={selectedDay}/>
                         }
                         renderForeground={() => (
                             !isSearchUp ?

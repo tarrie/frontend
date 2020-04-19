@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect,useContext} from "react"
+import React, {useState, useRef, useEffect, useContext} from "react"
 import {StyledText} from "../../../../components/StyledText";
 import {View, StyleSheet, ScrollView, TouchableOpacity, TouchableWithoutFeedback} from "react-native"
 import {colors, normalize, sizes, SCREEN_HEIGHT} from "../../../../constants/styles";
@@ -6,15 +6,29 @@ import {
     FontAwesome,
     Ionicons
 } from '@expo/vector-icons';
-import {Searchbar,Modal} from 'react-native-paper';
+import {Searchbar, Modal} from 'react-native-paper';
 import {SearchBar} from 'react-native-elements';
 import CalendarDown from "../../../../assets/icons/CalendarDown";
 import CalendarUp from "../../../../assets/icons/CalendarUp";
 import {Calendar} from "../../../../components/Calendar";
 import {GroupContext} from "../../../../contex/GroupContext";
 import {screens} from "../../routes/constants";
+import moment from "moment";
 
-const EventsHeaderActive = () => {
+
+const getFormattedDate = (selectedDay) => {
+    const momentDate = moment(selectedDay.dateString);
+
+    if (moment().year() !== selectedDay.year) {
+        return momentDate.format('MMM YYYY')
+    }
+    return momentDate.format('MMMM')
+
+};
+
+
+const EventsHeaderActive = ({selectedDay}) => {
+
     const [firstQuery, setFirstQuery] = useState('');
     const search_ref = useRef(null);
 
@@ -27,7 +41,6 @@ const EventsHeaderActive = () => {
         isCalendarDown,
         setIsCalendarDown
     } = groupHomeState;
-
 
 
     useEffect(() => {
@@ -63,17 +76,17 @@ const EventsHeaderActive = () => {
 
                             <View style={styles.calendar_container}>
                                 <StyledText style={{alignSelf: 'center', color: '#1f1f1f'}} size={SCREEN_HEIGHT / 32}
-                                            type={'semibold'}>Jan 2019</StyledText>
+                                            type={'semibold'}>{getFormattedDate(selectedDay)}</StyledText>
                                 {isCalendarDown ?
                                     <CalendarUp
                                         color={colors.primary.main}
                                         size={SCREEN_HEIGHT / 19}
-                                                style={{alignSelf: 'center', paddingLeft: normalize(60)}}/>
+                                        style={{alignSelf: 'center', paddingLeft: normalize(60)}}/>
                                     :
                                     <CalendarDown
                                         color={colors.primary.main}
                                         size={SCREEN_HEIGHT / 19}
-                                                  style={{alignSelf: 'center', paddingLeft: normalize(60)}}/>
+                                        style={{alignSelf: 'center', paddingLeft: normalize(60)}}/>
                                 }
 
 
@@ -118,13 +131,13 @@ const EventsHeaderActive = () => {
                         borderWidth: 1.5,
                         flexDirection: 'row',
                         borderRadius: 5,
-                        borderColor:  colors.primary.extra_dark
+                        borderColor: colors.primary.extra_dark
                     }}>
                         <View style={{
                             width: '50%',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor:  colors.primary.extra_dark,
+                            backgroundColor: colors.primary.extra_dark,
                             borderBottomLeftRadius: 3,
                             borderTopLeftRadius: 3
                         }}>
@@ -140,7 +153,7 @@ const EventsHeaderActive = () => {
                             borderTopRightRadius: 5
                         }}>
                             <StyledText adjustsFontSizeToFit size={sizes.mini.fontSize}
-                                        style={{color:  colors.primary.extra_dark}}> Events
+                                        style={{color: colors.primary.extra_dark}}> Events
                                 Coordinating</StyledText>
                         </View>
                     </View>
@@ -173,8 +186,8 @@ const EventsHeader = ({navigation}) => {
 
     }, [isSearchUp]);
 
-    const createEventTrigger = () =>{
-        navigation.navigate(screens.EVENT_CREATE, {group:true})
+    const createEventTrigger = () => {
+        navigation.navigate(screens.EVENT_CREATE, {group: true})
     };
 
     return (
@@ -186,7 +199,8 @@ const EventsHeader = ({navigation}) => {
                 </StyledText>
             </View>
 
-            <TouchableOpacity onPress={createEventTrigger} style={{...styles.newchat_container, paddingBottom: SCREEN_HEIGHT / 300}}>
+            <TouchableOpacity onPress={createEventTrigger}
+                              style={{...styles.newchat_container, paddingBottom: SCREEN_HEIGHT / 300}}>
                 <FontAwesome name={'edit'} size={28} color={'#5E6C84'}/>
             </TouchableOpacity>
 

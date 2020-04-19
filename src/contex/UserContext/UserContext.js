@@ -5,6 +5,7 @@ const UserContext = createContext();
 
 const UserContextProvider = ({children}) => {
 
+
     /**
      * Sets the base navigation so we can access it anywhere in the app.
      * @param navigation
