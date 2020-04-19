@@ -1,3 +1,3 @@
-import {EventCalendar,generateDay,generateToday} from "./Calendar";
-export {EventCalendar as Calendar};
+export { default as Calendar } from "./Calendar"
+import {generateDay,generateToday} from "./utils";
 export {generateDay,generateToday}

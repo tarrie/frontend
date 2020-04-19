@@ -9,7 +9,7 @@ import {
     FlatList,
     Animated
 } from "react-native"
-import {colors, normalize, sizes, SCREEN_HEIGHT} from "../../../../constants/styles";
+import {colors, normalize, sizes, SCREEN_HEIGHT, SCREEN_WIDTH} from "../../../../constants/styles";
 import {useGroup} from "../../../../contex";
 import {GroupHeader} from "../../components/GroupHeader";
 import {EventsHeader, EventsHeaderActive} from "../../components/Events";
@@ -32,7 +32,7 @@ import {SwipeLeft} from "../../../../assets/icons";
 
 
 // https://ethercreative.github.io/react-native-shadow-generator/
-const GroupHomeForeground = ({ navigation}) => {
+const GroupHomeForeground = ({navigation}) => {
     return (
         <View style={
             {
@@ -43,14 +43,14 @@ const GroupHomeForeground = ({ navigation}) => {
             }
         }>
             <View style={styles.container_groupHeader}>
-                <GroupHeader />
+                <GroupHeader/>
             </View>
 
             <View style={{...styles.container_groupNavBar, borderBottomWidth: 1, borderColor: 'rgba(0,0,0,.2)'}}>
-                <GroupNavigationBar  navigation={navigation}/>
+                <GroupNavigationBar navigation={navigation}/>
             </View>
             <View style={styles.container_groupChatHeader}>
-                <EventsHeader navigation={navigation} />
+                <EventsHeader navigation={navigation}/>
             </View>
         </View>
     )
@@ -72,6 +72,7 @@ const GroupHome = () => {
     const navigation = useNavigation();
 
     const {
+        setIsCalendarDown,
         isSearchActive,
         setIsSearchActive,
         isSearchUp,
@@ -113,7 +114,7 @@ const GroupHome = () => {
     useEffect(() => {
 
         if (isCalendarDown) {
-            ref.current.scrollTo({x: 0, y: currentYPosn.current+CALENDAR_HEIGHT, animated: true});
+            ref.current.scrollTo({x: 0, y: currentYPosn.current + CALENDAR_HEIGHT, animated: true});
             hasScrollCalAdjusted.current = false;
         }
 
@@ -143,8 +144,9 @@ const GroupHome = () => {
         <View style={styles.container}>
 
             {/*Show this iff calendar is down*/}
-            <View style={{height: '100%', backgroundColor: '#dedede'}}>
-
+            <View
+                style={{height: '100%', backgroundColor: '#dedede'}}
+            >
 
                 <DisappearDelay isShowing={!isCalendarDown} style={{
                     height: GROUP_STICKY_HEADER_HEIGHT,
@@ -167,13 +169,17 @@ const GroupHome = () => {
                     <ParallaxScrollView
                         onTouchStart={() => {
                             setIsSearchActive(false);
-                            setFingerTouching(true)
+                            setFingerTouching(true);
+                            // calendar goes back up when you touch this
+                             if (!isCalendarDown){
+                                 setIsCalendarDown(true)
+                             }
                         }}
                         onTouchEnd={() => {
                             setFingerTouching(false)
                         }}
 
-                        contentInset={{top:SCREEN_HEIGHT/11, left:0,bottom:0,right:0}}
+                        contentInset={{top: SCREEN_HEIGHT / 11, left: 0, bottom: 0, right: 0}}
                         style={{flex: 1}}
                         onScroll={processScroll}
                         scrollEventThrottle={16}
@@ -187,7 +193,7 @@ const GroupHome = () => {
                         }
                         renderForeground={() => (
                             !isSearchUp ?
-                                <GroupHomeForeground navigation={navigation} /> :
+                                <GroupHomeForeground navigation={navigation}/> :
                                 <FadeOut><GroupHomeForeground navigation={navigation}/></FadeOut>
                         )}>
 
