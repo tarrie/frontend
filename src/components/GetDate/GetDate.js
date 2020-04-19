@@ -92,6 +92,8 @@ const GetDate = () => {
       setIsAllDay(!isAllDay);
       if (!isAllDay){
           setHide({timePicker: true, datePicker: false});
+      }else{
+          hidePicker()
       }
 
     };
