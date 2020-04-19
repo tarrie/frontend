@@ -8,4 +8,7 @@
 fixes font load error
 rm -rf ./node_modules/expo/node_modules/expo-font/
 
+
+run this to get around stupid depreciation errors
+npx react-codemod rename-unsafe-lifecycles
 from http://eydai.cn/github_/expo/expo/issues/5507
