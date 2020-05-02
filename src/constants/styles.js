@@ -48,7 +48,7 @@ export const colors = {
         main: 'rgba(0, 100, 0,1)',
         medium_light: 'rgba(49, 139, 89,.8)',
         light: 'rgba(46, 139, 87,1)',
-        dark:'rgba(47,79,79,0.7)',
+        dark: 'rgba(47,79,79,0.7)',
         extra_dark: 'rgba(47,79,79,1)'
     },
     secondary: {
@@ -67,16 +67,34 @@ export const colors = {
     },
     general: {
         hot_purple: '#990000',
-        earth_green:'#59713F',
+        earth_green: '#59713F',
         blue: '#27288E',
-        red: '#AF3F3F'
+        red: '#AF3F3F',
+        light_blue0: '#2196F3',
+        green: '#71B419',
+        orange: '#E9812C',
+        teal: '#288982',
+        light_orange: '#FCAA2C',
+        light_teal: '#00B2AF',
+        pink: '#C14CE8',
+        light_blue: '#6096F8',
+        light_light_teal: '#33C5DE',
+        dark_green: '#109E56',
+        fancy_pink: '#F3548A',
+        dark_purple: '#803EE8',
+        bright_green: '#00CA54',
+        other_blue: '#1C73F4',
+        another_blue: '#7085D8',
+        oneMore_blue: '#405EBE',
+        shabby_chic: '#008DA6',
+        grey: '#585858'
     },
-    background_color:{
+    background_color: {
         grey_tablet: '#EEEEF0',
         black: '#323232',
         white: '#F4F4F4',
     },
-    background_URLs:{
+    background_URLs: {
         cream_dust: "../assets/images/cream_dust.png",
         gravel: "../assets/images/redox_01.png"
 
@@ -85,10 +103,10 @@ export const colors = {
 
 
 export const fontTypes = {
-  bold: "source-sans-pro-bold",
-  semibold: "source-sans-pro-semibold",
-  regular: "source-sans-pro-regular",
-  black: "airbnb-black",
-  book:"airbnb-book",
-  thin:"raleway-thin"
+    bold: "source-sans-pro-bold",
+    semibold: "source-sans-pro-semibold",
+    regular: "source-sans-pro-regular",
+    black: "airbnb-black",
+    book: "airbnb-book",
+    thin: "raleway-thin"
 };

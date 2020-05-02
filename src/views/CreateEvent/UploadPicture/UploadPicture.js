@@ -7,14 +7,21 @@ import {UserContext} from "../../../contex/UserContext";
 import EventTopNavBar from "../EventTopNavBar/EventTopNavBar";
 import { Input } from 'react-native-elements';
 import {StyledText} from "../../../components/StyledText";
-import {Location} from "../../../components/Location";
+import {Location} from "../LocationSearch";
 import {GetDate} from "../../../components/GetDate";
+import {GenericCreateEventOption} from "../../../components/GenericCreateEventOption";
+import {screens} from "../routes/screens";
 
 // ToDo: purple is the new green
 // The actual post page--
 const UploadPicture = ({route, navigation}) => {
     const [eventImg, setEventImg] = useState({uri: undefined, base64: undefined});
 
+    const virtualCallBack = ()=>{
+        navigation.navigate(screens.Location, {
+            })
+    };
+    const virtualEventOptions = {actionType:"zoom",actionCallback:virtualCallBack,hasSwitch:false};
 
     useEffect(() => {
         // Set the tabbar to visible just in case - we remove this for the camera
@@ -68,8 +75,9 @@ const UploadPicture = ({route, navigation}) => {
             </View>
 
             <View style={{borderWidth:1, width:'100%', flexDirection: 'column'}}>
-                <Location/>
+                <GenericCreateEventOption options={virtualEventOptions}/>
                 <GetDate/>
+
             </View>
 
 

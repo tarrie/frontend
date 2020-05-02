@@ -5,7 +5,7 @@ import UploadPicture from "../UploadPicture/UploadPicture";
 import {screens} from "./screens";
 import CreateEventHome from "../CreateEventHome/CreateEventHome";
 const Stack = createStackNavigator();
-
+import {Location} from "../LocationSearch";
 
 const CreateEventNavigator = () => {
     return (
@@ -22,7 +22,7 @@ const CreateEventNavigator = () => {
             <Stack.Screen name={screens.ImgUpload} component={UploadPicture} />
             <Stack.Screen name={screens.CameraApp} component={CameraApp} options={{headerShown: false}} />
             <Stack.Screen name={screens.CreateEventHome} component={CreateEventHome} />
-
+            <Stack.Screen name={screens.Location} component={Location} options={{headerShown: false}} />
         </Stack.Navigator>
     )
 };

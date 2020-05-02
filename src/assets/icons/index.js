@@ -5,5 +5,6 @@ export { default as SwipeRight } from "./SwipeRight"
 export { default as Discussion } from "./Discussion"
 export { default as CalendarUp } from "./CalendarUp"
 export { default as CalendarDown } from "./CalendarDown"
+export { default as ZoomIcon } from "./ZoomIcon"
 
 

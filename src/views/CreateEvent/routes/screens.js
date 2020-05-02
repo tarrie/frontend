@@ -1,6 +1,6 @@
 export const screens = {
   ImgUpload: "ImgUpload",
   CameraApp: "CameraApp",
-  CreateEventHome: "CreateEventHome"
-
+  CreateEventHome: "CreateEventHome",
+  Location:"Location"
 };
