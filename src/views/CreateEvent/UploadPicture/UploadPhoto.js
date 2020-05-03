@@ -13,7 +13,7 @@ import {screens} from "../routes/screens";
  * @param outfit - {uri:string, outfitOption: enum [A,B]} for example {uri:'https://tinyurl/dvdfr', outfitOption: 'A'}
  * @param onCloseCallback - called when picture is closed.
  */
-const PostPhoto = ({ img, onCloseCallback }) => {
+const UploadPhoto = ({ img, onCloseCallback }) => {
     const navigation = useNavigation();
 
     const onClose = () => {
@@ -35,7 +35,7 @@ const PostPhoto = ({ img, onCloseCallback }) => {
 
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <TakePictureButton content={"A"}
-                        onPress={() => navigation.navigate(screens.CameraApp, { navigateBackTo: screens.ImgUpload })} />
+                        onPress={() => navigation.navigate(screens.CameraApp, { navigateBackTo: screens.CreateEventHome })} />
                 </View>
             }
         </View>
@@ -71,9 +71,9 @@ const styles = StyleSheet.create({
 
 });
 
-PostPhoto.propTypes = {
+UploadPhoto.propTypes = {
     img: PropTypes.object.isRequired,
     onCloseCallback: PropTypes.func.isRequired
 };
 
-export default PostPhoto;
+export default UploadPhoto;

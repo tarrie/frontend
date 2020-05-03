@@ -1,20 +1,21 @@
 import React, {useEffect, useState, useContext} from "react"
 import {View, StyleSheet, TouchableWithoutFeedback, Keyboard,TextInput,Text} from "react-native"
 import {SafeAreaView} from "react-native-safe-area-context"
-import {colors, fontTypes, normalize, SCREEN_WIDTH} from "../../../constants/styles";
-import PostPhoto from "./PostPhoto";
-import {UserContext} from "../../../contex/UserContext";
-import EventTopNavBar from "../EventTopNavBar/EventTopNavBar";
+import {colors, fontTypes, normalize, SCREEN_WIDTH} from "../../constants/styles";
+import UploadPhoto from "./UploadPicture/UploadPhoto";
+import {UserContext} from "../../contex/UserContext";
+import EventTopNavBar from "./EventTopNavBar/EventTopNavBar";
 import { Input } from 'react-native-elements';
-import {StyledText} from "../../../components/StyledText";
-import {Location} from "../LocationSearch";
-import {GetDate} from "../../../components/GetDate";
-import {GenericCreateEventOption} from "../../../components/GenericCreateEventOption";
-import {screens} from "../routes/screens";
+import {StyledText} from "../../components/StyledText";
+import {Location} from "./LocationSearch";
+import {GetDate} from "../../components/GetDate";
+import {GenericCreateEventOption} from "../../components/GenericCreateEventOption";
+import {screens} from "./routes/screens";
+
 
 // ToDo: purple is the new green
 // The actual post page--
-const UploadPicture = ({route, navigation}) => {
+const CreateEventHome = ({route, navigation}) => {
     const [eventImg, setEventImg] = useState({uri: undefined, base64: undefined});
 
     const virtualCallBack = ()=>{
@@ -59,7 +60,7 @@ const UploadPicture = ({route, navigation}) => {
             <EventTopNavBar navigation={navigation}/>
             <View style={styles.photo_title_container}>
                 <View style={styles.photos}>
-                    <PostPhoto img={eventImg} onCloseCallback={onPictureCloseCallback}/>
+                    <UploadPhoto img={eventImg} onCloseCallback={onPictureCloseCallback}/>
                 </View>
                 <TextInput
                     style={styles.title}
@@ -124,4 +125,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default UploadPicture;
+export default CreateEventHome;

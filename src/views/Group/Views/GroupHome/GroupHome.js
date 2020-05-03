@@ -32,6 +32,12 @@ import {SwipeLeft} from "../../../../assets/icons";
 
 
 // https://ethercreative.github.io/react-native-shadow-generator/
+/**
+ * Contains the group picture and the little chips and any relevant group info
+ * @param navigation
+ * @return {*}
+ * @constructor
+ */
 const GroupHomeForeground = ({navigation}) => {
     return (
         <View style={
