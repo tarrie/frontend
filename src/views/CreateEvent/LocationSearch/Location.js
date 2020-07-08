@@ -9,7 +9,28 @@ import {UserContext} from "../../../contex/UserContext";
 import {Ionicons} from "@expo/vector-icons";
 import {useNavigation} from "@react-navigation/native"
 import {LocationAutoComplete} from "../../../components/LocationAutoComplete";
+import {EvilIcons} from "@expo/vector-icons";
 
+
+
+const ActualLocation = ({main_text, secondary_text}) => {
+    return (
+        <TouchableOpacity style={{flexDirection: 'row', marginVertical: 5,  alignItems: 'center', width:'100%'}}>
+            <EvilIcons name={'location'} size={SCREEN_WIDTH/14} style={{
+                color: colors.primary.extra_dark,
+            }}/>
+
+            <View style={{marginBottom:5, width:SCREEN_WIDTH/1.3}}>
+                <StyledText style={{color:colors.text.primary.light}} type={'bold'}>
+                    {main_text}
+                </StyledText>
+                <StyledText style={{color:colors.text.primary.main}}>
+                    {secondary_text}
+                </StyledText>
+            </View>
+        </TouchableOpacity>
+    )
+};
 
 const GooglePlacesInput = () => {
     const [data, setData] = useState([]);
@@ -21,7 +42,7 @@ const GooglePlacesInput = () => {
     useEffect(() => {
 
         // ToDo: Add some restrictions on text to match google.
-        LocationAutoComplete({text}).then(data =>setData(data) )
+        LocationAutoComplete({text}).then(data => setData(data))
 
     }, [text]);
 
@@ -69,12 +90,15 @@ const GooglePlacesInput = () => {
                         <FlatList
                             data={data}
                             keyExtractor={(item, index) => {
-                                return item.id}}
+                                return item.id
+                            }}
                             renderItem={({item, index, separators}) => {
                                 return <View key={item.id} style={styles.item}>
-                                    <Text>
-                                        {item.description}
-                                    </Text>
+                                    <ActualLocation
+                                        main_text={item.structured_formatting.main_text}
+                                        secondary_text={item.structured_formatting.secondary_text}
+                                    />
+
                                 </View>
                             }}/>
                     </View>
@@ -102,17 +126,19 @@ Object {
 
 const styles = StyleSheet.create({
     item: {
-        backgroundColor: 'purple',
+       // backgroundColor: 'purple',
     },
     container: {
         flex: 1,
-        backgroundColor: colors.background_color.grey_tablet,
+        backgroundColor: '#EBECF0',
         overflow: 'hidden'
     },
     listContainer: {
         borderColor: "black",
-        borderWidth: 1,
-        width: normalize(280)
+        top:SCREEN_HEIGHT/50,
+        width: normalize(310),
+        position: 'absolute',
+        left: normalize(5)
     },
     backarrowContainer: {
         width: SCREEN_HEIGHT / 30,

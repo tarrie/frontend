@@ -1,5 +1,14 @@
 import React, {useEffect, useState, useContext} from "react"
-import {View, StyleSheet, TouchableWithoutFeedback, Keyboard,TextInput,Text} from "react-native"
+import {
+    View,
+    StyleSheet,
+    TouchableWithoutFeedback,
+    TextInput,
+    Text,
+    ScrollView,
+    Keyboard,
+    TouchableOpacity, TouchableHighlight
+} from "react-native"
 import {SafeAreaView} from "react-native-safe-area-context"
 import {colors, fontTypes, normalize, SCREEN_WIDTH} from "../../constants/styles";
 import UploadPhoto from "./UploadPicture/UploadPhoto";
@@ -18,11 +27,19 @@ import {screens} from "./routes/screens";
 const CreateEventHome = ({route, navigation}) => {
     const [eventImg, setEventImg] = useState({uri: undefined, base64: undefined});
 
+    // Options + callback for the  `virtual' option
     const virtualCallBack = ()=>{
         navigation.navigate(screens.Location, {
             })
     };
-    const virtualEventOptions = {actionType:"zoom",actionCallback:virtualCallBack,hasSwitch:false};
+    const virtualEventOptions = {actionType:"virtual",actionCallback:virtualCallBack,hasSwitch:false};
+
+    // Options + callback for the  `location' option
+    const addEventCallBack = ()=>{
+        navigation.navigate(screens.Location, {
+            })
+    };
+    const addEventOptions = {actionType:"location",actionCallback:addEventCallBack,hasSwitch:false};
 
     useEffect(() => {
         // Set the tabbar to visible just in case - we remove this for the camera
@@ -46,6 +63,9 @@ const CreateEventHome = ({route, navigation}) => {
         setEventImg({uri: undefined, base64: undefined})
     };
 
+    const dismissKeyboard =()=>{
+        Keyboard.dismiss();
+    };
 
     /**
      * Called after user hits the post button - clean up state
@@ -59,9 +79,10 @@ const CreateEventHome = ({route, navigation}) => {
 
             <EventTopNavBar navigation={navigation}/>
             <View style={styles.photo_title_container}>
-                <View style={styles.photos}>
+                <TouchableOpacity style={styles.photos} onPress={dismissKeyboard} activeOpacity={1}>
                     <UploadPhoto img={eventImg} onCloseCallback={onPictureCloseCallback}/>
-                </View>
+                </TouchableOpacity>
+
                 <TextInput
                     style={styles.title}
                     multiline
@@ -75,11 +96,10 @@ const CreateEventHome = ({route, navigation}) => {
                 />
             </View>
 
-            <View style={{borderWidth:1, width:'100%', flexDirection: 'column'}}>
-                <GenericCreateEventOption options={virtualEventOptions}/>
+            <TouchableOpacity style={{borderWidth:1, width:'100%', flexDirection: 'column'}}  onPress={dismissKeyboard} activeOpacity={1}>
+                <GenericCreateEventOption options={addEventOptions}/>
                 <GetDate/>
-
-            </View>
+            </TouchableOpacity>
 
 
         </SafeAreaView>

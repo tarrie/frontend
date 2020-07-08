@@ -11,7 +11,12 @@ const actionTypes = {
     zoom: "zoom"
 };
 
-
+/**
+ * Returns the appropriate hard coded icon given available actionTypes
+ * @param actionType
+ * @return {*}
+ * @constructor
+ */
 const GetIcon = ({actionType})=>{
     if (actionType === actionTypes.location){
         return (
