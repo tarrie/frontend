@@ -1,2 +1,2 @@
-import {Location, ActualLocation} from "./Location";
-export {Location,ActualLocation}
+export { default as Location } from "./Location";
+export { default as ActualLocation } from "./ActualLocation";

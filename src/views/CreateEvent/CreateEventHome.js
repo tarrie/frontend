@@ -36,12 +36,18 @@ const CreateEventHome = ({route, navigation}) => {
     };
     const virtualEventOptions = {actionType:"virtual",actionCallback:virtualCallBack,hasSwitch:false};
 
-    // Options + callback for the  `location' option
-    const addEventCallBack = ()=>{
+    // Options + callback for the  `location' option - when it's initially empty
+    const addLocationCallBack = ()=>{
         navigation.navigate(screens.Location, {
             })
     };
-    const addLocationOptions = {actionType:"location",actionCallback:addEventCallBack,hasSwitch:false};
+
+    // Callback when location data is filled out but the user wants to edit it
+    const locationPressCallBack = (location)=>{
+        navigation.navigate(screens.Location, {location:location})
+    };
+
+    const addLocationOptions = {actionType:"location",actionCallback:addLocationCallBack,hasSwitch:false};
 
     useEffect(() => {
         // Set the tabbar to visible just in case - we remove this for the camera
@@ -104,7 +110,12 @@ const CreateEventHome = ({route, navigation}) => {
             </View>
 
             <TouchableOpacity style={{borderWidth:1, width:'100%', flexDirection: 'column'}}  onPress={dismissKeyboard} activeOpacity={1}>
-                <GenericCreateEventOption options={addLocationOptions}/>
+
+                {location?
+                    <ActualLocation location={location} callbackFN={locationPressCallBack}/>:
+                    <GenericCreateEventOption options={addLocationOptions}/>
+                }
+
                 <GetDate/>
             </TouchableOpacity>
 

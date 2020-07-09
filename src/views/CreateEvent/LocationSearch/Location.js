@@ -13,41 +13,15 @@ import {EvilIcons} from "@expo/vector-icons";
 import {GOOGLE_API_KEY} from 'react-native-dotenv';
 import { v4 as uuidv4 } from 'react-native-uuid';
 import {screens} from "../routes/screens";
+import ActualLocation from "./ActualLocation";
 
-
-const ActualLocation = ({main_text, secondary_text, place_id, sessiontoken,callbackFN }) => {
-
-    const onPress = ()=>{
-        LocationDetail({place_id,sessiontoken}).then((loc_detail)=>callbackFN(loc_detail));
-    };
-
-    return (
-        <TouchableOpacity style={{flexDirection: 'row', marginVertical: 5,  alignItems: 'center', width:'100%'}} onPress={onPress}>
-            <EvilIcons name={'location'} size={SCREEN_WIDTH/14} style={{
-                color: colors.primary.extra_dark,
-            }}/>
-
-            <View style={{marginBottom:5, width:SCREEN_WIDTH/1.3}}>
-                <StyledText style={{color:colors.text.primary.light}} type={'bold'}>
-                    {main_text}
-                </StyledText>
-                {secondary_text &&
-                <StyledText style={{color:colors.text.primary.main}}>
-                    {secondary_text}
-                </StyledText>}
-            </View>
-        </TouchableOpacity>
-    )
-};
-
-
-const Location = () => {
+const LocationSearchAndInput = ({route}) => {
     const [data, setData] = useState([]);
-    const [text, setText] = useState();
+    const [text, setText] = useState(null);
     const {baseNavigation} = useContext(UserContext);
-    const navigation = useNavigation();
-    const [selectedLocation, setSelectedLocation] = useState(null);
+    //sessiontoken for google billing
     const [sessiontoken, setSessionToken] = useState();
+    const navigation = useNavigation();
 
     // deals with the location auto complete callback
     useEffect(() => {
@@ -58,15 +32,32 @@ const Location = () => {
         });
     }, [text]);
 
-    // deals with location detail callback
+    // deals with user wanting to change a location after going through process already
     useEffect(()=>{
-        console.log(selectedLocation);
-    },[selectedLocation]);
+        if ((route.params !== undefined) && ('location' in route.params)) {
+            let text;
+            if ('formatted_address' in route.params.location){
+                if (route.params.location.formatted_address.split(",")[0] === route.params.location.name){
+                   text =  route.params.location.formatted_address;
+                }else{
+                    text =  route.params.location.name;
+                    text+=`, ${route.params.location.formatted_address}`
+                }
+            }else{
+                text =  route.params.location.name;
+            }
+            setText(text);
+        }
 
-    const locationSelectCallback=(location)=>{
-        baseNavigation.setOptions({tabBarVisible: true});
-        navigation.navigate(screens.CreateEventHome, { location })
+    },[route]);
 
+
+    const locationSelectCallback=({place_id})=>{
+        // API call to get location details such as long/lat and then navigate back
+        LocationDetail({place_id,sessiontoken}).then((location)=>{
+            baseNavigation.setOptions({tabBarVisible: true});
+            navigation.navigate(screens.CreateEventHome, { location })
+        });
     };
 
     const onSubmitEditing =({nativeEvent})=>{
@@ -75,7 +66,7 @@ const Location = () => {
     };
 
     useEffect(() => {
-        // set the sessiontoken for google
+        // set the sessiontoken for google billing
         setSessionToken(uuidv4());
 
         //LocationDetail({"place_id":"ChIJjQmTaV0E9YgRC2MLmS_e_mY"}).then((loc)=>setSelectedLocation(loc));
@@ -114,6 +105,7 @@ const Location = () => {
                         style={styles.autocomplete}
                         clearButtonMode={'always'}
                         onSubmitEditing={onSubmitEditing}
+                        value={text}
                     />
                 </View>
                 <View
@@ -128,12 +120,15 @@ const Location = () => {
                                 return item.place_id
                             }}
                             renderItem={({item, index, separators}) => {
+                                let location = {
+                                    name:item.structured_formatting.main_text,
+                                    formatted_address:item.structured_formatting.secondary_text,
+                                    place_id:item.place_id
+                                };
+
                                 return <View key={item.id} style={styles.item}>
                                     <ActualLocation
-                                        main_text={item.structured_formatting.main_text}
-                                        secondary_text={item.structured_formatting.secondary_text}
-                                        place_id={item.place_id}
-                                        sessiontoken={sessiontoken}
+                                        location={location}
                                         callbackFN={locationSelectCallback}
                                     />
 
@@ -208,4 +203,4 @@ const styles = StyleSheet.create({
 });
 
 
-export {Location,ActualLocation};
+export default LocationSearchAndInput;
