@@ -38,7 +38,6 @@
     "prop-types": "^15.7.2",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
-    "react-google-places-autocomplete": "^2.0.4",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-autocomplete-input": "^4.1.0",
     "react-native-calendars": "^1.264.0",
@@ -46,7 +45,7 @@
     "react-native-dotenv": "^0.2.0",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "~1.5.0",
-    "react-native-google-places-autocomplete": "git+https://github.com/abdullahceylan/react-native-google-places-autocomplete.git",
+    "react-native-google-places-autocomplete": "^1.7.3",
     "react-native-infinite-scroll-view": "^0.4.5",
     "react-native-overlay": "^0.5.0",
     "react-native-paper": "^3.6.0",
@@ -56,9 +55,11 @@
     "react-native-screens": "2.0.0-alpha.12",
     "react-native-snap-carousel": "^3.8.4",
     "react-native-swipeout": "^2.3.6",
+    "react-native-uuid": "^1.4.9",
     "react-native-view-more-text": "^2.1.0",
     "react-native-view-overflow": "^0.0.5",
-    "rn-placeholder": "^3.0.0"
+    "rn-placeholder": "^3.0.0",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

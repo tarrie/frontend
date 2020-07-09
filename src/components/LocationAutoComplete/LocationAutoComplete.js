@@ -9,8 +9,7 @@ import {normalize, SCREEN_HEIGHT, colors} from "../../constants/styles";
 
 // https://cloud.google.com/maps-platform/pricing/sheet/
 
-let BASE_URL = "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?";
-//GOOGLE_API_KEY
+let BASE_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?";
 
 const TEST_DATA = {
    "predictions" : [
@@ -301,23 +300,18 @@ async function getData(url) {
     // Default options are marked with *
     const response = await fetch(url, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        cache: 'force-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
+        cache: 'force-cache' // *default, no-cache, reload, force-cache, only-if-cached
+        //body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
     return response.json(); // parses JSON response into native JavaScript objects
 }
-// https://github.com/googlemaps/google-maps-services-js
 
-//https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Indie Cafe&key=AIzaSyBBtavlqluBQfpH_ffFHVF8zMwteAC1BJQ&types=address&types=food&types=(regions)&types=(cities)&types=geocode
 
-const VALID_TYPES = ["(regions)","(cities)","address", "geocode"]
 // Based on https://developers.google.com/places/web-service/query
-const  LocationAutoComplete = async ({text, caretPosition, location, radius}) => {
-
-
+const  LocationAutoComplete = async ({text, caretPosition, location, radius, sessiontoken}) => {
+    // restrict results to the us
     // these params are required. text input String + Google API Key
     let queryParams = `input=${text}&key=${GOOGLE_API_KEY}&language=en`;
-    VALID_TYPES.forEach(type => {queryParams+=`&types=${type}`});
 
     // The character position in the input term at which the service uses text for
     // predictions. For example, if the input is 'Googl' and the completion point is 3,
@@ -341,9 +335,13 @@ const  LocationAutoComplete = async ({text, caretPosition, location, radius}) =>
         queryParams += `&radius=${radius}`
     }
 
+   if ((sessiontoken)){
+      queryParams+= `&sessiontoken=${sessiontoken}`
+   }
 
-    return TEST_DATA.predictions
-    //return await getData(BASE_URL+queryParams)
+    console.log(BASE_URL+queryParams);
+    //return TEST_DATA.predictions
+    return text? await getData(BASE_URL+queryParams) : []
 };
 
 

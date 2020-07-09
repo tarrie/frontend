@@ -20,12 +20,14 @@ import {Location} from "./LocationSearch";
 import {GetDate} from "../../components/GetDate";
 import {GenericCreateEventOption} from "../../components/GenericCreateEventOption";
 import {screens} from "./routes/screens";
+import {ActualLocation} from "./LocationSearch";
 
 
 // ToDo: purple is the new green
 // The actual post page--
 const CreateEventHome = ({route, navigation}) => {
     const [eventImg, setEventImg] = useState({uri: undefined, base64: undefined});
+    const [location, setLocation] = useState();
 
     // Options + callback for the  `virtual' option
     const virtualCallBack = ()=>{
@@ -39,7 +41,7 @@ const CreateEventHome = ({route, navigation}) => {
         navigation.navigate(screens.Location, {
             })
     };
-    const addEventOptions = {actionType:"location",actionCallback:addEventCallBack,hasSwitch:false};
+    const addLocationOptions = {actionType:"location",actionCallback:addEventCallBack,hasSwitch:false};
 
     useEffect(() => {
         // Set the tabbar to visible just in case - we remove this for the camera
@@ -52,6 +54,11 @@ const CreateEventHome = ({route, navigation}) => {
         // use the `base64' to send data
         if ((route.params !== undefined) && ('uri' in route.params)) {
             setEventImg({uri: route.params.uri, base64: route.params.base64});
+        }
+
+
+        if ((route.params !== undefined) && ('location' in route.params)) {
+            setLocation(route.params.location)
         }
 
     }, [route]);
@@ -97,7 +104,7 @@ const CreateEventHome = ({route, navigation}) => {
             </View>
 
             <TouchableOpacity style={{borderWidth:1, width:'100%', flexDirection: 'column'}}  onPress={dismissKeyboard} activeOpacity={1}>
-                <GenericCreateEventOption options={addEventOptions}/>
+                <GenericCreateEventOption options={addLocationOptions}/>
                 <GetDate/>
             </TouchableOpacity>
 
@@ -105,6 +112,7 @@ const CreateEventHome = ({route, navigation}) => {
         </SafeAreaView>
     )
 };
+
 
 
 const styles = StyleSheet.create({
