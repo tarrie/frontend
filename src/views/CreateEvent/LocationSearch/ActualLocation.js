@@ -23,7 +23,7 @@ const ActualLocation = ({location, callbackFN, style }) => {
     };
     // marginVertical: 5 for mainscreen
     return (
-        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center',height: 60, width:'100%', ...style}} onPress={onPress}>
+        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center',minHeight: 60, width:'100%', ...style}} onPress={onPress}>
             <EvilIcons name={'location'} size={SCREEN_WIDTH/14} style={{
                 color: colors.primary.extra_dark,
             }}/>

@@ -37,12 +37,7 @@ const LocationSearchAndInput = ({route}) => {
         if ((route.params !== undefined) && ('location' in route.params)) {
             let text;
             if ('formatted_address' in route.params.location){
-                if (route.params.location.formatted_address.split(",")[0] === route.params.location.name){
-                   text =  route.params.location.formatted_address;
-                }else{
-                    text =  route.params.location.name;
-                    text+=`, ${route.params.location.formatted_address}`
-                }
+                text=route.params.location.formatted_address
             }else{
                 text =  route.params.location.name;
             }
