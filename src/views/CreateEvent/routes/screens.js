@@ -1,5 +1,6 @@
 export const screens = {
   CameraApp: "CameraApp",
   CreateEventHome: "CreateEventHome",
-  Location:"Location"
+  Location:"Location",
+  HashTags: "HashTags"
 };

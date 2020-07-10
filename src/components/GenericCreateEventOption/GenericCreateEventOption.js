@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {View, Button, Platform, TouchableOpacity} from 'react-native';
-import {Feather,EvilIcons,FontAwesome} from "@expo/vector-icons";
+import {View, Button, Platform, TouchableOpacity, StyleSheet,TextInput} from 'react-native';
+import {Feather,EvilIcons,FontAwesome,AntDesign,Octicons} from "@expo/vector-icons";
 import {colors, normalize, SCREEN_HEIGHT} from "../../constants/styles";
 import {StyledText} from "../StyledText";
 import {Switch} from 'react-native-paper';
@@ -8,7 +8,10 @@ import {ZoomIcon} from "../../assets/icons";
 
 const actionTypes = {
     location: "location",
-    zoom: "zoom"
+    zoom: "zoom",
+    cohosts: "cohosts",
+    info:"info",
+    tags:"tags"
 };
 
 /**
@@ -20,27 +23,52 @@ const actionTypes = {
 const GetIcon = ({actionType})=>{
     if (actionType === actionTypes.location){
         return (
-            <EvilIcons name={'location'} size={25} style={{
-                marginLeft: normalize(5),
-                marginRight: normalize(15),
-                color: colors.primary.dark
-            }}/>
+            <Octicons name={'location'} size={25} style={style.icon}/>
         )
     }
-    return (
-            <FontAwesome name={'video-camera'} size={25} style={{
-                marginLeft: normalize(5),
-                marginRight: normalize(15),
-                color: '#7A4988'
-            }}/>
-    )
+
+    if (actionType === actionTypes.zoom) {
+        return (
+            <FontAwesome name={'video-camera'} size={25} style={style.icon}/>
+        )
+    }
+
+    if (actionType === actionTypes.tags){
+        return (
+            <AntDesign name={'tagso'} size={25} style={style.icon}/>
+        )
+
+    }
+
+    if (actionType === actionTypes.info){
+        return (
+            <Feather name={'align-left'} size={25} style={style.icon}/>
+        )
+    }
+
 };
 
+//chevron
+//Feather, align-left
+// FontAwesome align-left
 const GetActionText = ({actionType})=>{
     if (actionType === actionTypes.location){
         return "Add location"
     }
-    return "Add virtual stream"
+
+    if (actionType === actionTypes.zoom){
+        return "Add virtual stream"
+    }
+
+    if (actionType === actionTypes.tags){
+        return "Add HashTags"
+    }
+
+
+    if (actionType === actionTypes.info){
+        return "Add Description"
+    }
+
 };
 
 const GenericCreateEventOption = ({options}) => {
@@ -57,11 +85,13 @@ const GenericCreateEventOption = ({options}) => {
     return (
         <TouchableOpacity
             onPress={options.actionCallback}
-            style={{flexDirection: 'row', marginVertical: 5, borderWidth: 1, alignItems: 'center', height: 60}}>
+            style={{flexDirection: 'row', marginVertical: 5, borderWidth: 1, alignItems: 'center', minHeight: 60}}>
             <GetIcon actionType={options.actionType}/>
 
+            {options.actionType !== actionTypes.info?
+
             <View
-                style={{flexDirection: 'row', borderWidth: 1, width: '86%', justifyContent: 'space-between'}}>
+                style={{flexDirection: 'row', borderWidth: 1, width: '86%', justifyContent: 'space-between', minHeight: 35,marginLeft: normalize(30)}}>
                 <StyledText size={SCREEN_HEIGHT / 50} style={{color: colors.text.primary.light}} type={'semibold'}>
                     {GetActionText({actionType:options.actionType})}
                 </StyledText>
@@ -71,7 +101,17 @@ const GenericCreateEventOption = ({options}) => {
                     value={isSwitchOn}
                     onValueChange={switchHandler}
                 />}
-            </View>
+            </View>:
+
+                <TextInput
+                    placeholder={"Add info"}
+                    style={style.info_textbox}
+                    multiline={true}
+                    selectionColor={colors.primary.dark}
+                    onChangeText={(text) =>  options.actionCallback(text)}
+                    value={options.infoText}
+                />
+            }
 
         </TouchableOpacity>
     )
@@ -128,5 +168,24 @@ GenericCreateEventOption.propTypes = {
     options: optionValidator
 };
 
-
+const style = StyleSheet.create({
+    info_textbox: {
+        width: '86%',
+        minHeight: 35,
+        fontFamily: 'source-sans-pro-semibold',
+        color: colors.text.primary.main,
+        fontSize: SCREEN_HEIGHT / 45,
+        borderColor: colors.primary.extra_dark,
+        borderWidth: 1,
+        marginLeft: normalize(30)
+    },
+    icon:{
+        left:0,
+        top:15,
+        position: "absolute",
+        marginLeft: normalize(5),
+        marginRight: normalize(15),
+        color: colors.primary.dark
+    }
+});
 export default GenericCreateEventOption;

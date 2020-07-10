@@ -28,6 +28,7 @@ import {ActualLocation} from "./LocationSearch";
 const CreateEventHome = ({route, navigation}) => {
     const [eventImg, setEventImg] = useState({uri: undefined, base64: undefined});
     const [location, setLocation] = useState();
+    const [infoText, setInfoText] = useState(null);
 
     // Options + callback for the  `virtual' option
     const virtualCallBack = ()=>{
@@ -35,6 +36,27 @@ const CreateEventHome = ({route, navigation}) => {
             })
     };
     const virtualEventOptions = {actionType:"virtual",actionCallback:virtualCallBack,hasSwitch:false};
+
+    // Options + callback for the  `virtual' option
+    const tagsCallBack = ()=>{
+                navigation.navigate(screens.HashTags, {
+            })
+    };
+    const tagsOptions = {actionType:"tags",actionCallback:tagsCallBack,hasSwitch:false};
+
+
+    // Options + callback for Adding More info to event
+    const addInfoCallBack = (text)=>{
+        setInfoText(text)
+    };
+
+    const addInfoOptions = {
+        actionType:"info",
+        actionCallback:addInfoCallBack,
+        hasSwitch:false,
+        infoText:infoText
+    };
+
 
     // Options + callback for the  `location' option - when it's initially empty
     const addLocationCallBack = ()=>{
@@ -46,8 +68,8 @@ const CreateEventHome = ({route, navigation}) => {
     const locationPressCallBack = (location)=>{
         navigation.navigate(screens.Location, {location:location})
     };
-
     const addLocationOptions = {actionType:"location",actionCallback:addLocationCallBack,hasSwitch:false};
+
 
     useEffect(() => {
         // Set the tabbar to visible just in case - we remove this for the camera
@@ -117,6 +139,9 @@ const CreateEventHome = ({route, navigation}) => {
                 }
 
                 <GetDate/>
+
+                <GenericCreateEventOption options={addInfoOptions}/>
+                <GenericCreateEventOption options={tagsOptions}/>
             </TouchableOpacity>
 
 
@@ -161,6 +186,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     }
+
+
 
 });
 

@@ -4,6 +4,7 @@ import {createStackNavigator, CardStyleInterpolators} from '@react-navigation/st
 import {screens} from "./screens";
 import CreateEventHome from "../CreateEventHome";
 import {Location} from "../LocationSearch";
+import {HashTags} from "../HashTags";
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,16 @@ const CreateEventNavigator = () => {
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                 }
             }/>
+
+            <Stack.Screen name={screens.HashTags} component={HashTags} options={
+                {
+                    headerShown: false,
+                    gestureDirection: 'horizontal',
+                    gestureEnabled: true,
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }
+            }/>
+
             </Stack.Navigator>
     )
 };

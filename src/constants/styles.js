@@ -52,7 +52,7 @@ export const colors = {
         extra_dark: 'rgba(47,79,79,1)'
     },
     secondary: {
-        main: 'rgba(131,52,113,.95)',
+        main: 'rgba(131,52,113,1)',
         light: '#a33131'
     },
     text: {

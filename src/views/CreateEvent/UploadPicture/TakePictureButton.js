@@ -13,7 +13,7 @@ const TakePictureButton = ({onPress, content}) => {
             activeOpacity={0.5}
         >
             <View style={styles.button}>
-                <MaterialIcons name={'add-a-photo'} size={55} color={colors.primary.extra_dark}/>
+                <MaterialIcons name={'add-a-photo'} size={55} color={colors.secondary.main}/>
             </View>
         </TouchableOpacity>
     )
