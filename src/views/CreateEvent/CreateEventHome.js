@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from "react"
+import React, {useEffect, useState, useContext, useRef} from "react"
 import {
     View,
     StyleSheet,
@@ -21,7 +21,7 @@ import {GetDate} from "../../components/GetDate";
 import {GenericCreateEventOption} from "../../components/GenericCreateEventOption";
 import {screens} from "./routes/screens";
 import {ActualLocation} from "./LocationSearch";
-
+import {GroupContext} from "../../contex/GroupContext";
 
 // ToDo: purple is the new green
 // The actual post page--
@@ -29,6 +29,8 @@ const CreateEventHome = ({route, navigation}) => {
     const [eventImg, setEventImg] = useState({uri: undefined, base64: undefined});
     const [location, setLocation] = useState();
     const [infoText, setInfoText] = useState(null);
+    const groupState = useContext(GroupContext); //undefined if not in a group
+    const userState = useContext(UserContext);
 
     // Options + callback for the  `virtual' option
     const virtualCallBack = ()=>{

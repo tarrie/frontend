@@ -8,7 +8,7 @@ import {HashTags} from "../HashTags";
 
 const Stack = createStackNavigator();
 
-const CreateEventNavigator = () => {
+const CreateEventNavigator = ({route}) => {
     return (
         <Stack.Navigator gestureDirection="vertical"
                          initialRouteName={screens.CreateEventHome}
@@ -20,7 +20,7 @@ const CreateEventNavigator = () => {
                                  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS
                              }
                          }>
-            <Stack.Screen name={screens.CreateEventHome} component={CreateEventHome}/>
+            <Stack.Screen name={screens.CreateEventHome} component={CreateEventHome} initialParams={route.params}/>
             <Stack.Screen name={screens.CameraApp} component={CameraApp} options={{headerShown: false}}/>
             <Stack.Screen name={screens.Location} component={Location} options={
                 {

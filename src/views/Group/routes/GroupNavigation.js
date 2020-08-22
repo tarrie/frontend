@@ -3,7 +3,8 @@ import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/
 import {screens} from "./constants";
 import {Events,Announcements,Members,GroupHome,Chats} from "../Views";
 import {GroupContext} from "../../../contex/GroupContext";
-import {CreateEvent} from "../../CreateEvent";
+//import {CreateEvent} from "../../CreateEvent";
+import {CreateEventNavigator} from "../../CreateEvent/routes";
 
 const Stack = createStackNavigator();
 
@@ -32,7 +33,7 @@ return (
             <Stack.Screen name={screens.GROUP_ANNOUNCEMENTS} component={Announcements} />
             <Stack.Screen name={screens.GROUP_MEMBERS} component={Members} />
             <Stack.Screen name={screens.GROUP_HOME} component={GroupHome} options={{ title: 'My home' }} />
-            <Stack.Screen name={screens.EVENT_CREATE} component={CreateEvent} options={{headerShown: false}}/>
+            <Stack.Screen name={screens.EVENT_CREATE} component={CreateEventNavigator} options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 };
