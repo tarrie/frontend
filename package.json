@@ -59,6 +59,7 @@
     "react-native-view-more-text": "^2.1.0",
     "react-native-view-overflow": "^0.0.5",
     "rn-placeholder": "^3.0.0",
+    "url-join": "^4.0.1",
     "uuid": "^8.2.0"
   },
   "devDependencies": {

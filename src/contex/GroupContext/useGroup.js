@@ -61,6 +61,16 @@ const useGroup = () => {
     };
 
     /**
+     * Creates a event by calling the api with the payload
+     * @param payload
+     * @return {Promise<void>}
+     */
+    const createEvent = async (payload)=>{
+        console.log("[useGroup.js] Group event created!!");
+        console.log(payload);
+    };
+
+    /**
      * Gets events hosted by querying graphQL API
      * @param groupId
      * @param userId
@@ -77,7 +87,6 @@ const useGroup = () => {
      * @param userId
      */
     const loadGroup = ({groupId,userId}) => {
-        console.log("hefwdgr")
         setUserId(userId);
         getGroup({groupId,userId}).then(()=>setIsLoaded(true));
         //getEventsHosted({groupId,userId});
@@ -86,7 +95,8 @@ const useGroup = () => {
     return {
         group,
         isLoaded,
-        loadGroup
+        loadGroup,
+        createEvent
     }
 };
 

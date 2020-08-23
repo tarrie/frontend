@@ -31,13 +31,17 @@ const getFormattedDate = (selectedDay) => {
 
 };
 
-const GetDate = () => {
+const GetDate = ({datetimeChangedCallback}) => {
     let hasDayEndedTimeOut;
 
     const [time, setTime] = useState(moment().subtract(5, 'h').endOf('h').add(1, 'm').toDate());
     const [selectedDay, setSelectedDay] = useState(generateToday());
     const [hide, setHide] = useState({'datePicker': true, 'timePicker': true});
     const [isAllDay, setIsAllDay] = useState(false);
+
+    useEffect(()=>{
+        datetimeChangedCallback({time, selectedDay, isAllDay})
+    },[hide]);
 
     const hidePicker = () => {
         setHide({timePicker: true, datePicker: true});

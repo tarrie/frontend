@@ -29,8 +29,11 @@ const CreateEventHome = ({route, navigation}) => {
     const [eventImg, setEventImg] = useState({uri: undefined, base64: undefined});
     const [location, setLocation] = useState();
     const [infoText, setInfoText] = useState(null);
+    let datetimeObj={};
+
     const groupState = useContext(GroupContext); //undefined if not in a group
     const userState = useContext(UserContext);
+
 
     // Options + callback for the  `virtual' option
     const virtualCallBack = ()=>{
@@ -51,7 +54,6 @@ const CreateEventHome = ({route, navigation}) => {
     const addInfoCallBack = (text)=>{
         setInfoText(text)
     };
-
     const addInfoOptions = {
         actionType:"info",
         actionCallback:addInfoCallBack,
@@ -72,6 +74,22 @@ const CreateEventHome = ({route, navigation}) => {
     };
     const addLocationOptions = {actionType:"location",actionCallback:addLocationCallBack,hasSwitch:false};
 
+
+    const createEventCallback =()=>{
+        if (groupState !== undefined){
+            groupState.groupState.createEvent({location,infoText,datetimeObj,eventImg});
+            console.log("[CreateEventHome.js] Group event about to be created")
+
+        }else{
+            // ToDo: HNDLE EVENTS CREATED BY USERS
+            console.log("[CreateEventHome.js] User event about to be created")
+        }
+    };
+
+
+    const datetimeChangedCallback =(_datetimeObj)=>{
+        datetimeObj=_datetimeObj;
+    };
 
     useEffect(() => {
         // Set the tabbar to visible just in case - we remove this for the camera
@@ -114,7 +132,7 @@ const CreateEventHome = ({route, navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
 
-            <EventTopNavBar navigation={navigation}/>
+            <EventTopNavBar navigation={navigation} createEventCallback={createEventCallback}/>
             <View style={styles.photo_title_container}>
                 <TouchableOpacity style={styles.photos} onPress={dismissKeyboard} activeOpacity={1}>
                     <UploadPhoto img={eventImg} onCloseCallback={onPictureCloseCallback}/>
@@ -140,7 +158,7 @@ const CreateEventHome = ({route, navigation}) => {
                     <GenericCreateEventOption options={addLocationOptions}/>
                 }
 
-                <GetDate/>
+                <GetDate datetimeChangedCallback={datetimeChangedCallback}/>
 
                 <GenericCreateEventOption options={addInfoOptions}/>
                 <GenericCreateEventOption options={tagsOptions}/>

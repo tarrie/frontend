@@ -7,7 +7,12 @@ import {
     Ionicons
 } from '@expo/vector-icons';
 
-const EventTopNavBar = ({navigation}) => {
+const EventTopNavBar = ({navigation, createEventCallback}) => {
+
+    const doneFn = ()=>{
+        createEventCallback();
+        navigation.goBack()
+    };
 
     return (
         <View style={styles.container}>
@@ -15,24 +20,24 @@ const EventTopNavBar = ({navigation}) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
 
                     <View style={{
-                        width: SCREEN_HEIGHT / 30,
+                        width: SCREEN_HEIGHT / 17,
                         height: SCREEN_HEIGHT / 30,
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
-                        <Ionicons name={"ios-arrow-back"} size={SCREEN_HEIGHT / 28} style={{color: '#5E6C84'}}/>
+                        <StyledText type={"bold"} size={18} style={{color: colors.primary.extra_dark}}>Cancel</StyledText>
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={doneFn}>
 
                     <View style={{
-                        width: SCREEN_HEIGHT / 30,
+                        width: SCREEN_HEIGHT / 20,
                         height: SCREEN_HEIGHT / 30,
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
                     }}>
-                        <FontAwesome5 name={"trash-alt"} size={SCREEN_HEIGHT / 40} style={{color: '#5E6C84'}}/>
+                        <StyledText type={"bold"} size={18} style={{color: colors.primary.extra_dark}}>Done</StyledText>
                     </View>
                 </TouchableOpacity>
 

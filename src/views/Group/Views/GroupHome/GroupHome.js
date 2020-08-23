@@ -73,6 +73,7 @@ const StickyHeader = ({selectedDay}) => {
 };
 
 const GroupHome = () => {
+
     const ref = useRef(null);
     const {groupHomeState} = useContext(GroupContext);
     const navigation = useNavigation();
