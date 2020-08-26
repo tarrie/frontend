@@ -30,6 +30,7 @@ const CreateEventHome = ({route, navigation}) => {
     const [location, setLocation] = useState();
     const [infoText, setInfoText] = useState(null);
     let datetimeObj={};
+    let title = null;
 
     const groupState = useContext(GroupContext); //undefined if not in a group
     const userState = useContext(UserContext);
@@ -77,11 +78,12 @@ const CreateEventHome = ({route, navigation}) => {
 
     const createEventCallback =()=>{
         if (groupState !== undefined){
-            groupState.groupState.createEvent({location,infoText,datetimeObj,eventImg});
+
+            groupState.groupState.createEvent({location,infoText,datetimeObj,eventImg,title});
             console.log("[CreateEventHome.js] Group event about to be created")
 
         }else{
-            // ToDo: HNDLE EVENTS CREATED BY USERS
+            // ToDo: HANDLE EVENTS CREATED BY USERS
             console.log("[CreateEventHome.js] User event about to be created")
         }
     };
@@ -122,12 +124,6 @@ const CreateEventHome = ({route, navigation}) => {
         Keyboard.dismiss();
     };
 
-    /**
-     * Called after user hits the post button - clean up state
-     */
-    const onPostFinished = () => {
-        setEventImg({uri: undefined, base64: undefined});
-    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -139,6 +135,7 @@ const CreateEventHome = ({route, navigation}) => {
                 </TouchableOpacity>
 
                 <TextInput
+                    onChangeText={(txt)=>{title = txt}}
                     style={styles.title}
                     multiline
                     maxLength={100}

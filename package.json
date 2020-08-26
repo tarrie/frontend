@@ -24,7 +24,9 @@
     "deprecated-react-native-listview": "^0.0.6",
     "expo": "~36.0.0",
     "expo-camera": "^8.2.0",
+    "expo-file-system": "~8.0.0",
     "expo-font": "latest",
+    "expo-image-manipulator": "~8.0.0",
     "expo-image-picker": "^8.1.0",
     "expo-media-library": "^8.1.0",
     "expo-permissions": "^8.1.0",
@@ -59,6 +61,7 @@
     "react-native-view-more-text": "^2.1.0",
     "react-native-view-overflow": "^0.0.5",
     "rn-placeholder": "^3.0.0",
+    "shortid": "^2.2.15",
     "url-join": "^4.0.1",
     "uuid": "^8.2.0"
   },

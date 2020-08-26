@@ -66,6 +66,7 @@ const useGroup = () => {
      * @return {Promise<void>}
      */
     const createEvent = async (payload)=>{
+
         console.log("[useGroup.js] Group event created!!");
         console.log(payload);
     };
