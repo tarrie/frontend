@@ -33,7 +33,9 @@ const longFormattedTimeZone = moment().tz(timeZone).format('zz');
 
 
 const getCalendarFormatDate = (dateString) => {
-    const today = moment(dateString);
+    // moment('2010-10-20T08:40'); // should parse to local time
+    // moment.utc('2010-10-20T08:40'); // should parse to utc time
+    const today = moment.utc(dateString);
     return {
         dateString: today.format("YYYY-MM-DD"),
         month: today.month() + 1,
@@ -71,6 +73,7 @@ const GetDate = ({datetimeChangedCallback}) => {
 
     useEffect(() => {
         datetimeChangedCallback({dateTime:{dateTime:dateTime,isAllDay}})
+
     }, []);
 
     useEffect(() => {
@@ -142,21 +145,17 @@ const GetDate = ({datetimeChangedCallback}) => {
     };
 
     const newDayCallBack_start = (day) => {
-
         setDateTime({...dateTime, start: `${day.dateString}T${dateTime.start.split("T")[1]}`});
+
     };
+
+
 
     const newDayCallBack_end = (day) => {
         setDateTime({...dateTime, end: `${day.dateString}T${dateTime.end.split("T")[1]}`});
     };
 
     const newTimeCallBack_start = (event, selectedTime) => {
-        console.log("GetDate/newTimeCallBack_start");
-        console.log(selectedTime);
-        console.log(dateTime.start);
-        console.log(selectedTime.toISOString())
-        console.log(getFormattedDate(selectedTime.toISOString()))
-        console.log(getFormattedDate(dateTime.start))
 
         setDateTime({...dateTime, start:`${dateTime.start.split("T")[0]}T${selectedTime.toISOString().split("T")[1]}` ||dateTime.start});
     };

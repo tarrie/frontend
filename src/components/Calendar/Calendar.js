@@ -6,6 +6,7 @@ import {CALENDAR_HEIGHT} from "../../constants/parameters";
 import {SwipeLeft, SwipeRight} from "../../assets/icons";
 import moment from "moment";
 import {generateToday,generateDay} from "./utils";
+import {fontTypes} from "../../constants/styles";
 
 LocaleConfig.locales['fr'] = {
     monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -43,6 +44,27 @@ const theme = {
     textMonthFontSize: 16,
     textDayHeaderFontSize: 16,
 
+    //custom
+    'stylesheet.day.single':{
+        'base':{
+            width: 32,
+            height: 32,
+            justifyContent:'center',
+            alignItems: 'center',
+            marginTop: -5
+        },
+        'text':{
+            fontSize: 13,
+            textAlign:'center',
+            fontFamily: fontTypes.regular
+
+        },
+        'selected':{
+            backgroundColor:colors.secondary.main,
+            borderRadius: 16,
+            fontFamily:fontTypes.bold
+        }
+    },
 
     "stylesheet.calendar.main": {
         'monthView': {
@@ -117,6 +139,9 @@ const EventCalendar = ({selectedDay, newDayCallBack, canGoIntoPast}) => {
 
     };
 
+    const onDayPress = (day)=>{
+        newDayCallBack(day);
+    };
 
     return (
 
@@ -126,12 +151,10 @@ const EventCalendar = ({selectedDay, newDayCallBack, canGoIntoPast}) => {
                 // onDayLongPress={this.onDayLongPress}
                 theme={theme}
                 horizontal={true}
-                markingType={'multi-dot'}
+                markingType={'custom'}
                 markedDates={convertToMarkedDate(selectedDay)}
                 pagingEnabled
-                onDayPress={(day) => {
-                    newDayCallBack(day)
-                }}
+                onDayPress={onDayPress}
                 current={selectedDay.dateString}
 
                 scrollEnabled={true}
