@@ -33,7 +33,8 @@ const BottomTabText = ({focused, children}) => {
 
 const BottomNavigation = () => {
 
-  const { isLoggedIn, userId} = useContext(UserContext);
+    // ToDo: On login make sure we get user info
+  const { isLoggedIn, userInfo} = useContext(UserContext);
 
     return (
         <BottomTab.Navigator
@@ -63,7 +64,7 @@ const BottomNavigation = () => {
                 name={screens.HOME}
                 component={Group}
                 options={{
-                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> {isLoggedIn?userId.substring(4):'HOME' }</BottomTabText>,
+                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> {isLoggedIn?userInfo.userId.substring(4):'HOME' }</BottomTabText>,
                     tabBarIcon: ({focused, size}) => (
                         <View style={[styles.fab,focused?styles.fab_active:styles.fab_inactive]}>
                         <SimpleLineIcons name={"home"} size={size} style={focused? styles.fab_icon_active: styles.fab_icon_inactive}/>

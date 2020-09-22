@@ -22,13 +22,13 @@ const UserContextProvider = ({children}) => {
         setState({
             ...state,
             isLoggedIn: true,
-            userId: 'USR#beckb_triDelt'
+            userInfo: {userId:'USR#beckb_triDelt'}
         })
     }, []);
 
     const initialState = {
         isLoggedIn: false,
-        userId: null,
+        userInfo: {},
         baseNavigation: null,
         setBaseNavigation
     };

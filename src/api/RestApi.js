@@ -65,7 +65,7 @@ class RestApi {
      * -- Note the entityId must already exist unless a error will occur. ---
      *  Based on: https://stackoverflow.com/questions/32441963/how-to-use-formdata-in-react-native
      */
-    uploadProfilePic = async ({userId, entityId, uri}) => {
+    static uploadProfilePic = async ({userId, entityId, uri}) => {
 
         const endPoint = urlJoin(API_HOSTNAME,"pictures/profile",entityId);
 
@@ -94,6 +94,7 @@ class RestApi {
         });
         return response.json(); // parses JSON response into native JavaScript objects
     };
+
 
 }
 

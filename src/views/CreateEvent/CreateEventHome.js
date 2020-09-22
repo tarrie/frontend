@@ -17,7 +17,7 @@ import EventTopNavBar from "./EventTopNavBar/EventTopNavBar";
 import { Input } from 'react-native-elements';
 import {StyledText} from "../../components/StyledText";
 import {Location} from "./LocationSearch";
-import {GetDate} from "../../components/GetDate";
+import {GetDate,initialDate} from "../../components/GetDate";
 import {GenericCreateEventOption} from "../../components/GenericCreateEventOption";
 import {screens} from "./routes/screens";
 import {ActualLocation} from "./LocationSearch";
@@ -26,10 +26,10 @@ import {GroupContext} from "../../contex/GroupContext";
 // ToDo: purple is the new green
 // The actual post page--
 const CreateEventHome = ({route, navigation}) => {
-    const [eventImg, setEventImg] = useState({uri: undefined, base64: undefined});
+    const [eventImgUri, setEventImgUri] = useState(null);
     const [location, setLocation] = useState();
     const [infoText, setInfoText] = useState(null);
-    let datetimeObj={};
+    let datetime=initialDate();
     let title = null;
 
     const groupState = useContext(GroupContext); //undefined if not in a group
@@ -76,11 +76,14 @@ const CreateEventHome = ({route, navigation}) => {
     const addLocationOptions = {actionType:"location",actionCallback:addLocationCallBack,hasSwitch:false};
 
 
+    /**
+     * ToDo: Make this more general this calls groupState, to create and event, should work for both
+     */
     const createEventCallback =()=>{
         if (groupState !== undefined){
-
-            groupState.groupState.createEvent({location,infoText,datetimeObj,eventImg,title});
-            console.log("[CreateEventHome.js] Group event about to be created")
+            //let dateTime = datetimeObj.dateTime.dateTime;
+            console.log("[CreateEventHome.js] Group event about to be created");
+            groupState.groupState.createEvent({location,infoText,datetime,eventImgUri,title});
 
         }else{
             // ToDo: HANDLE EVENTS CREATED BY USERS
@@ -90,7 +93,7 @@ const CreateEventHome = ({route, navigation}) => {
 
 
     const datetimeChangedCallback =(_datetimeObj)=>{
-        datetimeObj=_datetimeObj;
+        datetime=_datetimeObj;
     };
 
     useEffect(() => {
@@ -103,7 +106,9 @@ const CreateEventHome = ({route, navigation}) => {
         // use the `uri' to display data
         // use the `base64' to send data
         if ((route.params !== undefined) && ('uri' in route.params)) {
-            setEventImg({uri: route.params.uri, base64: route.params.base64});
+            //setEventImgUri({uri: route.params.uri, base64: route.params.base64});
+            setEventImgUri(route.params.uri);
+
         }
 
 
@@ -117,7 +122,7 @@ const CreateEventHome = ({route, navigation}) => {
      * Called when picture is closed
      */
     const onPictureCloseCallback = () => {
-        setEventImg({uri: undefined, base64: undefined})
+        setEventImgUri(undefined);
     };
 
     const dismissKeyboard =()=>{
@@ -131,7 +136,7 @@ const CreateEventHome = ({route, navigation}) => {
             <EventTopNavBar navigation={navigation} createEventCallback={createEventCallback}/>
             <View style={styles.photo_title_container}>
                 <TouchableOpacity style={styles.photos} onPress={dismissKeyboard} activeOpacity={1}>
-                    <UploadPhoto img={eventImg} onCloseCallback={onPictureCloseCallback}/>
+                    <UploadPhoto uri={eventImgUri} onCloseCallback={onPictureCloseCallback}/>
                 </TouchableOpacity>
 
                 <TextInput

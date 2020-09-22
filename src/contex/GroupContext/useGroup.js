@@ -3,6 +3,7 @@ import {GraphQLApi, RestApi} from "../../api";
 import * as path from 'path';
 import {API_HOSTNAME} from "../../constants/parameters";
 import {getImgPath} from "../../utils";
+import {hasParameter,isObjectEmpty} from "../../utils";
 
 const TEST_GROUP = {
     "bio": "Dude's who like to party",
@@ -24,6 +25,7 @@ const TEST_GROUP = {
         "name": "Jide"
     }
 };
+const getGroupId = ({main_pk})=>{return main_pk;}
 
 const useGroup = () => {
     const [group, setGroup] = useState(null);
@@ -65,10 +67,24 @@ const useGroup = () => {
      * @param payload
      * @return {Promise<void>}
      */
-    const createEvent = async (payload)=>{
+    const createEvent = async ({location,infoText,datetime,eventImgUri,title})=>{
 
         console.log("[useGroup.js] Group event created!!");
-        console.log(payload);
+
+        // (1) Create Event
+
+        // (2) Wait for the profile picture
+        // ToDo: Need eventId so we can add it. This will be the entityId, depending on entity (different logic)
+       // if(hasParameter(eventImgUri)){
+         //   await RestApi.uploadProfilePic({userId, entityId:getGroupId(group), uri:eventImgUri});
+
+       // }
+
+        console.log( JSON.stringify({location,infoText,datetime,eventImgUri,title}, null, 2));
+        console.log( JSON.stringify(getGroupId(group), null, 2));
+        console.log("[useGroup.js] Group event created- userId");
+        console.log( JSON.stringify(userId, null, 2));
+
     };
 
     /**

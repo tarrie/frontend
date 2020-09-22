@@ -13,7 +13,7 @@ import {screens} from "../routes/screens";
  * @param outfit - {uri:string, outfitOption: enum [A,B]} for example {uri:'https://tinyurl/dvdfr', outfitOption: 'A'}
  * @param onCloseCallback - called when picture is closed.
  */
-const UploadPhoto = ({ img, onCloseCallback }) => {
+const UploadPhoto = ({ uri, onCloseCallback }) => {
     const navigation = useNavigation();
 
     const onClose = () => {
@@ -23,8 +23,8 @@ const UploadPhoto = ({ img, onCloseCallback }) => {
     return (
         <View style={styles.photo_option}>
 
-            {img.uri !== undefined ?
-                <ImageBackground source={{ uri: img.uri }} style={{ ...styles.image }} resizeMode={'cover'}>
+            {uri !== undefined && uri !== null ?
+                <ImageBackground source={{ uri: uri }} style={{ ...styles.image }} resizeMode={'cover'}>
                     {/* make image darker so close button will always show*/}
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.15)' }}>
                         {/* close button in top right corner */}
@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
 });
 
 UploadPhoto.propTypes = {
-    img: PropTypes.object.isRequired,
     onCloseCallback: PropTypes.func.isRequired
 };
 

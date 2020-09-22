@@ -57,27 +57,32 @@ const getFormattedDate = (dateString) => {
 
 const type = {start:0, end:1};
 
-
-const GetDate = ({datetimeChangedCallback}) => {
+/**
+ * Returns the initial date as specified by the app
+ * @return {{start: *, end: *}}
+ */
+export const initialDate = () =>{
     const utcOffset = moment().utcOffset();
-    const [dateTime, setDateTime] = useState(
-        {
+    return {
             start:(moment().add(utcOffset, 'm').endOf('h').add(1, 'm').toISOString()),
             end: (moment().add(utcOffset, 'm').add(1,'h').endOf('h').add(1, 'm').toISOString())
-        }
-    );
+        };
+};
+
+const GetDate = ({datetimeChangedCallback}) => {
+    const [dateTime, setDateTime] = useState(initialDate());
     const [hide, setHide] = useState(
         {start:{'datePicker': true, 'timePicker': true},end:{'datePicker': true, 'timePicker': true}});
     const [isAllDay, setIsAllDay] = useState(false);
 
 
     useEffect(() => {
-        datetimeChangedCallback({dateTime:{dateTime:dateTime,isAllDay}})
+        datetimeChangedCallback(dateTime)
 
     }, []);
 
     useEffect(() => {
-        datetimeChangedCallback({dateTime:{dateTime:dateTime,isAllDay}})
+        datetimeChangedCallback(dateTime)
     }, [hide,dateTime,isAllDay]);
 
 

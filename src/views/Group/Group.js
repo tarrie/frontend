@@ -7,7 +7,7 @@ import {UserContext} from "../../contex/UserContext";
 import {useNavigation} from '@react-navigation/native';
 
 const Group = ({ route_, navigation }) =>{
-    const {userId,setBaseNavigation} = useContext(UserContext);
+    const {userInfo,setBaseNavigation} = useContext(UserContext);
     const [groupId, setGroupId] = useState(route_.params.groupId);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const Group = ({ route_, navigation }) =>{
 
 return (
         <GroupContextProvider>
-            <GroupNavigation groupId={groupId} userId={userId}/>
+            <GroupNavigation groupId={groupId} userId={userInfo.userId}/>
         </GroupContextProvider>
  )
 };
