@@ -29,6 +29,7 @@ import {
 import {Expandable, DisappearDelay} from "../../../../components/Animations";
 import {GroupContext} from "../../../../contex/GroupContext";
 import {SwipeLeft} from "../../../../assets/icons";
+import {GraphQLApi} from "../../../../api";
 
 
 // https://ethercreative.github.io/react-native-shadow-generator/
@@ -96,6 +97,10 @@ const GroupHome = () => {
     const currentYPosn = useRef(0);
 
     let isScrolling = false;
+
+    useEffect(()=>{
+        GraphQLApi.subscribeToEvents();
+    },[]);
 
     useEffect(() => {
         if (isSearchActive) {
