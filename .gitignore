@@ -14,6 +14,7 @@ web-report/
 .DS_Store
 
 .env
+aws-exports.js
 
 # Created by https://www.gitignore.io/api/react,macos,webstorm,reactnative
 # Edit at https://www.gitignore.io/?templates=react,macos,webstorm,reactnative
