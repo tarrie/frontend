@@ -93,7 +93,7 @@ class RestApi {
     static uploadProfilePic = async ({relativePath, userId, entityId, uri}) => {
 
         const endPoint = urlJoin(API_HOSTNAME, relativePath);
-
+        //console.log(encodeURI(endPoint));
         // compress image
         const compressedUri = await compressImage({uri});
 
@@ -109,6 +109,7 @@ class RestApi {
         formData.append("file", {uri: compressedUri, name: filename, type: `image/${fileType}`});
         formData.append("userId", userId);
 
+        console.log(`Multipart/form PUT`);
         // invoke the api call
         const response = await fetch(endPoint, {
             method: 'PUT', // *GET, POST, PUT, DELETE, etc.
@@ -164,8 +165,8 @@ class RestApi {
         const eventId = eventJson.main_pk;
 
         // upload picture using the  returned eventId
-        const relativePath_EventImgUpload = urlJoin("events", "pictures", eventId);
-
+        const relativePath_EventImgUpload = urlJoin("events", "pictures", encodeURIComponent(eventId));
+        console.log(`[RestApi::createEvent()] rel path ${relativePath_EventImgUpload}`);
         // Check if the API call completes
         try {
             // add the img to the event in a seperate call
