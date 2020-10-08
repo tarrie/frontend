@@ -1,7 +1,6 @@
 import {hasParameter} from "../../utils";
 
 const payloadToCreateEvent = ({userId, groupId, location, infoText, datetime, imgPath, title, hashTags, linkSharing, invitedEntityIds, coordinators, eventPrivacy}) => {
-    console.log(`[payloadToCreateEvent] ${userId}`)
     let payload = {};
 
     // If groupId exists then we are creating a event for a group, thus groupId is the creatorId

@@ -79,11 +79,11 @@ const CreateEventHome = ({route, navigation}) => {
     /**
      * ToDo: Make this more general this calls groupState, to create and event, should work for both
      */
-    const createEventCallback =()=>{
+    const createEventCallback = async ()=>{
         if (groupState !== undefined){
             //let dateTime = datetimeObj.dateTime.dateTime;
             console.log("[CreateEventHome.js] Group event about to be created");
-            groupState.groupState.createEvent({location,infoText,datetime,eventImgUri,title});
+            return groupState.groupState.createEvent({location,infoText,datetime,eventImgUri,title});
 
         }else{
             // ToDo: HANDLE EVENTS CREATED BY USERS

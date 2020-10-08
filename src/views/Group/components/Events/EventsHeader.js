@@ -15,7 +15,6 @@ import {GroupContext} from "../../../../contex/GroupContext";
 import {screens} from "../../routes/constants";
 import moment from "moment";
 
-
 const getFormattedDate = (selectedDay) => {
     const momentDate = moment(selectedDay.dateString);
 

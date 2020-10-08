@@ -9,9 +9,12 @@ import {
 
 const EventTopNavBar = ({navigation, createEventCallback}) => {
 
-    const doneFn = ()=>{
-        createEventCallback();
-        navigation.goBack()
+    const doneFn = () => {
+        createEventCallback().then(() => {
+                console.log("[EventTopNavBar.js::doneFN] createEventCallback finished");
+                navigation.goBack();
+            }
+        )
     };
 
     return (
@@ -25,7 +28,8 @@ const EventTopNavBar = ({navigation, createEventCallback}) => {
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
-                        <StyledText type={"bold"} size={18} style={{color: colors.primary.extra_dark}}>Cancel</StyledText>
+                        <StyledText type={"bold"} size={18}
+                                    style={{color: colors.primary.extra_dark}}>Cancel</StyledText>
                     </View>
                 </TouchableOpacity>
 

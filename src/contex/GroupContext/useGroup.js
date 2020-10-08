@@ -85,7 +85,7 @@ const useGroup = () => {
             oneButtonAlert("Network Error", "Couldn't create the event :(")
         }
 
-        console.log(`[useGroup::createEvent()]  event created! :\n\t${JSON.stringify(event)}`);
+        console.log(`[useGroup::createEvent()]  event created: ${JSON.stringify(event)}`);
         return event;
     };
 

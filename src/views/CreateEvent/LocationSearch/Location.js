@@ -11,7 +11,8 @@ import {useNavigation} from "@react-navigation/native"
 import {LocationAutoComplete,LocationDetail} from "../../../components/LocationAutoComplete";
 import {EvilIcons} from "@expo/vector-icons";
 import {GOOGLE_API_KEY} from 'react-native-dotenv';
-import { v4 as uuidv4 } from 'react-native-uuid';
+//import { v4 as uuidv4 } from 'react-native-uuid';
+import { uuid } from 'uuidv4';
 import {screens} from "../routes/screens";
 import ActualLocation from "./ActualLocation";
 
@@ -67,7 +68,7 @@ const LocationSearchAndInput = ({route}) => {
 
     useEffect(() => {
         // set the sessiontoken for google billing
-        setSessionToken(uuidv4());
+        setSessionToken(uuid());
 
         //LocationDetail({"place_id":"ChIJjQmTaV0E9YgRC2MLmS_e_mY"}).then((loc)=>setSelectedLocation(loc));
 

@@ -12,8 +12,8 @@ import {EntityType} from "../constants/parameters";
 //API.configure(config);         // Configure Amplify
 //PubSub.configure(config);
 
-const defaultDataFn = (data) => console.log(data);
-const defaultErrorFn = (e)=>{console.warn(`[GraphQLApi::subscribe()] ${JSON.stringify(e)}`)};
+const defaultDataFn = (data) => console.log(`[GraphQLApi::subscribe()] \n\t${JSON.stringify(data)}\n`);
+const defaultErrorFn = (e)=>{console.warn(`[GraphQLApi::subscribe()] ${e}`)};
 
 class RestApi {
 

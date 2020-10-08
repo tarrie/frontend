@@ -59,9 +59,7 @@ class RestApi {
     };
 
     static post = async ({relativePath, payload}) => {
-        console.log(`[RestApi::post] (url=${API_HOSTNAME}, path=${relativePath})`);
-        console.log(`${urlJoin('http://www.google.com', 'a', '/b/cd', '?foo=123')}`);
-        console.log(`[RestApi::post] ing ${urlJoin(API_HOSTNAME, relativePath)}`);
+
         // Default options are marked with *
         const response = await fetch(urlJoin(API_HOSTNAME, relativePath), {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -70,12 +68,11 @@ class RestApi {
             },
             body: JSON.stringify(payload) // body data type must match "Content-Type" header
         });
-        console.log(`[RestApi::post] inshed ${response.ok}`);
 
+        let responsePayload = await response.json();
 
-        console.log(`[RestApi::post] response gotten`);
         if (response.ok) {
-            return await response.json(); // parses JSON response into native JavaScript objects
+            return responsePayload; // parses JSON response into native JavaScript objects
         } else {
             console.log(`[RestApi::post] throwing error `);
             throw new Error(`HTTP[post ${relativePath}, error ${response.error()}] ${responsePayload}`);
@@ -120,6 +117,7 @@ class RestApi {
             },
             body: formData
         });
+
         let responsePayload = await response.json();
 
         if (response.ok) {
@@ -145,9 +143,7 @@ class RestApi {
      */
     static createEvent = async (entityType, {userId, groupId, location, infoText, datetime, eventImgUri, title}) => {
 
-        console.log(`[RestApi::createEvent] Parsing payload ${userId}`);
         let payload = payloadToCreateEvent({userId, groupId, location, infoText, datetime, title});
-        console.log(`[RestApi::createEvent]  payload parsed: ${JSON.stringify(payload)}`);
 
 
         let eventJson;
@@ -156,10 +152,7 @@ class RestApi {
         // Check if the API call completes
         try {
             // create the event
-            console.log(`[RestApi::createEvent] issuing api call to create event`);
-
             eventJson = await RestApi.post({relativePath: relativePath_EventCreate, payload});
-            console.log(`[RestApi::createEvent] finshed api call ${JSON.stringify(eventJson)}`);
 
         } catch (e) {
             // catch error
