@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react"
-import useGroup from "./useGroup";
+import {useGroup} from "./useGroup";
 import useGroupHome from "./useGroupHome";
 const GroupContext = createContext();
 

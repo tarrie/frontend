@@ -1,38 +1,34 @@
 import React, {useEffect,useState,useContext} from "react"
 import {View} from "react-native";
 import {Text} from "react-native";
-import {GroupContextProvider} from "../../contex/GroupContext";
+import {getGroupId, GroupContextProvider} from "../../contex/GroupContext";
 import {GroupNavigation} from "./routes";
 import {UserContext} from "../../contex/UserContext";
 import {useNavigation} from '@react-navigation/native';
+import {TEST_GROUP} from "../../contex/GroupContext/useGroup";
+import PropTypes from 'prop-types';
 
-const Group = ({ route_, navigation }) =>{
-    const {userInfo,setBaseNavigation} = useContext(UserContext);
-    const [groupId, setGroupId] = useState(route_.params.groupId);
+const Group = ({ route, navigation }) =>{
+    console.log(`[Group] ${route.params.group}`);
+
+    const {setBaseNavigation} = useContext(UserContext);
+    //const [groupId, setGroupId] = useState();
 
     useEffect(() => {
         setBaseNavigation({navigation})
     }, [navigation]);
 
 
-    useEffect(()=>{
-        setGroupId(route_.params.groupId)
-    },[route_]);
+    //useEffect(()=>{
+       // console.log(`[Group] ${route.params.groupId}`);
+       // setGroupId(route.params.groupId)
+    //},[route]);
 
 return (
         <GroupContextProvider>
-            <GroupNavigation groupId={groupId} userId={userInfo.userId}/>
+            <GroupNavigation group={route.params.group} />
         </GroupContextProvider>
  )
-};
-
-const SAMPLE_GROUP_ID = "GRP#boogoParty33333";
-Group.defaultProps = {
-    route_: {
-        params:{
-            groupId: SAMPLE_GROUP_ID
-        }
-    }
 };
 
 export default Group;

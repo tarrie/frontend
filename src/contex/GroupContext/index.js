@@ -1,3 +1,3 @@
-export { default as useGroup } from "./useGroup"
+import { useGroup, getGroupId} from "./useGroup"
 import {GroupContext, GroupContextProvider} from "./GroupContext";
-export {GroupContext,GroupContextProvider}
+export {GroupContext,GroupContextProvider, getGroupId, useGroup}

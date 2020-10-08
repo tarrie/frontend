@@ -15,6 +15,9 @@ import {
 import StyledText from "../components/StyledText/StyledText";
 import {  StyleSheet } from "react-native"
 import {UserContext} from "../contex/UserContext";
+import {getGroupId} from "../contex/GroupContext";
+import {TEST_GROUP} from "../contex/GroupContext/useGroup";
+import {getFormattedUserId} from "../contex/UserContext/UserContext";
 const BottomTab = createBottomTabNavigator();
 
 const BottomTabText = ({focused, children}) => {
@@ -34,7 +37,7 @@ const BottomTabText = ({focused, children}) => {
 const BottomNavigation = () => {
 
     // ToDo: On login make sure we get user info
-  const { isLoggedIn, userInfo} = useContext(UserContext);
+  const { isLoggedIn, user} = useContext(UserContext);
 
     return (
         <BottomTab.Navigator
@@ -60,11 +63,14 @@ const BottomNavigation = () => {
                 }}
             />
 
+
+
             <BottomTab.Screen
                 name={screens.HOME}
                 component={Group}
+                initialParams={{group:TEST_GROUP}}
                 options={{
-                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> {isLoggedIn?userInfo.userId.substring(4):'HOME' }</BottomTabText>,
+                    tabBarLabel: ({focused}) => <BottomTabText focused={focused}> {isLoggedIn?getFormattedUserId(user):'HOME' }</BottomTabText>,
                     tabBarIcon: ({focused, size}) => (
                         <View style={[styles.fab,focused?styles.fab_active:styles.fab_inactive]}>
                         <SimpleLineIcons name={"home"} size={size} style={focused? styles.fab_icon_active: styles.fab_icon_inactive}/>

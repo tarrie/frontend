@@ -2,9 +2,9 @@ import gql from "graphql-tag";
 
 
 // Based on: https://github.com/amazon-archives/aws-mobile-appsync-events-starter-react-native/blob/master/queries/SubscribeToEventComments.js
-const SubscribeOnEventMutate = gql(`
+const SubscribeOnMutateEvent = gql(`
 subscription ($main_pk: ID!) {
-    onCreateEvent(main_pk:$main_pk){
+    onMutateEvent(main_pk:$main_pk){
         main_pk
         main_sk
         coordinators
@@ -20,4 +20,4 @@ subscription ($main_pk: ID!) {
     }
 }`);
 
-export default SubscribeOnEventMutate;
+export default SubscribeOnMutateEvent;

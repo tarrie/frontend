@@ -3,6 +3,9 @@ import React, {createContext, useState, useEffect} from "react"
 
 const UserContext = createContext();
 
+const getUserId = ({main_pk})=>{return main_pk};
+const getFormattedUserId = ({main_pk})=>{return main_pk.substring(4)};
+
 const UserContextProvider = ({children}) => {
 
 
@@ -22,13 +25,13 @@ const UserContextProvider = ({children}) => {
         setState({
             ...state,
             isLoggedIn: true,
-            userInfo: {userId:'USR#beckb_triDelt'}
+            user: {main_pk:'USR#beckb_triDelt'}
         })
     }, []);
 
     const initialState = {
-        isLoggedIn: false,
-        userInfo: {},
+        isLoggedIn: true,
+        user: {main_pk:'USR#beckb_triDelt'},
         baseNavigation: null,
         setBaseNavigation
     };
@@ -41,5 +44,7 @@ const UserContextProvider = ({children}) => {
 
 export {
     UserContext,
-    UserContextProvider
+    UserContextProvider,
+    getUserId,
+    getFormattedUserId
 }

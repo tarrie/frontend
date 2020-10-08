@@ -1,4 +1,5 @@
 import React, {useRef, useEffect, useState, useContext} from "react"
+
 import {StyledText} from "../../../../components/StyledText";
 import {
     View,
@@ -27,7 +28,7 @@ import {
     GROUP_PARALLAX_HEADER_HEIGHT
 } from "../../../../constants/parameters";
 import {Expandable, DisappearDelay} from "../../../../components/Animations";
-import {GroupContext} from "../../../../contex/GroupContext";
+import {getGroupId, GroupContext} from "../../../../contex/GroupContext";
 import {SwipeLeft} from "../../../../assets/icons";
 import {GraphQLApi} from "../../../../api";
 
@@ -76,7 +77,7 @@ const StickyHeader = ({selectedDay}) => {
 const GroupHome = () => {
 
     const ref = useRef(null);
-    const {groupHomeState} = useContext(GroupContext);
+    const {groupState,groupHomeState} = useContext(GroupContext);
     const navigation = useNavigation();
 
     const {
@@ -88,6 +89,10 @@ const GroupHome = () => {
         isCalendarDown,
     } = groupHomeState;
 
+    const {
+        group,
+        isLoaded,
+    } = groupState;
 
     const [selectedDay, setSelectedDay] = useState(generateToday());
     const [scrollPosnOutOfBounds, setScrollPosnOutOfBounds] = useState(false);
@@ -98,9 +103,18 @@ const GroupHome = () => {
 
     let isScrolling = false;
 
+
+    /**
+     * Subscribe to changes on EventRelationship
+     **/
+    let eventRelationshipSubscription;
     useEffect(()=>{
-        GraphQLApi.subscribeToEvents();
-    },[]);
+        if (isLoaded){
+            console.log(`[GroupHome] setting subscription ${getGroupId(group)}`);
+            eventRelationshipSubscription = GraphQLApi.subscribeToEventRelationship(getGroupId(group));
+            return ()=> eventRelationshipSubscription.unsubscribe();
+        }
+    },[isLoaded]);
 
     useEffect(() => {
         if (isSearchActive) {
@@ -257,5 +271,6 @@ const styles = StyleSheet.create({
         height: .18 * GROUP_PARALLAX_HEADER_HEIGHT
     }
 });
+
 
 export default GroupHome;

@@ -1,2 +1,2 @@
-import {UserContext, UserContextProvider} from "./UserContext";
-export {UserContext,UserContextProvider};
+import {UserContext, UserContextProvider,getUserId} from "./UserContext";
+export {UserContext,UserContextProvider,getUserId};

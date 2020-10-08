@@ -1,8 +1,8 @@
 import React, {createContext, useState, useEffect,useRef} from "react"
 import {GraphQLApi, RestApi} from "../../api";
 import * as path from 'path';
-import {API_HOSTNAME} from "../../constants/parameters";
-import {getImgPath} from "../../utils";
+import {API_HOSTNAME, EntityType} from "../../constants/parameters";
+import {getImgPath, oneButtonAlert} from "../../utils";
 import {hasParameter,isObjectEmpty} from "../../utils";
 
 const TEST_GROUP = {
@@ -25,7 +25,7 @@ const TEST_GROUP = {
         "name": "Jide"
     }
 };
-const getGroupId = ({main_pk})=>{return main_pk;}
+const getGroupId = ({main_pk})=>{return main_pk;};
 
 const useGroup = () => {
     const [group, setGroup] = useState(null);
@@ -46,6 +46,8 @@ const useGroup = () => {
         },[eventsHosted]
 
     );*/
+
+
     /**
      * Get's the group by issuing API call
      * @param groupId
@@ -58,33 +60,33 @@ const useGroup = () => {
         //let response = await rest_api.current.get({endPoint,payload:{userId}});
         //console.log(response);
         setGroup(TEST_GROUP);
-        console.log(getImgPath(groupId));
+        //console.log(getImgPath(groupId));
 
     };
 
     /**
      * Creates a event by calling the api with the payload
      * @param payload
-     * @return {Promise<void>}
+     * @return {Promise<*>}
      */
     const createEvent = async ({location,infoText,datetime,eventImgUri,title})=>{
 
-        console.log("[useGroup.js] Group event created!!");
+        console.log("[useGroup::createEvent()] Trying to create event");
 
-        // (1) Create Event
+        let event;
+        let payload = {groupId:getGroupId(group),userId,location,infoText,datetime,eventImgUri,title};
+        console.log(`[useGroup::createEvent()] sending api req ${userId}`);
 
-        // (2) Wait for the profile picture
-        // ToDo: Need eventId so we can add it. This will be the entityId, depending on entity (different logic)
-       // if(hasParameter(eventImgUri)){
-         //   await RestApi.uploadProfilePic({userId, entityId:getGroupId(group), uri:eventImgUri});
+        try{
+            event = await RestApi.createEvent(EntityType.GROUP,payload);
 
-       // }
+        }catch (e) {
+            console.warn(`[useGroup::createEvent()] API request error:\n\t ${JSON.stringify(event)}\n\t ${e}`);
+            oneButtonAlert("Network Error", "Couldn't create the event :(")
+        }
 
-        console.log( JSON.stringify({location,infoText,datetime,eventImgUri,title}, null, 2));
-        console.log( JSON.stringify(getGroupId(group), null, 2));
-        console.log("[useGroup.js] Group event created- userId");
-        console.log( JSON.stringify(userId, null, 2));
-
+        console.log(`[useGroup::createEvent()]  event created! :\n\t${JSON.stringify(event)}`);
+        return event;
     };
 
     /**
@@ -94,7 +96,7 @@ const useGroup = () => {
      * @return {Promise<void>}
      */
     const getEventsHosted = async ({groupId,userId}) =>{
-        let hostedEvents = await graphql_api.current.getEventsHostedByEntity({main_pk:groupId});
+        let hostedEvents = await GraphQLApi.getEventsHostedByEntity({main_pk:groupId});
         console.log(hostedEvents)
     };
 
@@ -103,9 +105,13 @@ const useGroup = () => {
      * @param groupId
      * @param userId
      */
-    const loadGroup = ({groupId,userId}) => {
+    const loadGroup = ({group,userId}) => {
+        console.log(`[GroupContext::useGroup::loadGroup()] ${userId}`);
         setUserId(userId);
-        getGroup({groupId,userId}).then(()=>setIsLoaded(true));
+        setGroup(group);
+        setIsLoaded(true);
+
+        //getGroup({groupId,userId}).then(()=>setIsLoaded(true));
         //getEventsHosted({groupId,userId});
     };
 
@@ -118,4 +124,4 @@ const useGroup = () => {
 };
 
 
-export default useGroup;
+export {useGroup,getGroupId, TEST_GROUP};

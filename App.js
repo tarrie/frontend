@@ -6,7 +6,10 @@ import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {Navigation} from "./src/routes";
 import {StyledText} from "./src/components/StyledText";
 import {colors} from "./src/constants/styles";
+import awsmobile from "./aws-exports";
+import {API} from "@aws-amplify/api";
 
+API.configure(awsmobile);
 
 const theme = {
     ...DefaultTheme,
