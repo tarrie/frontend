@@ -1,10 +1,11 @@
-import {API_HOSTNAME} from "../constants/parameters";
+import {API_HOSTNAME, DbAttributes} from "../constants/parameters";
 import * as FileSystem from "expo-file-system";
 import * as ImageManipulator from "expo-image-manipulator";
 import {hasParameter} from "../utils";
 import {payloadToCreateEvent} from "./model";
 // * as urlJoin from 'url-join';
 const urlJoin = require('url-join');
+const assert = require('assert');
 
 /**
  * Compress image
@@ -50,16 +51,15 @@ class RestApi {
         });
 
         /// https://stackoverflow.com/questions/38235715/fetch-reject-promise-and-catch-the-error-if-status-is-not-ok
-        let responsePayload = await response.json();
         if (response.ok) {
-            return responsePayload; // parses JSON response into native JavaScript objects
+            return await response.json(); // parses JSON response into native JavaScript objects
         } else {
-            throw new Error(`HTTP[get ${relativePath}, error ${response.error()}] ${responsePayload}`);
+            let responsePayload = await response.text();
+            throw new Error(`HTTP[get ${relativePath}, error ${response.status}] ${responsePayload}`);
         }
     };
 
     static post = async ({relativePath, payload}) => {
-
         // Default options are marked with *
         const response = await fetch(urlJoin(API_HOSTNAME, relativePath), {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -69,14 +69,38 @@ class RestApi {
             body: JSON.stringify(payload) // body data type must match "Content-Type" header
         });
 
-        let responsePayload = await response.json();
-
         if (response.ok) {
-            return responsePayload; // parses JSON response into native JavaScript objects
+            return await response.json(); // parses JSON response into native JavaScript objects
         } else {
-            console.log(`[RestApi::post] throwing error `);
-            throw new Error(`HTTP[post ${relativePath}, error ${response.error()}] ${responsePayload}`);
+            let responsePayload = await response.text();
+            throw new Error(`HTTP[post ${relativePath}, error ${response.status}] ${responsePayload}`);
         }
+    };
+
+    /**
+     * Issues api call to get a list of events
+     * @param userId: userId of user making this request
+     * @param listOfEventIds: a list of eventIds interested in
+     * @return {Promise<any>}
+     */
+    static getEvent = async ({userId, listOfEventIds}) => {
+        // precondition
+        assert(Array.isArray(listOfEventIds));
+        assert((typeof userId) == "string");
+
+        let relativePath = "events?";
+        let n = listOfEventIds.length();
+
+        for (let i = 0; i < n; i++) {
+            relativePath += encodeURIComponent(listOfEventIds[i]);
+            if (i !== n - 1) {
+                relativePath += "&";
+            }
+        }
+
+        let payload = {[DbAttributes.HASH_KEY]: userId};
+
+        return await RestApi.get({relativePath, payload});
     };
 
 
@@ -119,13 +143,14 @@ class RestApi {
             body: formData
         });
 
-        let responsePayload = await response.json();
 
         if (response.ok) {
-            return responsePayload; // parses JSON response into native JavaScript objects
+            return await response.json(); // parses JSON response into native JavaScript objects
         } else {
-            throw new Error(`HTTP[get multipart/form-data ${relativePath}, error ${response.error()}] ${responsePayload}`);
+            let responsePayload = await response.text();
+            throw new Error(`HTTP[get multipart/form-data  ${relativePath}, error ${response.status}] ${responsePayload}`);
         }
+
     };
 
 
@@ -158,7 +183,7 @@ class RestApi {
         } catch (e) {
             // catch error
             console.log(`[RestApi::createEvent():} error throw`)
-            throw new Error(`RestApi::createEvent(): fail,\n\t${e}`);
+            throw new Error(`[RestApi::createEvent()]: fail,\n\t${e}`);
         }
 
         //  get eventId
@@ -170,12 +195,12 @@ class RestApi {
         // Check if the API call completes
         try {
             // add the img to the event in a seperate call
-           if (hasParameter(eventImgUri)){
-               eventJson["imgPath"] = await RestApi.uploadProfilePic({
-                   relativePath: relativePath_EventImgUpload,
-                   userId,
-                   uri: eventImgUri
-               });
+            if (hasParameter(eventImgUri)) {
+                eventJson["imgPath"] = await RestApi.uploadProfilePic({
+                    relativePath: relativePath_EventImgUpload,
+                    userId,
+                    uri: eventImgUri
+                });
             }
 
         } catch (e) {

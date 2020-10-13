@@ -1,9 +1,10 @@
 import React, {createContext, useState, useEffect,useRef} from "react"
 import {GraphQLApi, RestApi} from "../../api";
 import * as path from 'path';
-import {API_HOSTNAME, EntityType} from "../../constants/parameters";
+import {API_HOSTNAME, EntityType,DbAttributes} from "../../constants/parameters";
 import {getImgPath, oneButtonAlert} from "../../utils";
 import {hasParameter,isObjectEmpty} from "../../utils";
+const urlJoin = require('url-join');
 
 const TEST_GROUP = {
     "bio": "Dude's who like to party",
@@ -27,11 +28,14 @@ const TEST_GROUP = {
 };
 const getGroupId = ({main_pk})=>{return main_pk;};
 
+
+
+
 const useGroup = () => {
     const [group, setGroup] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [userId, setUserId] = useState(null);
-    const [eventsHosted, setEventsHosted] = useState(null);
+    const [eventsHosted, setEventsHosted] = useState([]);
 
     const rest_api = useRef(new RestApi());
     const graphql_api = useRef(new GraphQLApi());
@@ -110,10 +114,9 @@ const useGroup = () => {
         setUserId(userId);
         setGroup(group);
         setIsLoaded(true);
-
-        //getGroup({groupId,userId}).then(()=>setIsLoaded(true));
-        //getEventsHosted({groupId,userId});
     };
+
+
 
     return {
         group,

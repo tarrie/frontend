@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 const Group = ({ route, navigation }) =>{
     console.log(`[Group] ${route.params.group}`);
 
+
     const {setBaseNavigation} = useContext(UserContext);
     //const [groupId, setGroupId] = useState();
 

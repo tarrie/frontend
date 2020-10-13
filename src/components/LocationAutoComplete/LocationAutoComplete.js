@@ -339,7 +339,7 @@ const  LocationAutoComplete = async ({text, caretPosition, location, radius, ses
       queryParams+= `&sessiontoken=${sessiontoken}`
    }
 
-    console.log(BASE_URL+queryParams);
+    console.log(`[LocationAutoComplete.js]${BASE_URL+queryParams}`);
     //return TEST_DATA.predictions
     return text? await getData(BASE_URL+queryParams) : []
 };

@@ -22,6 +22,7 @@ import {GenericCreateEventOption} from "../../components/GenericCreateEventOptio
 import {screens} from "./routes/screens";
 import {ActualLocation} from "./LocationSearch";
 import {GroupContext} from "../../contex/GroupContext";
+import {oneButtonAlert} from "../../utils";
 
 // ToDo: purple is the new green
 // The actual post page--
@@ -29,8 +30,9 @@ const CreateEventHome = ({route, navigation}) => {
     const [eventImgUri, setEventImgUri] = useState(null);
     const [location, setLocation] = useState();
     const [infoText, setInfoText] = useState(null);
-    let datetime=initialDate();
+    let datetime=null;
     let title = null;
+    let isEndDateBeforeStart = false;
 
     const groupState = useContext(GroupContext); //undefined if not in a group
     const userState = useContext(UserContext);
@@ -80,6 +82,12 @@ const CreateEventHome = ({route, navigation}) => {
      * ToDo: Make this more general this calls groupState, to create and event, should work for both
      */
     const createEventCallback = async ()=>{
+
+        if (isEndDateBeforeStart){
+            oneButtonAlert("Cannot Create Event","The start date must be before the end date." );
+            return;
+        }
+
         if (groupState !== undefined){
             //let dateTime = datetimeObj.dateTime.dateTime;
             console.log("[CreateEventHome.js] Group event about to be created");
@@ -89,10 +97,13 @@ const CreateEventHome = ({route, navigation}) => {
             // ToDo: HANDLE EVENTS CREATED BY USERS
             console.log("[CreateEventHome.js] User event about to be created")
         }
+        navigation.goBack()
+
     };
 
 
-    const datetimeChangedCallback =(_datetimeObj)=>{
+    const datetimeChangedCallback =(_datetimeObj,_isEndDateBeforeStart)=>{
+        isEndDateBeforeStart = _isEndDateBeforeStart;
         datetime=_datetimeObj;
     };
 

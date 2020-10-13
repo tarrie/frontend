@@ -12,7 +12,6 @@ const EventTopNavBar = ({navigation, createEventCallback}) => {
     const doneFn = () => {
         createEventCallback().then(() => {
                 console.log("[EventTopNavBar.js::doneFN] createEventCallback finished");
-                navigation.goBack();
             }
         )
     };

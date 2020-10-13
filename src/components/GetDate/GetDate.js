@@ -4,38 +4,29 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Collapsible from 'react-native-collapsible';
 import {Calendar} from "../Calendar";
 import moment from "moment";
+import moment_tz from 'moment-timezone';
 import {StyledText} from "../StyledText";
 import {colors, normalize, SCREEN_HEIGHT} from "../../constants/styles";
 import {Feather} from "@expo/vector-icons";
 import {Switch} from 'react-native-paper';
 import jstz from "jstz";
+import {oneButtonAlert} from "../../utils";
+
 
 /******************* GETS THE TIME ZONE TO DISPLAY **************/
-let abbrs = {
-    EST: 'Eastern Standard Time',
-    EDT: 'Eastern Daylight Time',
-    CST: 'Central Standard Time',
-    CDT: 'Central Daylight Time',
-    MST: 'Mountain Standard Time',
-    MDT: 'Mountain Daylight Time',
-    PST: 'Pacific Standard Time',
-    PDT: 'Pacific Daylight Time',
-};
-// formatting for timezone -- overrides defaults
-//moment.fn.zoneName = function () {
-    //let abbr = this.zoneAbbr();
-    //return abbrs[abbr] || abbr;
-//};
 
-const timeZone = jstz.determine().name();
-const longFormattedTimeZone = moment().tz(timeZone).format('zz');
+// determines local timezone
+const localTimeZone = jstz.determine().name();
+const longFormattedTimeZone = moment().tz(localTimeZone).format('zz');
 
+// All Timezones
+// ToDo: Implement timezone choose option
+const timeZonesList = moment_tz.tz.names();
 
-
-const getCalendarFormatDate = (dateString) => {
+const getCalendarFormatDate = (dateString, timeZone) => {
     // moment('2010-10-20T08:40'); // should parse to local time
     // moment.utc('2010-10-20T08:40'); // should parse to utc time
-    const today = moment.utc(dateString);
+    const today = moment_tz.tz(dateString, timeZone);
     return {
         dateString: today.format("YYYY-MM-DD"),
         month: today.month() + 1,
@@ -45,60 +36,73 @@ const getCalendarFormatDate = (dateString) => {
     }
 };
 
-
-const getFormattedDate = (dateString) => {
-    const momentDate = moment(dateString);
-
-    if (moment().year() !== momentDate.year()) {
-        return momentDate.utcOffset(0).format('dddd, MMM D, YYYY')
-    }
-    return momentDate.utcOffset(0).format('dddd, MMM D')
+const getTimeFromIsoString = (dateTimeIso) => {
+    return dateTimeIso.match(/\d\d:\d\d/)[0];
 };
 
-const type = {start:0, end:1};
+const getDateFromIsoString = (dateTimeIso) => {
+    return dateTimeIso.split("T")[0];
+};
+
+
+const getFormattedDate = (dateString, timeZone) => {
+    const momentDate = moment_tz(dateString).tz(timeZone);
+
+    if (moment_tz(dateString).year() !== momentDate.year()) {
+        return momentDate.format('dddd, MMM D, YYYY');
+    }
+    return momentDate.format('dddd, MMM D');
+};
+
+const type = {start: 0, end: 1};
 
 /**
  * Returns the initial date as specified by the app
  * @return {{start: *, end: *}}
  */
-export const initialDate = () =>{
-    const utcOffset = moment().utcOffset();
+export const initialDate = (timeZone) => {
+    //const utcOffset = moment().utcOffset();
     return {
-            start:(moment().add(utcOffset, 'm').endOf('h').add(1, 'm').toISOString()),
-            end: (moment().add(utcOffset, 'm').add(1,'h').endOf('h').add(1, 'm').toISOString())
-        };
+        start: (moment_tz().tz(timeZone).endOf('h').add(1, 'm').format()),
+        end: (moment_tz().tz(timeZone).endOf('h').add(1, 'h').add(1, 'm').format())
+    };
 };
 
 const GetDate = ({datetimeChangedCallback}) => {
-    const [dateTime, setDateTime] = useState(initialDate());
+    const TIMEZONE = localTimeZone;
+    const TIMEZONE_OFFSET = moment_tz.tz(TIMEZONE).utcOffset();
+
+    const [dateTime, setDateTime] = useState(initialDate(TIMEZONE));
     const [hide, setHide] = useState(
-        {start:{'datePicker': true, 'timePicker': true},end:{'datePicker': true, 'timePicker': true}});
+        {start: {'datePicker': true, 'timePicker': true}, end: {'datePicker': true, 'timePicker': true}});
     const [isAllDay, setIsAllDay] = useState(false);
 
+    const [isEndDateBeforeStart, setEndDateBeforeStart] = useState(false);
 
     useEffect(() => {
-        datetimeChangedCallback(dateTime)
+        datetimeChangedCallback(dateTime);
 
     }, []);
 
     useEffect(() => {
-        datetimeChangedCallback(dateTime)
-    }, [hide,dateTime,isAllDay]);
+        datetimeChangedCallback(dateTime, isEndDateBeforeStart);
+
+    }, [hide, dateTime, isAllDay]);
 
 
     const handleTimePicker = (dateType) => {
-        if (dateType === type.start){
-             // hide the opposite picker's and take complement of whatever is set for timePicker
+        if (dateType === type.start) {
+            // hide the opposite picker's and take complement of whatever is set for timePicker
             setHide({
-                end:{timePicker: true, datePicker: true},
+                end: {timePicker: true, datePicker: true},
                 start: {timePicker: !hide.start.timePicker, datePicker: true}
             });
 
         }
-        if (dateType === type.end){
-             // hide the opposite picker's and take complement of whatever is set for timePicker
+        if (dateType === type.end) {
+            // hide the opposite picker's and take complement of whatever is set for timePicker
             setHide({
-                start:{timePicker: true, datePicker: true},
+                start: {timePicker: true, datePicker: true},
                 end: {timePicker: !hide.end.timePicker, datePicker: true}
             });
 
@@ -107,18 +111,18 @@ const GetDate = ({datetimeChangedCallback}) => {
     };
 
     const handleDatePicker = (dateType) => {
-        if (dateType === type.start){
-             // hide the opposite picker's and take complement of whatever is set for datePicker
+        if (dateType === type.start) {
+            // hide the opposite picker's and take complement of whatever is set for datePicker
             setHide({
-                end:{timePicker: true, datePicker: true},
+                end: {timePicker: true, datePicker: true},
                 start: {datePicker: !hide.start.datePicker, timePicker: true}
             });
 
         }
-        if (dateType === type.end){
-             // hide the opposite picker's and take complement of whatever is set for datePicker
+        if (dateType === type.end) {
+            // hide the opposite picker's and take complement of whatever is set for datePicker
             setHide({
-                start:{timePicker: true, datePicker: true},
+                start: {timePicker: true, datePicker: true},
                 end: {datePicker: !hide.end.datePicker, timePicker: true}
             });
 
@@ -127,21 +131,21 @@ const GetDate = ({datetimeChangedCallback}) => {
 
     const allDaySwitchHandler = () => {
         if (!isAllDay) {
-            if (!hide.end.timePicker){
+            if (!hide.end.timePicker) {
                 setHide({
-                    end:{timePicker: true, datePicker: false},
+                    end: {timePicker: true, datePicker: false},
                     start: {timePicker: true, datePicker: true}
                 });
-            }else if (!hide.start.timePicker){
+            } else if (!hide.start.timePicker) {
                 setHide({
-                    end:{timePicker: true, datePicker: true},
+                    end: {timePicker: true, datePicker: true},
                     start: {timePicker: true, datePicker: false}
                 });
-            }else if (!hide.end.datePicker) {
+            } else if (!hide.end.datePicker) {
                 // do nothing all good
-            }else{
+            } else {
                 setHide({
-                    end:{timePicker: true, datePicker: true},
+                    end: {timePicker: true, datePicker: true},
                     start: {timePicker: true, datePicker: false}
                 });
             }
@@ -150,27 +154,58 @@ const GetDate = ({datetimeChangedCallback}) => {
     };
 
     const newDayCallBack_start = (day) => {
-        setDateTime({...dateTime, start: `${day.dateString}T${dateTime.start.split("T")[1]}`});
-
-    };
 
 
+        let start = moment_tz.tz(`${day.dateString} ${getTimeFromIsoString(dateTime.start)}`, TIMEZONE);
+        let end = moment_tz(dateTime.end);
+        if (start > end) {
+            setDateTime({start: start.format(), end: start.add(1, 'h').format()})
+        } else {
+            setDateTime({...dateTime, start: start.format()});
+            setEndDateBeforeStart(false);
+        }
 
-    const newDayCallBack_end = (day) => {
-        setDateTime({...dateTime, end: `${day.dateString}T${dateTime.end.split("T")[1]}`});
     };
 
     const newTimeCallBack_start = (event, selectedTime) => {
+        let start = moment_tz(selectedTime);
+        let end = moment_tz(dateTime.end);
 
-        setDateTime({...dateTime, start:`${dateTime.start.split("T")[0]}T${selectedTime.toISOString().split("T")[1]}` ||dateTime.start});
+        if (start > end) {
+            setDateTime({start: start.format(), end: start.add(1, 'h').format()})
+        } else {
+            setDateTime({...dateTime, start: start.format()});
+            setEndDateBeforeStart(false);
+        }
+    };
+
+    const newDayCallBack_end = (day) => {
+        let end = moment_tz.tz(`${day.dateString} ${getTimeFromIsoString(dateTime.end)}`, TIMEZONE);
+        let start = moment_tz(dateTime.start);
+
+        if (end < start) {
+            setEndDateBeforeStart(true);
+        } else {
+            setEndDateBeforeStart(false);
+        }
+        setDateTime({...dateTime, end: end.format()});
+
     };
 
     const newTimeCallBack_end = (event, selectedTime) => {
-        setDateTime({...dateTime, end:`${dateTime.end.split("T")[0]}T${selectedTime.toISOString().split("T")[1]}` ||dateTime.end} );
+        let end = moment_tz(selectedTime);
+        let start = moment_tz(dateTime.start);
+
+        if (end < start) {
+            setEndDateBeforeStart(true);
+        } else {
+            setEndDateBeforeStart(false);
+        }
+        setDateTime({...dateTime, end: end.format()});
     };
 
     /**
-    useEffect(() => {
+     useEffect(() => {
         setSelectedDay(generateToday());
         return () => clearTimeout(hasDayEndedTimeOut);
     }, []);
@@ -178,7 +213,7 @@ const GetDate = ({datetimeChangedCallback}) => {
 
      * Once the day ends it makes sure the calendar reflects this, then loops over itself.
 
-    const checkIfDayEnded = () => {
+     const checkIfDayEnded = () => {
         // '2020-04-20':{selected: true,selectedColor:'orange', textColor:'pink', color:'purple'}
         const msTillEndOfDay = moment().endOf('day').add(1, 'seconds').diff(moment(), 'milliseconds');
         hasDayEndedTimeOut = setTimeout(() => {
@@ -217,15 +252,15 @@ const GetDate = ({datetimeChangedCallback}) => {
 
                 {/*Start Date*/}
                 <View style={styles.container_datetime}>
-                    <TouchableWithoutFeedback onPress={()=>handleDatePicker(type.start)}>
+                    <TouchableWithoutFeedback onPress={() => handleDatePicker(type.start)}>
                         <StyledText size={17} type={'semibold'} style={styles.date}>
-                            {getFormattedDate(dateTime.start)}
+                            {getFormattedDate(dateTime.start, TIMEZONE)}
                         </StyledText>
                     </TouchableWithoutFeedback>
                     {!isAllDay &&
-                    <TouchableWithoutFeedback onPress={()=>handleTimePicker(type.start)}>
+                    <TouchableWithoutFeedback onPress={() => handleTimePicker(type.start)}>
                         <StyledText size={17} type={'semibold'} style={styles.time}>
-                            {moment.utc(dateTime.start).format('h:mm A')}
+                            {moment(dateTime.start).format('h:mm A')}
                         </StyledText>
                     </TouchableWithoutFeedback>}
                 </View>
@@ -234,8 +269,8 @@ const GetDate = ({datetimeChangedCallback}) => {
                 <Collapsible collapsed={hide.start.timePicker}>
                     <DateTimePicker
                         testID="dateTimePicker_start"
-                        timeZoneOffsetInMinutes={0}
-                        value={moment(dateTime.start).toDate()}
+                        timeZoneOffsetInMinutes={TIMEZONE_OFFSET}
+                        value={new Date(dateTime.start)}
                         mode={'time'}
                         is24Hour={true}
                         display="default"
@@ -243,28 +278,32 @@ const GetDate = ({datetimeChangedCallback}) => {
                     />
                 </Collapsible>
                 <Collapsible collapsed={hide.start.datePicker}>
-                    <Calendar newDayCallBack={newDayCallBack_start} selectedDay={getCalendarFormatDate(dateTime.start)}/>
+                    <Calendar newDayCallBack={newDayCallBack_start}
+                              selectedDay={getCalendarFormatDate(dateTime.start, TIMEZONE)}/>
                 </Collapsible>
 
                 {/*End Date*/}
                 <View style={styles.container_datetime}>
-                    <TouchableWithoutFeedback onPress={()=>handleDatePicker(type.end)}>
-                        <StyledText size={17} type={'semibold'} style={styles.date}>
-                            {getFormattedDate(dateTime.end)}
+                    <TouchableWithoutFeedback onPress={() => handleDatePicker(type.end)}>
+                        <StyledText size={17} type={'semibold'}
+                                    style={isEndDateBeforeStart ? styles.datetime_error : styles.date}>
+                            {getFormattedDate(dateTime.end, TIMEZONE)}
                         </StyledText>
                     </TouchableWithoutFeedback>
                     {!isAllDay &&
-                    <TouchableWithoutFeedback onPress={()=>handleTimePicker(type.end)}>
+                    <TouchableWithoutFeedback onPress={() => handleTimePicker(type.end)}>
                         <StyledText size={17} type={'semibold'}
-                                    style={styles.time}>{moment.utc(dateTime.end).format('h:mm A')}</StyledText>
+                                    style={isEndDateBeforeStart ? styles.datetime_error : styles.time}>{moment(dateTime.end).format('h:mm A')}</StyledText>
+
+
                     </TouchableWithoutFeedback>}
                 </View>
 
                 <Collapsible collapsed={hide.end.timePicker}>
                     <DateTimePicker
                         testID="dateTimePicker_end"
-                        timeZoneOffsetInMinutes={0}
-                        value={moment(dateTime.end).toDate()}
+                        timeZoneOffsetInMinutes={TIMEZONE_OFFSET}
+                        value={new Date(dateTime.end)}
                         mode={'time'}
                         is24Hour={true}
                         display="default"
@@ -272,7 +311,8 @@ const GetDate = ({datetimeChangedCallback}) => {
                     />
                 </Collapsible>
                 <Collapsible collapsed={hide.end.datePicker}>
-                    <Calendar newDayCallBack={newDayCallBack_end} selectedDay={getCalendarFormatDate(dateTime.end)}/>
+                    <Calendar newDayCallBack={newDayCallBack_end}
+                              selectedDay={getCalendarFormatDate(dateTime.end, TIMEZONE)}/>
                 </Collapsible>
 
 
@@ -296,6 +336,12 @@ const styles = StyleSheet.create({
     },
     time: {
         color: colors.text.primary.light
+    },
+    datetime_error: {
+        color: colors.secondary.light,
+        textDecorationLine: 'line-through',
+        textDecorationStyle: 'solid',
+        textDecorationColor: colors.general.red
     }
 });
 

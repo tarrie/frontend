@@ -15,6 +15,7 @@ import {GOOGLE_API_KEY} from 'react-native-dotenv';
 import { uuid } from 'uuidv4';
 import {screens} from "../routes/screens";
 import ActualLocation from "./ActualLocation";
+const shortid = require('shortid');
 
 const LocationSearchAndInput = ({route}) => {
     const [data, setData] = useState([]);
@@ -68,7 +69,7 @@ const LocationSearchAndInput = ({route}) => {
 
     useEffect(() => {
         // set the sessiontoken for google billing
-        setSessionToken(uuid());
+        setSessionToken(`${shortid.generate()}${new Date().getTime()}`);
 
         //LocationDetail({"place_id":"ChIJjQmTaV0E9YgRC2MLmS_e_mY"}).then((loc)=>setSelectedLocation(loc));
 
