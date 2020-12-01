@@ -12,3 +12,8 @@ rm -rf ./node_modules/expo/node_modules/expo-font/
 run this to get around stupid depreciation errors
 npx react-codemod rename-unsafe-lifecycles
 from http://eydai.cn/github_/expo/expo/issues/5507
+
+
+### Dealing with graphQl unauthorized error
+Go here -> https://us-east-2.console.aws.amazon.com/appsync/home?region=us-east-2#/wu2hq2ymkrh53j7eakzccyntry/v1/settings
+> API keys by default expire 7 days after creation.
