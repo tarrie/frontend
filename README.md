@@ -19,6 +19,7 @@ Go here -> https://us-east-2.console.aws.amazon.com/appsync/home?region=us-east-
 > API keys by default expire 7 days after creation.
 
 ### When developing both frontend & backend
+Change url @ src/parameters/API_HOSTNAME 
 
 
 ### Setup
