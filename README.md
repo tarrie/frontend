@@ -17,3 +17,12 @@ from http://eydai.cn/github_/expo/expo/issues/5507
 ### Dealing with graphQl unauthorized error
 Go here -> https://us-east-2.console.aws.amazon.com/appsync/home?region=us-east-2#/wu2hq2ymkrh53j7eakzccyntry/v1/settings
 > API keys by default expire 7 days after creation.
+
+### When developing both frontend & backend
+
+
+### Setup
+
+ElasticBeanStalk - manages api server
+AppSync - manages graphql
+DynamoDb - manages data model
