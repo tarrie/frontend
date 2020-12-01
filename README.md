@@ -23,6 +23,6 @@ Go here -> https://us-east-2.console.aws.amazon.com/appsync/home?region=us-east-
 
 ### Setup
 
-ElasticBeanStalk - manages api server
-AppSync - manages graphql
-DynamoDb - manages data model
+- ElasticBeanStalk - manages api server
+- AppSync - manages graphql
+- DynamoDb - manages data model
