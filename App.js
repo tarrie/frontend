@@ -50,14 +50,14 @@ const App = () => {
                 "airbnb-light": require("./src/assets/fonts/AirbnbCereal-Light.ttf"),
                 "airbnb-black": require("./src/assets/fonts/AirbnbCereal-Black.ttf"),
                 "airbnb-book": require("./src/assets/fonts/AirbnbCereal-Book.ttf"),
+                "airbnb-medium": require("./src/assets/fonts/AirbnbCereal-Medium.ttf"),
                 "raleway-thin": require("./src/assets/fonts/Raleway-Light.ttf")
-
             });
             setIsFontLoaded(true)
         };
         load();
     }, []);
-    console.log(isFontLoaded)
+    console.log(`[App] isFontLoaded ${isFontLoaded}`);
 
     return (
         isFontLoaded &&

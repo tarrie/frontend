@@ -3,9 +3,12 @@ import * as FileSystem from "expo-file-system";
 import * as ImageManipulator from "expo-image-manipulator";
 import {hasParameter} from "../utils";
 import {payloadToCreateEvent} from "./model";
+import DefaultEventImg from "@assets/images/default_images/default-event-profile.png"
+import {Image} from "react-native";
 // * as urlJoin from 'url-join';
 const urlJoin = require('url-join');
 const assert = require('assert');
+const defaultEventImgUri = Image.resolveAssetSource(DefaultEventImg).uri
 
 /**
  * Compress image
@@ -175,7 +178,7 @@ class RestApi {
         let eventJson;
         const relativePath_EventCreate = "events";
 
-        // Check if the API call completes
+        // Create & check if the API call completes
         try {
             // create the event
             eventJson = await RestApi.post({relativePath: relativePath_EventCreate, payload});
@@ -195,15 +198,15 @@ class RestApi {
         // Check if the API call completes
         try {
             // add the img to the event in a seperate call
-            if (hasParameter(eventImgUri)) {
                 eventJson["imgPath"] = await RestApi.uploadProfilePic({
                     relativePath: relativePath_EventImgUpload,
                     userId,
-                    uri: eventImgUri
+                    uri: eventImgUri? eventImgUri:defaultEventImgUri
                 });
-            }
+
 
         } catch (e) {
+
             throw new Error(`RestApi::createEvent(): fail, \n\t${e}`);
         }
 

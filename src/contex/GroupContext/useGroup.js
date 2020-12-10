@@ -69,6 +69,18 @@ const useGroup = () => {
     };
 
     /**
+     * Subscribe to changes on EventRelationship
+     **/
+    let eventRelationshipSubscription;
+    useEffect(()=>{
+        if (isLoaded){
+            console.log(`[GroupHome] setting subscription ${getGroupId(group)}`);
+            eventRelationshipSubscription = GraphQLApi.subscribeToEventRelationship(getGroupId(group));
+            return ()=> eventRelationshipSubscription.unsubscribe();
+        }
+    },[isLoaded]);
+
+    /**
      * Creates a event by calling the api with the payload
      * @param payload
      * @return {Promise<*>}
@@ -86,7 +98,7 @@ const useGroup = () => {
 
         }catch (e) {
             console.warn(`[useGroup::createEvent()] API request error:\n\t ${JSON.stringify(event)}\n\t ${e}`);
-            oneButtonAlert("Network Error", "Couldn't create the event :(")
+            oneButtonAlert("Network Error", `Couldn't create the event :( \n ${JSON.stringify(e)}`)
         }
 
         console.log(`[useGroup::createEvent()]  event created: ${JSON.stringify(event)}`);

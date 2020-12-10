@@ -89,11 +89,6 @@ const GroupHome = () => {
         isCalendarDown,
     } = groupHomeState;
 
-    const {
-        group,
-        isLoaded,
-    } = groupState;
-
     const [selectedDay, setSelectedDay] = useState(generateToday());
     const [scrollPosnOutOfBounds, setScrollPosnOutOfBounds] = useState(false);
     const [fingerTouching, setFingerTouching] = useState(false);
@@ -103,18 +98,6 @@ const GroupHome = () => {
 
     let isScrolling = false;
 
-
-    /**
-     * Subscribe to changes on EventRelationship
-     **/
-    let eventRelationshipSubscription;
-    useEffect(()=>{
-        if (isLoaded){
-            console.log(`[GroupHome] setting subscription ${getGroupId(group)}`);
-            eventRelationshipSubscription = GraphQLApi.subscribeToEventRelationship(getGroupId(group));
-            return ()=> eventRelationshipSubscription.unsubscribe();
-        }
-    },[isLoaded]);
 
     useEffect(() => {
         if (isSearchActive) {
