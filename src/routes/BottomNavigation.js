@@ -14,10 +14,10 @@ import {
 } from '@expo/vector-icons';
 import StyledText from "../components/StyledText/StyledText";
 import {  StyleSheet } from "react-native"
-import {UserContext} from "../contex/UserContext";
-import {getGroupId} from "../contex/GroupContext";
-import {TEST_GROUP} from "../contex/GroupContext/useGroup";
-import {getFormattedUserId} from "../contex/UserContext/UserContext";
+import {UserContext} from "../context/UserContext";
+import {getGroupId} from "../context/GroupContext";
+import {TEST_GROUP} from "../context/GroupContext/useGroup";
+import {getFormattedUserId} from "../context/UserContext/UserContext";
 const BottomTab = createBottomTabNavigator();
 
 const BottomTabText = ({focused, children}) => {

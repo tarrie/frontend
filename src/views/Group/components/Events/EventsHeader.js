@@ -11,7 +11,7 @@ import {SearchBar} from 'react-native-elements';
 import CalendarDown from "../../../../assets/icons/CalendarDown";
 import CalendarUp from "../../../../assets/icons/CalendarUp";
 import {Calendar} from "../../../../components/Calendar";
-import {GroupContext} from "../../../../contex/GroupContext";
+import {GroupContext} from "../../../../context/GroupContext";
 import {screens} from "../../routes/constants";
 import moment from "moment";
 

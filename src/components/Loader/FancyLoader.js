@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import LottieView from "lottie-react-native";
-import {colors, normalize, sizes} from "../../constants/styles"
+import {colors, normalize, sizes} from "@constants/styles"
 import StyledText from "../StyledText/StyledText";
 
 export default class FancyLoader extends React.Component {

@@ -10,8 +10,7 @@ import {
     FlatList,
     Animated
 } from "react-native"
-import {colors, normalize, sizes, SCREEN_HEIGHT, SCREEN_WIDTH} from "../../../../constants/styles";
-import {useGroup} from "../../../../contex";
+import {colors, normalize, sizes, SCREEN_HEIGHT, SCREEN_WIDTH} from "@constants/styles";
 import {GroupHeader} from "../../components/GroupHeader";
 import {EventsHeader, EventsHeaderActive} from "../../components/Events";
 import {GroupNavigationBar} from "../../components/GroupNavigationBar";
@@ -26,9 +25,9 @@ import {
     CARD_HEIGHT,
     GROUP_STICKY_HEADER_HEIGHT,
     GROUP_PARALLAX_HEADER_HEIGHT
-} from "../../../../constants/parameters";
+} from "@constants/parameters";
 import {Expandable, DisappearDelay} from "../../../../components/Animations";
-import {getGroupId, GroupContext} from "../../../../contex/GroupContext";
+import {getGroupId, GroupContext} from "../../../../context/GroupContext";
 import {SwipeLeft} from "../../../../assets/icons";
 import {GraphQLApi} from "../../../../api";
 
@@ -134,7 +133,6 @@ const GroupHome = () => {
     }, [isCalendarDown]);
 
     const processScroll = ({nativeEvent}) => {
-
         currentYPosn.current = nativeEvent.contentOffset.y;
         //console.log(isScrolling,nativeEvent.contentOffset.y,SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15,(Math.abs(nativeEvent.contentOffset.y -(SCREEN_HEIGHT/2.2-SCREEN_HEIGHT/15))))
         if ((nativeEvent.contentOffset.y < 0)) {

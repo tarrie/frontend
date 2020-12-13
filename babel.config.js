@@ -6,6 +6,12 @@ module.exports = function (api) {
             'babel-preset-expo',
             'module:react-native-dotenv'
         ],
+        env: {
+            production: {
+                //get smaller bundle size by excluding modules you don't use
+                plugins: ['react-native-paper/babel'],
+            },
+        },
         plugins: [
             [
                 "module-resolver",
@@ -16,7 +22,7 @@ module.exports = function (api) {
                         "@assets": "./src/assets",
                         "@components": "./src/components",
                         "@constants": "./src/constants",
-                        "@contex": "./src/contex",
+                        "@context": "./src/context",
                         "@routes": "./src/routes",
                         "@utils": "./src/utils",
                         "@views": "./src/views"

@@ -12,7 +12,7 @@ import {
 import {SafeAreaView} from "react-native-safe-area-context"
 import {colors, fontTypes, normalize, SCREEN_WIDTH} from "../../constants/styles";
 import UploadPhoto from "./UploadPicture/UploadPhoto";
-import {UserContext} from "../../contex/UserContext";
+import {UserContext} from "../../context/UserContext";
 import EventTopNavBar from "./EventTopNavBar/EventTopNavBar";
 import { Input } from 'react-native-elements';
 import {StyledText} from "../../components/StyledText";
@@ -21,7 +21,7 @@ import {GetDate,initialDate} from "../../components/GetDate";
 import {GenericCreateEventOption} from "../../components/GenericCreateEventOption";
 import {screens} from "./routes/screens";
 import {ActualLocation} from "./LocationSearch";
-import {GroupContext} from "../../contex/GroupContext";
+import {GroupContext} from "../../context/GroupContext";
 import {oneButtonAlert} from "../../utils";
 
 // ToDo: purple is the new green

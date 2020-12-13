@@ -3,7 +3,7 @@ import {View, StyleSheet} from "react-native";
 import {StyledText} from "../StyledText";
 import moment from "moment-timezone";
 import jstz from "jstz";
-import {colors, normalize,SCREEN_HEIGHT} from "../../constants/styles";
+import {colors, normalize,SCREEN_HEIGHT} from "@constants/styles";
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;

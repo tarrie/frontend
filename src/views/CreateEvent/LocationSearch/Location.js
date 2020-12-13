@@ -5,7 +5,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {SimpleLineIcons} from "@expo/vector-icons";
 import {StyledText} from "../../../components/StyledText";
 import {normalize, SCREEN_HEIGHT, colors, SCREEN_WIDTH} from "../../../constants/styles";
-import {UserContext} from "../../../contex/UserContext";
+import {UserContext} from "../../../context/UserContext";
 import {Ionicons} from "@expo/vector-icons";
 import {useNavigation} from "@react-navigation/native"
 import {LocationAutoComplete,LocationDetail} from "../../../components/LocationAutoComplete";

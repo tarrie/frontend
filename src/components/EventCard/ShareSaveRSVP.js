@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet,TouchableOpacity} from "react-native";
 import {StyledText} from "../StyledText";
-import {colors, normalize, SCREEN_HEIGHT} from "../../constants/styles";
+import {colors, normalize, SCREEN_HEIGHT} from "@constants/styles";
 import {
     MaterialIcons,
     FontAwesome,

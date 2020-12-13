@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Avatar, Button, Card, Title, Paragraph, List} from 'react-native-paper';
-import {SCREEN_HEIGHT, normalize, colors} from "../../constants/styles";
+import {SCREEN_HEIGHT, normalize, colors} from "@constants/styles";
 import {StyledText} from "../StyledText";
 import {CARD_HEIGHT} from "../../constants/parameters";
 import ReadMoreText from "../ReadMoreText/ReadMoreText";

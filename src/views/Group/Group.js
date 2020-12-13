@@ -1,11 +1,11 @@
 import React, {useEffect,useState,useContext} from "react"
 import {View} from "react-native";
 import {Text} from "react-native";
-import {getGroupId, GroupContextProvider} from "../../contex/GroupContext";
+import {getGroupId, GroupContextProvider} from "../../context/GroupContext";
 import {GroupNavigation} from "./routes";
-import {UserContext} from "../../contex/UserContext";
+import {UserContext} from "../../context/UserContext";
 import {useNavigation} from '@react-navigation/native';
-import {TEST_GROUP} from "../../contex/GroupContext/useGroup";
+import {TEST_GROUP} from "../../context/GroupContext/useGroup";
 import PropTypes from 'prop-types';
 
 const Group = ({ route, navigation }) =>{

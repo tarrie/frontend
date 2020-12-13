@@ -13,7 +13,7 @@ import Discussion from "../../assets/icons/Discussion";
 import MapView from "../../assets/icons/MapView";
 import FileView from "../../assets/icons/FileView";
 import {StyledText} from "../StyledText";
-import {normalize,SCREEN_HEIGHT} from "../../constants/styles";
+import {normalize,SCREEN_HEIGHT} from "@constants/styles";
 
 const _colors = {
     blue: '#2196F3',

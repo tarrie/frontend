@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import * as Font from "expo-font"
-import {StyleSheet, YellowBox} from 'react-native';
+import {StyleSheet, LogBox} from 'react-native';
 import {SafeAreaProvider} from "react-native-safe-area-context"
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {Navigation} from "./src/routes";
 import {StyledText} from "./src/components/StyledText";
-import {colors} from "./src/constants/styles";
+import {colors} from "@constants/styles";
 import awsmobile from "./aws-exports";
 import {API} from "@aws-amplify/api";
 
@@ -29,6 +29,15 @@ const theme = {
     }
 };
 
+
+
+
+LogBox.ignoreLogs(
+    [
+        "Failed prop type: Invalid props.style key",
+        "Your project is accessing the following APIs" 
+    ]);
+
 const App = () => {
 
 
@@ -36,7 +45,6 @@ const App = () => {
 
     useEffect(() => {
         const load = async () => {
-            YellowBox.ignoreWarnings(["Failed prop type: Invalid props.style key"]);
 
             //YellowBox.ignoreWarnings(['VirtualizedLists should never be nested']);
             /*

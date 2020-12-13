@@ -2,7 +2,6 @@ import React from 'react';
 import {View,StyleSheet} from 'react-native';
 import ReadMore from 'react-native-read-more-text';
 import {StyledText} from "../StyledText";
-import {colors} from "../../constants/styles";
 
 const ReadMoreText = ({text}) => {
 

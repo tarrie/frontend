@@ -6,7 +6,7 @@ import {StyledText} from "../../../../components/StyledText";
 import {normalize,SCREEN_HEIGHT} from "../../../../constants/styles";
 import { TouchableRipple } from 'react-native-paper';
 import {screens} from "../../routes/constants";
-import {GroupContext} from "../../../../contex/GroupContext";
+import {GroupContext} from "../../../../context/GroupContext";
 
 const NavChip = ({title, onPressCallback}) => {
     return (

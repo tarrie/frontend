@@ -5,7 +5,7 @@ System.config({
         "@assets/*": "./src/assets/*",
         "@components/*": "./src/components/*",
         "@constants/*": "./src/constants/*",
-        "@contex/*": "./src/contex/*",
+        "@context/*": "./src/context/*",
         "@routes/*": "./src/routes/*",
         "@utils/*": "./src/utils/*",
         "@views/*": "./src/views/*"

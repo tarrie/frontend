@@ -1,7 +1,7 @@
 import React, {createContext, useState, useEffect,useRef} from "react"
 import {GraphQLApi, RestApi} from "../../api";
 import * as path from 'path';
-import {API_HOSTNAME, EntityType,DbAttributes} from "../../constants/parameters";
+import {API_HOSTNAME, EntityType,DbAttributes} from "@constants/parameters";
 import {getImgPath, oneButtonAlert} from "../../utils";
 import {hasParameter,isObjectEmpty} from "../../utils";
 const urlJoin = require('url-join');

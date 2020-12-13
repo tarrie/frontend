@@ -3,7 +3,7 @@ import {Image, Text, View, StyleSheet, TouchableOpacity, TextInput, FlatList} fr
 import {SafeAreaView} from "react-native-safe-area-context";
 import {StyledText} from "../../../components/StyledText";
 import {normalize, SCREEN_HEIGHT, colors, SCREEN_WIDTH} from "../../../constants/styles";
-import {UserContext} from "../../../contex/UserContext";
+import {UserContext} from "../../../context/UserContext";
 import {Ionicons} from "@expo/vector-icons";
 import {useNavigation} from "@react-navigation/native"
 import {screens} from "../routes/screens";

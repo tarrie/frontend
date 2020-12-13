@@ -6,7 +6,7 @@ import {Calendar} from "../Calendar";
 import moment from "moment";
 import moment_tz from 'moment-timezone';
 import {StyledText} from "../StyledText";
-import {colors, normalize, SCREEN_HEIGHT} from "../../constants/styles";
+import {colors, normalize, SCREEN_HEIGHT} from "@constants/styles";
 import {Feather} from "@expo/vector-icons";
 import {Switch} from 'react-native-paper';
 import jstz from "jstz";

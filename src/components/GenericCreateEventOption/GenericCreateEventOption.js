@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Button, Platform, TouchableOpacity, StyleSheet,TextInput} from 'react-native';
 import {Feather,EvilIcons,FontAwesome,AntDesign,Octicons} from "@expo/vector-icons";
-import {colors, normalize, SCREEN_HEIGHT} from "../../constants/styles";
+import {colors, normalize, SCREEN_HEIGHT} from "@constants/styles";
 import {StyledText} from "../StyledText";
 import {Switch} from 'react-native-paper';
 import {ZoomIcon} from "../../assets/icons";

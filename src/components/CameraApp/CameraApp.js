@@ -6,7 +6,7 @@ import {Camera} from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from "react-native-safe-area-context"
-import {colors, sizes} from "../../constants/styles"
+import {colors, sizes} from "@constants/styles"
 import CloseButton from "./components/CloseButton";
 import * as MediaLibrary from 'expo-media-library';
 import StyledText from "../StyledText/StyledText";
@@ -16,7 +16,7 @@ import ImgLibraryButton from "./components/ImgLibraryButton";
 import ShootPictureButton from "./components/ShootPictureButton";
 import FlipCameraButton from "./components/FlipCameraButton";
 import {CAMERA_TYPES,CAMERA_FLASH_MODES} from "./constants"
-import {UserContext} from "../../contex/UserContext";
+import {UserContext} from "../../context/UserContext";
 
 
 const ZOOM_F = Platform.OS === 'ios' ? 0.01 : 0.1;

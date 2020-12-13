@@ -4,7 +4,7 @@ import {View, StyleSheet, ScrollView,ImageBackground,Text,ActivityIndicator} fro
 import {colors, normalize, sizes,SCREEN_HEIGHT} from "../../../../constants/styles";
 import { Avatar } from 'react-native-paper';
 import { Image } from 'react-native-elements';
-import {GroupContext} from "../../../../contex/GroupContext";
+import {GroupContext} from "../../../../context/GroupContext";
 
 const GroupHeader = () => {
     const {groupState} = useContext(GroupContext);
