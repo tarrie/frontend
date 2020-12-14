@@ -35,7 +35,8 @@ const theme = {
 LogBox.ignoreLogs(
     [
         "Failed prop type: Invalid props.style key",
-        "Your project is accessing the following APIs" 
+        "Your project is accessing the following APIs",
+        "Animated: `useNativeDriver` was not specified."
     ]);
 
 const App = () => {
@@ -45,8 +46,6 @@ const App = () => {
 
     useEffect(() => {
         const load = async () => {
-
-            //YellowBox.ignoreWarnings(['VirtualizedLists should never be nested']);
             /*
               To add more of the fonts, go see what's in assets/fonts
               Add it to the object loading async below, and set the key to a kebab-cased version of the font name

@@ -1,4 +1,4 @@
 
-const _onEventRelationshipCallback= data =>{
+export const _onEventRelationshipCallback= data =>{
 
 };

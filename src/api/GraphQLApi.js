@@ -7,13 +7,14 @@ import SubscribeOnMutateEventRelationship from "./GraphQLQueries/SubscribeOnEven
 import {isIdValid} from "../utils";
 import {EntityType} from "@constants/parameters";
 import oneButtonAlert from "../utils/oneButtonAlert";
+import {oneButtonAlertError} from "@utils/oneButtonAlert";
 // https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/js#configure-your-application
 
 //API.configure(config);         // Configure Amplify
 //PubSub.configure(config);
 
 const defaultDataFn = (data) => console.log(`[GraphQLApi::subscribe()] \n\t${JSON.stringify(data)}\n`);
-const defaultErrorFn = (e)=>oneButtonAlert(`[GraphQLApi::subscribe()]`,JSON.stringify(e));
+const defaultErrorFn = (e)=>oneButtonAlertError(`[GraphQLApi::subscribe() error]`,JSON.stringify(e));
 
 
 
@@ -76,7 +77,8 @@ class RestApi {
 
         // Let console know that ID is not valid.
         if (!(isIdValid(main_pk, EntityType.GROUP)||isIdValid(main_pk, EntityType.USER))){
-            console.warn(`[RestApi::subscribeToEventRelationship] id invalid suppose to be type of one of ${EntityType.GROUP}, ${EntityType.USER}) but received id of format: ${main_pk}`);
+            let msg = `id invalid suppose to be type of one of ${EntityType.GROUP}, ${EntityType.USER}) but received id of format: ${main_pk}`
+            oneButtonAlertError("[GraphQl::subscribeToEventRelationship]",msg)
             return
         }
 

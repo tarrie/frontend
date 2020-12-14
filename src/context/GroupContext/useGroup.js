@@ -1,9 +1,10 @@
-import React, {createContext, useState, useEffect,useRef} from "react"
+import React, {createContext, useState, useEffect, useRef} from "react"
 import {GraphQLApi, RestApi} from "../../api";
 import * as path from 'path';
-import {API_HOSTNAME, EntityType,DbAttributes} from "@constants/parameters";
+import {API_HOSTNAME, EntityType, DbAttributes, EventRelationshipEnum} from "@constants/parameters";
 import {getImgPath, oneButtonAlert} from "../../utils";
-import {hasParameter,isObjectEmpty} from "../../utils";
+import {hasParameter, isObjectEmpty} from "../../utils";
+
 const urlJoin = require('url-join');
 
 const TEST_GROUP = {
@@ -26,9 +27,9 @@ const TEST_GROUP = {
         "name": "Jide"
     }
 };
-const getGroupId = ({main_pk})=>{return main_pk;};
-
-
+const getGroupId = ({main_pk}) => {
+    return main_pk;
+};
 
 
 const useGroup = () => {
@@ -37,20 +38,6 @@ const useGroup = () => {
     const [userId, setUserId] = useState(null);
     const [eventsHosted, setEventsHosted] = useState([]);
 
-    const rest_api = useRef(new RestApi());
-    const graphql_api = useRef(new GraphQLApi());
-
-    /*
-    useEffect(()=>{
-
-        if (eventsHosted){
-            console.log(eventsHosted)
-        }
-
-        },[eventsHosted]
-
-    );*/
-
 
     /**
      * Get's the group by issuing API call
@@ -58,7 +45,7 @@ const useGroup = () => {
      * @param userId
      * @return {Promise<void>}
      */
-    const getGroup = async ({groupId,userId}) =>{
+    const getGroup = async ({groupId, userId}) => {
         // eventsHosted = useGetEventsHostedByEntity({main_pk:"GRP#boogoParty33333"});
         //let endPoint = path.join(API_HOSTNAME,'groups',encodeURIComponent(groupId),'events');
         //let response = await rest_api.current.get({endPoint,payload:{userId}});
@@ -72,31 +59,31 @@ const useGroup = () => {
      * Subscribe to changes on EventRelationship
      **/
     let eventRelationshipSubscription;
-    useEffect(()=>{
-        if (isLoaded){
-            console.log(`[GroupHome] setting subscription ${getGroupId(group)}`);
+    useEffect(() => {
+        if (isLoaded) {
+            console.log(`[useGroup] setting subscription ${getGroupId(group)}`);
             eventRelationshipSubscription = GraphQLApi.subscribeToEventRelationship(getGroupId(group));
-            return ()=> eventRelationshipSubscription.unsubscribe();
+            return () => eventRelationshipSubscription.unsubscribe();
         }
-    },[isLoaded]);
+    }, [isLoaded]);
 
     /**
      * Creates a event by calling the api with the payload
      * @param payload
      * @return {Promise<*>}
      */
-    const createEvent = async ({location,infoText,datetime,eventImgUri,title})=>{
+    const createEvent = async ({location, infoText, datetime, eventImgUri, title}) => {
 
         console.log("[useGroup::createEvent()] Trying to create event");
 
         let event;
-        let payload = {groupId:getGroupId(group),userId,location,infoText,datetime,eventImgUri,title};
+        let payload = {groupId: getGroupId(group), userId, location, infoText, datetime, eventImgUri, title};
         console.log(`[useGroup::createEvent()] sending api req ${userId}`);
 
-        try{
-            event = await RestApi.createEvent(EntityType.GROUP,payload);
+        try {
+            event = await RestApi.createEvent(EntityType.GROUP, payload);
 
-        }catch (e) {
+        } catch (e) {
             console.warn(`[useGroup::createEvent()] API request error:\n\t ${JSON.stringify(event)}\n\t ${e}`);
             oneButtonAlert("Network Error", `Couldn't create the event :( \n ${JSON.stringify(e)}`)
         }
@@ -108,35 +95,48 @@ const useGroup = () => {
     /**
      * Gets events hosted by querying graphQL API
      * @param groupId
-     * @param userId
      * @return {Promise<void>}
      */
-    const getEventsHosted = async ({groupId,userId}) =>{
-        let hostedEvents = await GraphQLApi.getEventsHostedByEntity({main_pk:groupId});
-        console.log(hostedEvents)
+    const getEventsHosted = async ({groupId}) => {
+
+        if (hasParameter(groupId)) {
+            return RestApi.getGroupEvents({
+                groupId,
+                eventRelationshipEnum: EventRelationshipEnum.HOST
+            }).then((hostedEvents) => setEventsHosted(hostedEvents))
+        } else if (isLoaded) {
+            return RestApi.getGroupEvents({
+                groupId: getGroupId(group),
+                eventRelationshipEnum: EventRelationshipEnum.HOST
+            }).then((hostedEvents) => setEventsHosted(hostedEvents))
+        }
+
     };
 
+  
     /**
-     * Load group into main memory & save the userId
+     * Load group into main memory & save the userId. Called on init  {@link GroupNavigation}
      * @param groupId
      * @param userId
      */
-    const loadGroup = ({group,userId}) => {
+    const loadGroup = ({group, userId}) => {
         console.log(`[GroupContext::useGroup::loadGroup()] ${userId}`);
         setUserId(userId);
         setGroup(group);
+        getEventsHosted({groupId: getGroupId(group)})
         setIsLoaded(true);
-    };
 
+    };
 
 
     return {
         group,
         isLoaded,
         loadGroup,
-        createEvent
+        createEvent,
+        getEventsHosted: getEventsHosted
     }
 };
 
 
-export {useGroup,getGroupId, TEST_GROUP};
+export {useGroup, getGroupId, TEST_GROUP};

@@ -8,6 +8,14 @@ import {useNavigation} from '@react-navigation/native';
 import {TEST_GROUP} from "../../context/GroupContext/useGroup";
 import PropTypes from 'prop-types';
 
+/**
+ *
+ * @param route: must have route.params.group {main_pk} needs to exist at the minimum.
+ * THis is because we navigate here from a user's dash board. Probably a groupcondensed
+ * @param navigation
+ * @return {JSX.Element}
+ * @constructor
+ */
 const Group = ({ route, navigation }) =>{
     console.log(`[Group] ${route.params.group}`);
 

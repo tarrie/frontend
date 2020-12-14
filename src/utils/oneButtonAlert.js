@@ -11,4 +11,7 @@ const oneButtonAlert = (title, message)=>{
             );
 };
 
+export const oneButtonAlertError = (title, message)=>{
+    oneButtonAlert(`${title }:ERROR`,message)
+}
 export default oneButtonAlert;

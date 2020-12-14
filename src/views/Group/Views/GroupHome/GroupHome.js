@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState, useContext} from "react"
+import React, {useRef, useEffect, useState, useContext, useCallback} from "react"
 
 import {StyledText} from "../../../../components/StyledText";
 import {
@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     FlatList,
-    Animated
+    Animated,
+    RefreshControl
 } from "react-native"
 import {colors, normalize, sizes, SCREEN_HEIGHT, SCREEN_WIDTH} from "@constants/styles";
 import {GroupHeader} from "../../components/GroupHeader";
@@ -30,6 +31,7 @@ import {Expandable, DisappearDelay} from "../../../../components/Animations";
 import {getGroupId, GroupContext} from "../../../../context/GroupContext";
 import {SwipeLeft} from "../../../../assets/icons";
 import {GraphQLApi} from "../../../../api";
+import oneButtonAlert from "@utils/oneButtonAlert";
 
 
 // https://ethercreative.github.io/react-native-shadow-generator/
@@ -76,7 +78,7 @@ const StickyHeader = ({selectedDay}) => {
 const GroupHome = () => {
 
     const ref = useRef(null);
-    const {groupState,groupHomeState} = useContext(GroupContext);
+    const {groupState, groupHomeState} = useContext(GroupContext);
     const navigation = useNavigation();
 
     const {
@@ -86,42 +88,58 @@ const GroupHome = () => {
         isSearchUp,
         setIsSearchUp,
         isCalendarDown,
+        onRefresh,
+        refreshing
     } = groupHomeState;
 
     const [selectedDay, setSelectedDay] = useState(generateToday());
     const [scrollPosnOutOfBounds, setScrollPosnOutOfBounds] = useState(false);
     const [fingerTouching, setFingerTouching] = useState(false);
     const [isAtBasePosition, setIsAtBasePosition] = useState(true);
+
     const hasScrollCalAdjusted = useRef(false);
     const currentYPosn = useRef(0);
 
     let isScrolling = false;
 
 
+
+    const onRefChange = useCallback(node => {
+        // ref value changed to node
+        if (node !== null) {
+             ref.current = node;
+             node.scrollTo({y: 0, animated: false});
+        }
+    }, []);
+
+
     useEffect(() => {
         if (isSearchActive) {
             ref.current.scrollTo({x: 0, y: GROUP_PARALLAX_HEADER_HEIGHT - GROUP_STICKY_HEADER_HEIGHT, animated: true});
             setIsSearchUp(true);
+
         }
 
         if (!isSearchUp) {
             ref.current.scrollTo({x: 0, y: 0, animated: true});
             setIsSearchActive(false);
+
         }
     }, [isSearchActive, isSearchUp]);
 
 
     useEffect(() => {
-        if (scrollPosnOutOfBounds && !isScrolling && !fingerTouching && isCalendarDown) {
+        if (scrollPosnOutOfBounds && !isScrolling && !fingerTouching && !refreshing && isCalendarDown) {
             ref.current.scrollTo({x: 0, y: 0, animated: true});
             isScrolling = true;
+
         }
-    }, [scrollPosnOutOfBounds, fingerTouching]);
+    }, [scrollPosnOutOfBounds, fingerTouching, refreshing]);
 
     // adjust the scrollview when calendar is clicked.
     useEffect(() => {
 
-        if (isCalendarDown) {
+        if (isCalendarDown && currentYPosn.current!==0) {
             ref.current.scrollTo({x: 0, y: currentYPosn.current + CALENDAR_HEIGHT, animated: true});
             hasScrollCalAdjusted.current = false;
         }
@@ -178,19 +196,21 @@ const GroupHome = () => {
                             setIsSearchActive(false);
                             setFingerTouching(true);
                             // calendar goes back up when you touch this
-                             if (!isCalendarDown){
-                                 setIsCalendarDown(true)
-                             }
+                            if (!isCalendarDown) {
+                                setIsCalendarDown(true)
+                            }
                         }}
                         onTouchEnd={() => {
                             setFingerTouching(false)
                         }}
-
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+                        }
                         contentInset={{top: SCREEN_HEIGHT / 11, left: 0, bottom: 0, right: 0}}
                         style={{flex: 1}}
                         onScroll={processScroll}
                         scrollEventThrottle={16}
-                        ref={ref}
+                        ref={onRefChange}
                         stickyHeaderIndices={[1, 4]}
                         backgroundColor={'transparent'}
                         contentBackgroundColor={'transparent'}

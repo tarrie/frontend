@@ -1,11 +1,11 @@
 import React, {useEffect, useContext} from "react"
 import {createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack';
-import {screens} from "./constants";
-import {Events, Announcements, Members, GroupHome, Chats} from "../Views";
-import {getGroupId, GroupContext} from "../../../context/GroupContext";
+import {screens} from "./routes/constants";
+import {Events, Announcements, Members, GroupHome, Chats} from "./Views";
+import {getGroupId, GroupContext} from "@context/GroupContext";
 //import {CreateEvent} from "../../CreateEvent";
-import {CreateEventNavigator} from "../../CreateEvent/routes";
-import {getUserId, UserContext} from "../../../context/UserContext";
+import {CreateEventNavigator} from "../CreateEvent/routes";
+import {getUserId, UserContext} from "@context/UserContext";
 import PropTypes from 'prop-types';
 
 const Stack = createStackNavigator();

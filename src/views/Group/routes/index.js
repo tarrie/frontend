@@ -1,1 +1,1 @@
-export { default as GroupNavigation } from "./GroupNavigation"
+export { default as GroupNavigation } from "../GroupNavigation"

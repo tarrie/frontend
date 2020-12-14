@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
 import {Platform,View} from 'react-native';
 import {Inbox,Calendar,Group} from "../views";
 import {screens} from "./constants";
-import {colors, normalize, sizes, SCREEN_HEIGHT,SCREEN_WIDTH} from "../constants/styles";
+import {colors, normalize, sizes, SCREEN_HEIGHT,SCREEN_WIDTH} from "@constants/styles";
 import {
     FontAwesome,
     Ionicons,
@@ -14,10 +14,10 @@ import {
 } from '@expo/vector-icons';
 import StyledText from "../components/StyledText/StyledText";
 import {  StyleSheet } from "react-native"
-import {UserContext} from "../context/UserContext";
+import {UserContext} from "@context/UserContext";
 import {getGroupId} from "../context/GroupContext";
-import {TEST_GROUP} from "../context/GroupContext/useGroup";
-import {getFormattedUserId} from "../context/UserContext/UserContext";
+import {TEST_GROUP} from "@context/GroupContext/useGroup";
+import {getFormattedUserId} from "@context/UserContext/UserContext";
 const BottomTab = createBottomTabNavigator();
 
 const BottomTabText = ({focused, children}) => {
